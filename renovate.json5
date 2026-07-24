@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+
+  // GITHUB_TOKEN pushes do not start a second workflow, so Renovate cannot
+  // wait for branch checks. A successful update is committed immediately.
+  "automerge": true,
+  "automergeType": "branch",
+  "ignoreTests": true,
+
+  // A failed branch automerge remains a branch pending explicit approval.
+  // The workflow token has no pull-request write permission, so Renovate
+  // cannot turn it into a PR.
+  "prCreation": "approval",
+  "dependencyDashboard": false,
+
+  // The Nix manager is opt-in while it is in beta.
+  "nix": {
+    "enabled": true,
+  },
+}

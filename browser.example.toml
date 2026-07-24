@@ -1,0 +1,140 @@
+[browser]
+name = "Example Browser"
+executable_name = "example-browser"
+alias_name = "example"
+flags_file = "example-browser-flags.conf"
+# Cross-platform flags are stored in the generated launcher.
+flags = ["--no-first-run", "--no-default-browser-check"]
+# Controls page requests through Chromium's --user-agent switch. Extension
+# download identity is configured separately under [extensions.network].
+user_agent = "Mozilla/5.0 ExampleBrowser/1.0"
+
+[browser.linux]
+# app_dir = "${data_home}/example-browser/app"
+desktop_id = "example-browser"
+# Chromium-branded builds register this compiled-in ID with XDG Desktop Portal.
+portal_app_id = "org.chromium.Chromium"
+launcher_name = "example-browser"
+desktop_name = "example-browser.desktop"
+desktop_exec = "example-browser"
+
+[browser.macos]
+app_dir = "/Applications/Example Browser.app"
+launcher_path = "Contents/MacOS/Example Browser"
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Example Browser/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Example Browser/External Extensions",
+]
+
+[browser.paths.linux]
+profile_dir = "${config_home}/example-browser/Default"
+external_extension_dirs = [
+  "${config_home}/example-browser/External Extensions",
+]
+
+# Ordered JSON documents that populate chrome.storage.local and
+# chrome.storage.sync. Relative paths resolve from this TOML file.
+#
+# [extension_settings]
+# files = ["settings/privacy.json", "settings/work.json"]
+#
+# Browser preference mutations are opt-in. There are no built-in product or
+# extension settings.
+#
+# [browser.preferences.cookies]
+# default = "session_only" # allow | block | session_only
+# third_party = "block"    # off | block | incognito_only
+# allow = ["[*.]example.com"]
+# block = ["[*.]tracker.example"]
+# session_only = ["[*.]temporary.example"]
+#
+# [[browser.preferences.values]]
+# path = "example.preference.path"
+# value = true
+#
+# Product-only preferences are typed separately and remain opt-in:
+#
+# [browser.helium.services]
+# enabled = true
+# user_consented = true
+# extension_proxy = true
+# bangs = true
+# spellcheck_files = true
+# browser_updates = true
+# ublock_assets = true
+#
+# [browser.helium.toolbar]
+# show_back_button = true
+# show_extensions_button = false
+#
+# [browser.helium]
+# crash_reporting = "ask" # disabled | ask | automatic
+#
+# [browser.brave.tabs]
+# vertical = true
+# collapsed = false
+# floating = true
+# on_right = false
+# tree = false
+# hover_mode = "card" # tooltip | card | card_with_preview
+#
+# [browser.brave.sidebar]
+# show = "mouseover" # always | mouseover | never
+#
+# [browser.brave.shields]
+# adblock_only_mode = false
+# custom_filters = "example.com##.sponsor"
+#
+# Extension installation is also opt-in:
+#
+# [extensions]
+# chrome_store_update_url = "https://clients2.google.com/service/update2/crx"
+#
+# [extensions.network]
+# Optional: omit to fetch the latest Stable Chrome version.
+# chrome_version = "152.0.7971.0"
+# user_agent = "browser-configurator/1.0"
+# timeout_seconds = 60
+# retry_max = 3
+# retry_wait_min_milliseconds = 200
+# retry_wait_max_milliseconds = 2000
+# headers = { X-Download-Token = "optional" }
+#
+# [[extensions.chrome_store]]
+# id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+# name = "Example extension"
+#
+# Chrome Web Store entries follow the newest compatible release. Pin a CRX
+# instead when reproducibility is required:
+#
+# [[extensions.crx]]
+# id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+# name = "Pinned CRX"
+# version = "1.2.3"
+# url = "https://example.test/extension-1.2.3.crx"
+# sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+#
+# A GitHub ZIP may follow the latest release:
+#
+# [[extensions.zip]]
+# id = "cccccccccccccccccccccccccccccccc"
+# name = "Latest unpacked extension"
+# update_policy = "latest"
+# repository = "owner/repository"
+# asset_template = "extension-{tag}.zip"
+# archive_root = "extension"
+# load_unpacked = true
+#
+# Or it may be fully pinned without any GitHub API lookup:
+#
+# [[extensions.zip]]
+# id = "dddddddddddddddddddddddddddddddd"
+# name = "Pinned unpacked extension"
+# update_policy = "pinned"
+# version = "1.2.3"
+# url = "https://example.test/extension-1.2.3.zip"
+# sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+# archive_root = "extension"
+# load_unpacked = true

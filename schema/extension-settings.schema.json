@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/4evy/browser/blob/main/schema/extension-settings.schema.json",
+  "$comment": "The value model and persistent area semantics follow Chromium's extensions/common/api/storage.json.",
+  "title": "browser extension storage settings",
+  "description": "Declarative mutations for persistent chrome.storage.local and chrome.storage.sync data.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "description": "Document format version."
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "local": {
+      "$ref": "#/$defs/entries",
+      "description": "Top-level values written to persistent local storage."
+    },
+    "sync": {
+      "$ref": "#/$defs/entries",
+      "description": "Top-level values written to quota-limited persistent sync storage."
+    },
+    "local_append": {
+      "$ref": "#/$defs/entries",
+      "description": "Legacy bulk unique-array appends in local storage."
+    },
+    "sync_append": {
+      "$ref": "#/$defs/entries",
+      "description": "Legacy bulk unique-array appends in sync storage."
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    }
+  },
+  "$defs": {
+    "extensionId": {
+      "type": "string",
+      "pattern": "^[a-p]{32}$"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "values"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/extensionId"
+        },
+        "values": {
+          "type": "object",
+          "description": "Storage keys mapped to arbitrary JSON values. Null is preserved as a value."
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "area"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/extensionId"
+        },
+        "area": {
+          "enum": [
+            "local",
+            "sync"
+          ],
+          "description": "Persistent storage area. In-memory session and read-only managed storage cannot be mutated offline."
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "set",
+            "merge",
+            "append",
+            "remove",
+            "clear"
+          ],
+          "default": "set"
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional nested path. Use ~1 for a literal dot and ~0 for a literal tilde in a segment."
+        },
+        "encoding": {
+          "enum": [
+            "json",
+            "json-lz-string-uri"
+          ],
+          "default": "json"
+        },
+        "value": true
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "clear"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "key"
+                  ]
+                },
+                {
+                  "required": [
+                    "path"
+                  ]
+                },
+                {
+                  "required": [
+                    "value"
+                  ]
+                }
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "key"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "enum": [
+                  "remove",
+                  "clear"
+                ]
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "merge"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "append"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "area",
+        "id",
+        "key"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "area": {
+          "enum": [
+            "local",
+            "sync"
+          ],
+          "description": "Persistent storage area."
+        },
+        "id": {
+          "$ref": "#/$defs/extensionId"
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional nested path. Use ~1 for a literal dot and ~0 for a literal tilde in a segment."
+        },
+        "encoding": {
+          "enum": [
+            "json",
+            "json-lz-string-uri"
+          ],
+          "default": "json"
+        },
+        "operation": {
+          "enum": [
+            "set",
+            "merge",
+            "append"
+          ],
+          "default": "set"
+        }
+      }
+    }
+  }
+}

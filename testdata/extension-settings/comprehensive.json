@@ -1,0 +1,753 @@
+{
+  "$schema": "../../schema/extension-settings.schema.json",
+  "schema_version": 1,
+  "name": "Comprehensive persistent storage corpus",
+  "description": "Stable synthetic targets exercising every document section, persistent storage area, mutation, encoding, runtime input mode, and representative JSON edge case.",
+  "local": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "settings": {
+          "schemeVersion": 2,
+          "enabled": true,
+          "fetchNews": false,
+          "theme": {
+            "mode": 1,
+            "brightness": 100,
+            "contrast": 100,
+            "grayscale": 0,
+            "sepia": 0,
+            "useFont": false,
+            "fontFamily": "Open Sans",
+            "textStroke": 0,
+            "engine": "dynamicTheme",
+            "stylesheet": "",
+            "darkSchemeBackgroundColor": "#181a1b",
+            "darkSchemeTextColor": "#e8e6e3",
+            "lightSchemeBackgroundColor": "#dcdad7",
+            "lightSchemeTextColor": "#181a1b",
+            "scrollbarColor": "",
+            "selectionColor": "auto",
+            "styleSystemControls": false,
+            "lightColorScheme": "Default",
+            "darkColorScheme": "Default",
+            "immediateModify": false
+          },
+          "presets": [
+            {
+              "id": "solarized",
+              "name": "Solarized",
+              "urls": [
+                "example.test",
+                "*.example.test"
+              ],
+              "theme": {
+                "mode": 1,
+                "brightness": 95,
+                "contrast": 90,
+                "grayscale": 5,
+                "sepia": 10,
+                "useFont": true,
+                "fontFamily": "Atkinson Hyperlegible",
+                "textStroke": 0.25,
+                "engine": "dynamicTheme",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#002b36",
+                "darkSchemeTextColor": "#839496",
+                "lightSchemeBackgroundColor": "#fdf6e3",
+                "lightSchemeTextColor": "#657b83",
+                "scrollbarColor": "auto",
+                "selectionColor": "#073642",
+                "styleSystemControls": true,
+                "lightColorScheme": "Solarized Light",
+                "darkColorScheme": "Solarized Dark",
+                "immediateModify": true
+              }
+            }
+          ],
+          "customThemes": [
+            {
+              "url": [
+                "docs.example.test"
+              ],
+              "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "cssFilter",
+                "stylesheet": "html { background: #181a1b !important; }\n",
+                "darkSchemeBackgroundColor": "#181a1b",
+                "darkSchemeTextColor": "#e8e6e3",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+              },
+              "builtIn": false
+            }
+          ],
+          "enabledByDefault": true,
+          "enabledFor": [],
+          "disabledFor": [
+            "mail.example.test"
+          ],
+          "changeBrowserTheme": false,
+          "syncSettings": true,
+          "syncSitesFixes": false,
+          "automation": {
+            "enabled": true,
+            "mode": "system",
+            "behavior": "Scheme"
+          },
+          "time": {
+            "activation": "18:00",
+            "deactivation": "09:00"
+          },
+          "location": {
+            "latitude": null,
+            "longitude": null
+          },
+          "previewNewDesign": true,
+          "previewNewestDesign": false,
+          "enableForPDF": true,
+          "enableForProtectedPages": false,
+          "enableContextMenus": true,
+          "detectDarkTheme": true,
+          "metadata": {
+            "locale": "bg-BG",
+            "note": "Здравей 🌍 こんにちは",
+            "literal.dot": {
+              "literal~tilde": "seed"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "values": {
+        "json-types": {
+          "empty-string": "",
+          "string": "line 1\nline 2\t\"quoted\"\\slash",
+          "true": true,
+          "false": false,
+          "null": null,
+          "zero": 0,
+          "negative-zero": -0,
+          "negative": -42,
+          "fraction": 1.25,
+          "exponent": 6.022e23,
+          "max-safe-integer": 9007199254740991,
+          "above-safe-integer": 9007199254740993,
+          "empty-array": [],
+          "empty-object": {},
+          "mixed-array": [
+            null,
+            false,
+            0,
+            "",
+            [],
+            {},
+            {
+              "deep": [
+                {
+                  "value": "leaf"
+                }
+              ]
+            }
+          ]
+        },
+        "append-list": [
+          "base",
+          null,
+          {
+            "id": 1,
+            "nested": [
+              true,
+              false
+            ]
+          }
+        ],
+        "remove-me": {
+          "stale": true
+        }
+      }
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "values": {
+        "plain-neighbor": {
+          "mustRemainPlainJSON": true
+        }
+      }
+    },
+    {
+      "id": "dddddddddddddddddddddddddddddddd",
+      "values": {
+        "local-clear-one": true,
+        "local-clear-two": {
+          "nested": "stale"
+        }
+      }
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "values": {
+        "document": {
+          "object": {
+            "keep": "original",
+            "replace": "old",
+            "remove": "obsolete",
+            "deep": {
+              "left": 1
+            }
+          },
+          "array": [
+            "alpha",
+            {
+              "id": 1
+            }
+          ]
+        },
+        "ordered": {
+          "stage": 0
+        }
+      }
+    },
+    {
+      "id": "ffffffffffffffffffffffffffffffff",
+      "values": {
+        "input-document": {
+          "credentials": {
+            "token": "seed"
+          },
+          "preferences": {
+            "existing": true,
+            "nested": {
+              "left": 1
+            }
+          },
+          "history": [
+            "seed"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gggggggggggggggggggggggggggggggg",
+      "values": {
+        "root-array": [
+          "first",
+          {
+            "id": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+      "values": {
+        "key.with.dots~and-tildes": {
+          "punctuation": "!@#$%^&*()[]{}:;,/?",
+          "unicode-key-ключ-鍵": "value",
+          "html-sensitive": "<script>alert(\"x\")</script>&",
+          "line-separators": "before between after",
+          "control-escapes": "\b\f\n\r\t\u0000"
+        }
+      }
+    }
+  ],
+  "sync": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "syncSettings": true,
+        "enabledFor": [
+          "work.example.test"
+        ],
+        "sync-metadata": {
+          "revision": 1,
+          "device": "desktop"
+        }
+      }
+    },
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "values": {
+        "sync-list": [
+          "desktop",
+          {
+            "kind": "mobile",
+            "enabled": false
+          }
+        ],
+        "sync-empty-array": [],
+        "sync-empty-object": {}
+      }
+    },
+    {
+      "id": "dddddddddddddddddddddddddddddddd",
+      "values": {
+        "sync-clear-one": true,
+        "sync-clear-two": [
+          "stale"
+        ]
+      }
+    },
+    {
+      "id": "ffffffffffffffffffffffffffffffff",
+      "values": {
+        "input-sync-document": {
+          "flags": {
+            "existing": true
+          }
+        }
+      }
+    }
+  ],
+  "local_append": [
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "values": {
+        "append-list": [
+          "base",
+          "bulk-added",
+          null,
+          {
+            "id": 1,
+            "nested": [
+              true,
+              false
+            ]
+          },
+          {
+            "id": 2
+          }
+        ]
+      }
+    }
+  ],
+  "sync_append": [
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "values": {
+        "sync-list": [
+          "desktop",
+          "sync-bulk-added",
+          {
+            "kind": "mobile",
+            "enabled": false
+          }
+        ]
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "settings",
+      "operation": "merge",
+      "value": {
+        "theme": {
+          "contrast": 90,
+          "sepia": 10
+        },
+        "automation": {
+          "enabled": false
+        },
+        "metadata": {
+          "revision": 2
+        }
+      }
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "settings",
+      "path": "theme",
+      "operation": "merge",
+      "value": {
+        "brightness": 95,
+        "selectionColor": "#0050a4"
+      }
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "settings",
+      "path": "metadata.literal~1dot.literal~0tilde",
+      "operation": "set",
+      "value": "escaped-path-updated"
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "settings",
+      "path": "disabledFor",
+      "operation": "append",
+      "value": [
+        "mail.example.test",
+        "calendar.example.test",
+        {
+          "pattern": "*.internal.test",
+          "temporary": true
+        }
+      ]
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "settings",
+      "path": "previewNewestDesign",
+      "operation": "remove"
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "sync",
+      "key": "sync-metadata",
+      "encoding": "json",
+      "operation": "merge",
+      "value": {
+        "revision": 2,
+        "devices": [
+          "desktop",
+          "mobile"
+        ]
+      }
+    },
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "area": "local",
+      "key": "remove-me",
+      "operation": "remove"
+    },
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "area": "local",
+      "key": "explicit-json-scalar",
+      "encoding": "json",
+      "operation": "set",
+      "value": -0
+    },
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "area": "sync",
+      "key": "sync-null",
+      "value": null
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "area": "local",
+      "key": "compressed-document",
+      "encoding": "json-lz-string-uri",
+      "operation": "set",
+      "value": {
+        "schema": 3,
+        "enabled": true,
+        "filters": [
+          "base",
+          {
+            "url": "https://example.test/filter.txt",
+            "enabled": true,
+            "tags": [
+              "privacy",
+              "regional"
+            ]
+          }
+        ],
+        "options": {
+          "level": 1,
+          "obsolete": true
+        },
+        "unicode": "компресиран текст"
+      }
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "area": "local",
+      "key": "compressed-document",
+      "encoding": "json-lz-string-uri",
+      "operation": "merge",
+      "value": {
+        "options": {
+          "level": 2,
+          "mode": "strict"
+        },
+        "empty": {}
+      }
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "area": "local",
+      "key": "compressed-document",
+      "path": "filters",
+      "encoding": "json-lz-string-uri",
+      "operation": "append",
+      "value": [
+        "base",
+        "privacy",
+        {
+          "url": "https://example.test/filter.txt",
+          "enabled": true,
+          "tags": [
+            "privacy",
+            "regional"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "area": "local",
+      "key": "compressed-document",
+      "path": "options.obsolete",
+      "encoding": "json-lz-string-uri",
+      "operation": "remove"
+    },
+    {
+      "id": "dddddddddddddddddddddddddddddddd",
+      "area": "local",
+      "operation": "clear"
+    },
+    {
+      "id": "dddddddddddddddddddddddddddddddd",
+      "area": "sync",
+      "operation": "clear"
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "object.replace",
+      "value": {
+        "from": "scalar",
+        "to": "object"
+      }
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "object.deep",
+      "operation": "merge",
+      "value": {
+        "right": 2,
+        "branch": {
+          "leaf": true
+        }
+      }
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "array",
+      "operation": "append",
+      "value": [
+        "alpha",
+        "beta",
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "object.remove",
+      "operation": "remove"
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "created.by.set",
+      "operation": "set",
+      "value": [
+        true,
+        null,
+        3
+      ]
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "created.by.merge",
+      "operation": "merge",
+      "value": {
+        "empty": {},
+        "nested": {
+          "value": "created"
+        }
+      }
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "created.by.append",
+      "operation": "append",
+      "value": [
+        "new",
+        "new",
+        {
+          "id": 1
+        }
+      ]
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "document",
+      "path": "created.missing",
+      "operation": "remove"
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "ordered",
+      "value": "stage-one"
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "ordered",
+      "operation": "set",
+      "value": {
+        "stage": 2,
+        "nested": {
+          "left": true
+        }
+      }
+    },
+    {
+      "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "area": "local",
+      "key": "ordered",
+      "operation": "merge",
+      "value": {
+        "stage": 3,
+        "nested": {
+          "right": true
+        }
+      }
+    },
+    {
+      "id": "gggggggggggggggggggggggggggggggg",
+      "area": "local",
+      "key": "root-array",
+      "operation": "append",
+      "value": [
+        "first",
+        "second",
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        },
+        null
+      ]
+    },
+    {
+      "id": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+      "area": "local",
+      "key": "key.with.dots~and-tildes",
+      "path": "nested.literal~1segment.literal~0segment",
+      "value": {
+        "empty": "",
+        "null": null
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "name": "whole-object",
+      "area": "local",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "runtime-whole"
+    },
+    {
+      "name": "empty-string",
+      "area": "local",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "input-document",
+      "path": "credentials.token",
+      "operation": "set"
+    },
+    {
+      "name": "merge-object",
+      "area": "local",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "input-document",
+      "path": "preferences",
+      "operation": "merge"
+    },
+    {
+      "name": "append-array",
+      "area": "local",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "input-document",
+      "path": "history",
+      "operation": "append"
+    },
+    {
+      "name": "sync-null",
+      "area": "sync",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "nullable-input"
+    },
+    {
+      "name": "sync-boolean",
+      "area": "sync",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "input-sync-document",
+      "path": "flags.enabled"
+    },
+    {
+      "name": "compressed-merge",
+      "area": "local",
+      "id": "cccccccccccccccccccccccccccccccc",
+      "key": "compressed-document",
+      "path": "runtime",
+      "encoding": "json-lz-string-uri",
+      "operation": "merge"
+    },
+    {
+      "name": "compressed-append",
+      "area": "local",
+      "id": "cccccccccccccccccccccccccccccccc",
+      "key": "compressed-document",
+      "path": "filters",
+      "encoding": "json-lz-string-uri",
+      "operation": "append"
+    },
+    {
+      "name": "after-clear",
+      "area": "sync",
+      "id": "dddddddddddddddddddddddddddddddd",
+      "key": "after-clear"
+    },
+    {
+      "name": "intentionally-absent",
+      "area": "local",
+      "id": "ffffffffffffffffffffffffffffffff",
+      "key": "must-not-exist"
+    }
+  ]
+}
