@@ -44,8 +44,7 @@ func (browser Browser) installLinux(ctx context.Context, options *InstallOptions
 	if err := browser.prepareInstall(options, appDir); err != nil {
 		return err
 	}
-	if err := os.Remove(filepath.Join(appDir, linuxQtShimFilename)); err != nil &&
-		!errors.Is(err, os.ErrNotExist) {
+	if err := removeLinuxQtShim(appDir); err != nil {
 		return err
 	}
 	browser.addLinuxLauncherFlags(options)
@@ -60,6 +59,22 @@ func (browser Browser) installLinux(ctx context.Context, options *InstallOptions
 		return err
 	}
 	return browser.installLinuxIcon(appDir, dataHome)
+}
+
+func removeLinuxQtShim(appDir string) error {
+	path := filepath.Join(appDir, linuxQtShimFilename)
+	// A missing entry in a read-only filesystem can make Remove report EROFS
+	// instead of ENOENT, so check for absence before attempting the mutation.
+	if _, err := os.Lstat(path); err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return err
+	}
+	if err := os.Remove(path); err != nil && !errors.Is(err, os.ErrNotExist) {
+		return err
+	}
+	return nil
 }
 
 func (browser Browser) linuxAppDir(options *InstallOptions) string {

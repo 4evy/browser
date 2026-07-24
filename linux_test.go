@@ -87,6 +87,24 @@ func TestInstallLinuxUsesConfiguredApplicationDirectory(t *testing.T) {
 	}
 }
 
+func TestRemoveLinuxQtShim(t *testing.T) {
+	appDir := t.TempDir()
+	shim := filepath.Join(appDir, linuxQtShimFilename)
+
+	if err := removeLinuxQtShim(appDir); err != nil {
+		t.Fatalf("remove absent shim: %v", err)
+	}
+	if err := os.WriteFile(shim, []byte("shim"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := removeLinuxQtShim(appDir); err != nil {
+		t.Fatalf("remove existing shim: %v", err)
+	}
+	if _, err := os.Lstat(shim); !os.IsNotExist(err) {
+		t.Fatalf("shim still exists or cannot be inspected: %v", err)
+	}
+}
+
 func TestInstallLinuxCreatesWaylandAndPortalDesktopAliases(t *testing.T) {
 	root := t.TempDir()
 	dataHome := filepath.Join(root, "data")
