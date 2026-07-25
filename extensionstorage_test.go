@@ -663,8 +663,29 @@ func TestValidateSyncStorageStateQuotaBoundaries(t *testing.T) {
 	})
 }
 
-func TestApplyProfileSettingsReportsLockedExtensionStorageAfterPreferences(t *testing.T) {
-	profileDir := filepath.Join(t.TempDir(), "Default")
+func TestApplyProfileSettingsDoesNotPatchBrowserDataWhenExtensionStorageLocked(t *testing.T) {
+	root := t.TempDir()
+	profileDir := filepath.Join(root, "Default")
+	if err := os.MkdirAll(profileDir, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	browserData := map[string][]byte{
+		filepath.Join(profileDir, PreferencesFilename): []byte(
+			`{"browser":{"existing":"preferences"}}`,
+		),
+		filepath.Join(root, LocalStateFilename): []byte(
+			`{"browser":{"existing":"local-state"}}`,
+		),
+		filepath.Join(root, VariationsFilename): []byte(
+			`{"existing":"variations"}`,
+		),
+	}
+	for path, data := range browserData {
+		if err := os.WriteFile(path, data, 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+
 	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	storagePath := filepath.Join(profileDir, localExtensionSettingsDir, extensionID)
 	if err := os.MkdirAll(storagePath, 0o700); err != nil {
@@ -683,7 +704,9 @@ func TestApplyProfileSettingsReportsLockedExtensionStorageAfterPreferences(t *te
 	instance, err := New(Config{Browser: BrowserConfig{
 		ExecutableName: "test-browser",
 		Preferences: PreferenceDefaultsConfig{
-			Values: []PreferenceValueConfig{{Path: "browser.lock_test", Value: true}},
+			Values:           []PreferenceValueConfig{{Path: "browser.lock_test", Value: true}},
+			LocalStateValues: []PreferenceValueConfig{{Path: "browser.lock_test", Value: true}},
+			VariationValues:  []PreferenceValueConfig{{Path: "lock_test", Value: true}},
 		},
 	}})
 	if err != nil {
@@ -702,16 +725,14 @@ func TestApplyProfileSettingsReportsLockedExtensionStorageAfterPreferences(t *te
 	if err == nil || !strings.Contains(err.Error(), "close the browser and retry") {
 		t.Fatalf("apply error = %v, want actionable storage lock error", err)
 	}
-	preferences, err := ReadPreferences(profileDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	browserPreferences, err := NestedObject(preferences, "browser")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if browserPreferences["lock_test"] != true {
-		t.Fatalf("preferences were not applied after storage lock: %#v", preferences)
+	for path, want := range browserData {
+		got, readErr := os.ReadFile(path)
+		if readErr != nil {
+			t.Fatal(readErr)
+		}
+		if !bytes.Equal(got, want) {
+			t.Errorf("browser data changed after storage lock: %s", path)
+		}
 	}
 }
 

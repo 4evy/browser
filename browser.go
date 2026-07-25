@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log/slog"
 	"maps"
 	"slices"
 
@@ -74,22 +73,14 @@ func (browser Browser) ApplyProfileSettings(ctx context.Context, options ApplyOp
 		return errors.New(profileDirectoryRequiredMessage)
 	}
 	err := browser.ApplyExtensionSettings(ctx, options)
-	if err != nil && !isStorageTemporarilyUnavailable(err) {
-		return err
-	}
-	var storageErr error
 	if err != nil {
-		storageErr = fmt.Errorf(
-			"extension storage is temporarily unavailable; close the browser and retry: %w",
-			err,
-		)
-		slog.WarnContext(
-			ctx,
-			"extension storage is unavailable; applying browser preferences before returning an error",
-			"browser",
-			browser.Config.LogPrefix,
-			"error", storageErr,
-		)
+		if isStorageTemporarilyUnavailable(err) {
+			return fmt.Errorf(
+				"extension storage is temporarily unavailable; close the browser and retry: %w",
+				err,
+			)
+		}
+		return err
 	}
 	if options.Input.CookieAllowlist != nil {
 		browser.PreferencePatches = append(
@@ -101,10 +92,10 @@ func (browser Browser) ApplyProfileSettings(ctx context.Context, options ApplyOp
 	}
 	for _, patchSet := range browser.browserDataPatchSets() {
 		if err := patchSet.apply(options.ProfileDir); err != nil {
-			return errors.Join(storageErr, err)
+			return err
 		}
 	}
-	return storageErr
+	return nil
 }
 
 func (browser Browser) ApplyExtensionSettings(ctx context.Context, options ApplyOptions) error {
