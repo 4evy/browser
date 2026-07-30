@@ -11,19 +11,16 @@
 
 </div>
 
----
+`browser` applies one config to an existing Chromium-family browser. It installs
+neither browsers nor hidden defaults.
 
-`browser` turns one TOML file into a configured Chromium-family browser.
-Given an existing browser app or bundle, it can:
-
-- create a launcher with reproducible flags;
-- install Chrome Web Store, CRX, update-URL, and release ZIP extensions;
-- patch Chromium `Preferences`, `Local State`, and `Variations`;
-- populate extension `storage.local` and `storage.sync`; and
-- install Linux desktop entries and icons.
-
-There are no bundled browser defaults, extensions, or hidden preference
-changes. The browser binary is also yours to install and update.
+| It manages        | What that means                                                         |
+| ----------------- | ----------------------------------------------------------------------- |
+| Launcher          | Reproducible flags, a live flags file, aliases, and unpacked extensions |
+| Extensions        | Chrome Web Store, external update URLs, pinned CRXs, and release ZIPs   |
+| Browser data      | `Preferences`, `Local State`, `Variations`, cookies, and shortcuts      |
+| Extension data    | Ordered mutations of persistent `storage.local` and `storage.sync`      |
+| Linux integration | Desktop entries, icons, Wayland/X11 IDs, and portal workarounds         |
 
 ## Quick start
 
@@ -32,56 +29,23 @@ Requires Go 1.26 or Nix with flakes enabled.
 ```sh
 go build ./cmd/browser
 cp browser.example.toml browser.toml
-```
 
-Edit `browser.toml` using
-[`browser.example.toml`](browser.example.toml) as a reference, then run:
-
-```sh
 ./browser configure \
-  --config browser.toml \
-  --mode macos \
-  --root "$HOME/Library/Caches/my-browser" \
-  --bin-dir "$HOME/.local/bin"
-```
-
-Use `--mode linux` on Linux. If the application directory is not set in TOML,
-pass it with `--app-dir`.
-
-With Nix:
-
-```sh
-nix run . -- configure \
   --config browser.toml \
   --mode linux \
   --root "$HOME/.cache/my-browser" \
+  --app-dir /path/to/browser/app \
   --bin-dir "$HOME/.local/bin"
 ```
 
-`configure` installs the declared extensions, applies settings to the
-configured profile, and writes the launcher. Run it again whenever the
-configuration changes.
-
-## Commands
-
-| Command                    | Purpose                                                                |
-| -------------------------- | ---------------------------------------------------------------------- |
-| `configure`                | Install extensions, apply profile settings, and create a launcher      |
-| `apply-profile-settings`   | Apply browser preferences and extension storage to an existing profile |
-| `apply-extension-settings` | Apply extension storage only                                           |
-| `version`                  | Print the installed version                                            |
-
-Every command has built-in help:
-
-```sh
-./browser configure --help
-```
+Use `--mode macos` for app bundles. An `app_dir` in the config can replace
+`--app-dir`. `apply-profile-settings` skips installation,
+`apply-extension-settings` changes extension storage only, and `version` prints
+the version. Run `browser <command> --help` for flags.
 
 ## Configuration
 
-[`browser.example.toml`](browser.example.toml) is the complete starting point.
-Only `browser.executable_name` is universally required; platform paths and
-metadata depend on how your browser is packaged.
+[`browser.example.toml`](browser.example.toml) is the annotated TOML example:
 
 ```toml
 [browser]
@@ -89,144 +53,201 @@ name = "Chromium"
 executable_name = "chromium"
 flags = ["--no-first-run", "--no-default-browser-check"]
 
-[browser.macos]
-app_dir = "/Applications/Chromium.app"
-launcher_path = "Contents/MacOS/Chromium"
+[browser.linux]
+app_dir = "/opt/chromium"
+launcher_name = "chromium"
 
-[browser.paths.macos]
-profile_dir = "${home}/Library/Application Support/Chromium/Default"
+[browser.paths.linux]
+profile_dir = "${config_home}/chromium/Default"
+external_extension_dirs = ["${config_home}/chromium/External Extensions"]
 ```
 
-Path values may use `${home}`, `${config_home}`, and `${data_home}`. Relative
-extension-settings paths resolve from the TOML file. Relative flags-file paths
-resolve beneath the platform's XDG configuration home.
+Paths expand `${home}`, `${config_home}`, and `${data_home}`. Flags are layered
+from config, Linux wrapper, `configure --flags`, live flags file, then launcher
+arguments.
 
-Launcher flags are applied in this order, with later layers taking precedence:
-TOML `browser.flags`, platform wrapper flags, `configure --flags`, the optional
-flags file, then arguments passed directly to the launcher.
+### Extension sources
 
-### Extensions
+| Config key                | Update behavior                                                  |
+| ------------------------- | ---------------------------------------------------------------- |
+| `extensions.chrome_store` | Download the newest compatible Web Store CRX                     |
+| `extensions.update_url`   | Let Chromium install and update from an external manifest        |
+| `extensions.crx`          | Download a fixed version and verify its SHA-256 and extension ID |
+| `extensions.zip`          | Follow a GitHub release asset or verify a fully pinned ZIP       |
 
-Choose the source that matches the update policy you want:
+Store, CRX, and update-URL entries need a browser-recognized
+`external_extension_dirs` path. ZIPs with `load_unpacked = true` use
+`--load-extension`. `extensions.network` controls the download Chrome version,
+headers, user agent, timeouts, and retries.
 
-| TOML entry                    | Behavior                                        |
-| ----------------------------- | ----------------------------------------------- |
-| `[[extensions.chrome_store]]` | Follow the newest compatible Web Store release  |
-| `[[extensions.update_url]]`   | Register an external extension update URL       |
-| `[[extensions.crx]]`          | Install a versioned, SHA-256-pinned CRX         |
-| `[[extensions.zip]]`          | Follow a GitHub release or install a pinned ZIP |
+### Profile settings
 
-Pinned downloads require a checksum. Set `GITHUB_TOKEN` when accessing private
-repositories or when you need higher GitHub API limits.
+`browser.preferences` patches `Preferences`, `Local State`, and `Variations`,
+including cookies and shortcuts. Typed `browser.helium` and `browser.brave`
+options cover Helium services/toolbars and Brave tabs/sidebar/Shields.
 
-### Browser and extension settings
+`extension_settings.files` applies ordered JSON documents to `storage.local`
+and `storage.sync`: top-level writes, `set`, `merge`, `append`, `remove`, and
+`clear`. CLI `--settings` files apply last; `--input` supplies runtime values.
+See the [JSON schema](schema/extension-settings.schema.json).
 
-Browser preferences are declared under `[browser.preferences]`. Dedicated
-cookie-policy fields cover defaults, third-party cookies, and site exceptions;
-generic path/value entries are available for Chromium-specific preferences.
+Close the browser before applying profile or extension storage.
 
-Helium and Brave features have typed, opt-in sections so product preferences do
-not need to be expressed as raw dotted paths:
+## Nix
 
-```toml
-[browser.helium.services]
-enabled = true
-user_consented = true
-extension_proxy = true
-ublock_assets = true
-
-[browser.helium.toolbar]
-show_extensions_button = false
-
-[browser.helium]
-crash_reporting = "ask" # disabled | ask | automatic
-
-[browser.brave.tabs]
-vertical = true
-floating = true
-on_right = false
-hover_mode = "card" # tooltip | card | card_with_preview
-
-[browser.brave.sidebar]
-show = "mouseover" # always | mouseover | never
-
-[browser.brave.shields]
-adblock_only_mode = false
-custom_filters = "example.com##.sponsor"
-```
-
-When Helium is configured with `--set-user-color=R,G,B`, the launcher flag is
-also persisted to the profile's browser and extension theme preferences.
-
-Extension storage is described by ordered JSON files:
-
-```toml
-[extension_settings]
-files = ["settings/base.json", "settings/work.json"]
-```
-
-The format supports top-level values plus `set`, `merge`, `append`, `remove`,
-and `clear` operations for `storage.local` and `storage.sync`. Runtime values
-can be supplied with `--input`. See
-[`schema/extension-settings.schema.json`](schema/extension-settings.schema.json)
-for the complete format.
-
-Later settings files override or extend earlier files. Files passed with
-repeatable `--settings` arguments are applied after the files declared in
-TOML.
-
-Close the browser before changing profile or extension storage. All settings
-documents are parsed and validated before mutation, and locked extension
-storage is reported as an error.
-
-## Nix modules
-
-The flake exports Home Manager, NixOS, and nix-darwin modules:
+Add the input, then import the appropriate module:
 
 ```nix
 inputs.browser.url = "github:4evy/browser";
-
-# Home Manager
-imports = [ inputs.browser.homeModules.default ];
 ```
 
-Use `nixosModules.default` or `darwinModules.default` instead when NixOS or
-nix-darwin owns the configuration. Then configure it with:
+| Module system | Import                                 | Generated files                   |
+| ------------- | -------------------------------------- | --------------------------------- |
+| Home Manager  | `inputs.browser.homeModules.default`   | `$XDG_CONFIG_HOME/browser/*.toml` |
+| NixOS         | `inputs.browser.nixosModules.default`  | `/etc/browser/*.toml`             |
+| nix-darwin    | `inputs.browser.darwinModules.default` | `/etc/browser/*.toml`             |
+
+### Complete Home Manager example
+
+Bitwarden is real; other extension values are placeholders.
 
 ```nix
 {
+  inputs,
+  ...
+}:
+{
+  imports = [ inputs.browser.homeModules.default ];
+
   programs.browser = {
     enable = true;
 
-    settings.browser = {
-      name = "Chromium";
-      executable_name = "chromium";
-      paths.linux.profile_dir = "\${config_home}/chromium/Default";
-    };
+    settings = {
+      browser = {
+        name = "Chromium";
+        executable_name = "chromium";
+        flags = [
+          "--no-first-run"
+          "--no-default-browser-check"
+        ];
 
-    configurations.brave.browser = {
-      name = "Brave";
-      executable_name = "brave";
-      paths.linux.profile_dir =
-        "\${config_home}/BraveSoftware/Brave-Browser/Default";
+        paths.linux = {
+          profile_dir = "\${config_home}/chromium/Default";
+          external_extension_dirs = [
+            "\${config_home}/chromium/External Extensions"
+          ];
+        };
+      };
+
+      extensions = {
+        # Newest compatible Web Store release.
+        chrome_store = [
+          {
+            id = "nngceckbapebfimnlniiiahkandclblb";
+            name = "Bitwarden";
+          }
+        ];
+
+        # Chromium follows the extension's update manifest.
+        update_url = [
+          {
+            id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            name = "Self-hosted extension";
+            update_url = "https://extensions.example.com/updates.xml";
+          }
+        ];
+
+        # Fixed CRX; checksum and embedded ID are verified.
+        crx = [
+          {
+            id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+            name = "Pinned CRX";
+            version = "1.2.3";
+            url = "https://extensions.example.com/extension-1.2.3.crx";
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          }
+        ];
+
+        zip = [
+          {
+            id = "cccccccccccccccccccccccccccccccc";
+            name = "Latest GitHub release";
+            update_policy = "latest";
+            repository = "owner/extension";
+            asset_template = "extension-{tag}.zip";
+            archive_root = "extension";
+            load_unpacked = true;
+          }
+          {
+            id = "dddddddddddddddddddddddddddddddd";
+            name = "Pinned ZIP";
+            update_policy = "pinned";
+            version = "1.2.3";
+            url = "https://extensions.example.com/extension-1.2.3.zip";
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            archive_root = "extension";
+            load_unpacked = true;
+          }
+        ];
+      };
+
+      # Nix paths become immutable store paths in the generated TOML.
+      extension_settings.files = [ ./extension-settings.json ];
     };
   };
 }
 ```
 
-Home Manager writes files to `$XDG_CONFIG_HOME/browser`; NixOS and nix-darwin
-write them to `/etc/browser`. Modules generate configuration and install the
-CLI only—profile mutation remains an explicit `browser` command.
+Latest GitHub assets must match `asset_template` and publish a SHA-256 digest.
+Set `GITHUB_TOKEN` for private repositories or higher API limits. Unpacked
+extensions automatically map storage settings to Chromium's derived ID.
 
-Set `package = null` to generate configuration without installing the CLI.
-The flake also exports `overlays.default` and `lib.generateConfig`.
+Modules generate config and install the CLI; profile mutation stays explicit:
+
+```sh
+browser configure \
+  --config "$XDG_CONFIG_HOME/browser/browser.toml" \
+  --mode linux \
+  --root "$HOME/.cache/browser" \
+  --app-dir /path/to/browser/app \
+  --bin-dir "$HOME/.local/bin"
+```
+
+On NixOS or nix-darwin, use `/etc/browser/browser.toml` instead.
+
+### Multiple browsers and config-only use
+
+`settings` generates `browser.toml`; `configurations.<name>` generates
+`<name>.toml`:
+
+```nix
+programs.browser = {
+  enable = true;
+
+  configurations = {
+    work.browser = {
+      name = "Chromium Work";
+      executable_name = "chromium-work";
+    };
+
+    brave.browser = {
+      name = "Brave";
+      executable_name = "brave";
+    };
+  };
+};
+```
+
+Store paths are exposed as `configFile` and `configFiles.<name>` under
+`programs.browser`. Set `package = null` to generate config without the CLI.
+
+The flake also exports `packages.default`, `apps.default`, `overlays.default`,
+and `lib.generateConfig` for use without a module.
 
 ## Development
 
 ```sh
 go test ./...
-
-# Or run the full Nix checks:
 nix develop
 nix fmt
 nix flake check
