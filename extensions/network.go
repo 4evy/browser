@@ -10,7 +10,7 @@ import (
 
 	"github.com/4evy/browser/internal/fileutil"
 	"github.com/carlmjohnson/requests"
-	"github.com/google/go-github/v84/github"
+	"github.com/google/go-github/v89/github"
 	"github.com/hashicorp/go-retryablehttp"
 )
 
@@ -103,10 +103,16 @@ func (client HTTPClient) ResolveLatestGitHubRelease(
 		return ReleaseArtifact{}, fmt.Errorf("invalid GitHub repository %q", repository)
 	}
 	owner, name, _ := strings.Cut(repository, "/")
-	api := github.NewClient(client.httpClient())
-	api.UserAgent = client.userAgent()
+	options := []github.ClientOptionsFunc{
+		github.WithHTTPClient(client.httpClient()),
+		github.WithUserAgent(client.userAgent()),
+	}
 	if client.GitHubToken != "" {
-		api = api.WithAuthToken(client.GitHubToken)
+		options = append(options, github.WithAuthToken(client.GitHubToken))
+	}
+	api, err := github.NewClient(options...)
+	if err != nil {
+		return ReleaseArtifact{}, fmt.Errorf("create GitHub client: %w", err)
 	}
 	release, _, err := api.Repositories.GetLatestRelease(ctx, owner, name)
 	if err != nil {

@@ -18,7 +18,7 @@ buildGoModule (finalAttrs: {
     ];
   };
 
-  vendorHash = "sha256-8ebGxIvR9kKp/yrDrGJYsFnNAH3lPaFBANy4YiXj0QY=";
+  vendorHash = "sha256-buqM/y0jrqH0D6E8u6NKf8n0Ww/OAclQsRZcdP9RDis=";
 
   subPackages = [ "cmd/browser" ];
 
