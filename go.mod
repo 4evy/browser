@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/Jeffail/gabs/v2 v2.7.0
 	github.com/adrg/xdg v0.5.3
-	github.com/alecthomas/kong v1.16.0
+	github.com/alecthomas/kong v1.16.1
 	github.com/buildkite/shellwords v1.0.1
 	github.com/carlmjohnson/requests v0.25.1
 	github.com/daku10/go-lz-string v0.0.7
