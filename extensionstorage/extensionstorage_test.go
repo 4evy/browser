@@ -1,4 +1,4 @@
-package browser
+package extensionstorage
 
 import (
 	"bytes"
@@ -13,6 +13,7 @@ import (
 	"syscall"
 	"testing"
 
+	"github.com/4evy/browser/internal/jsonutil"
 	"github.com/google/go-cmp/cmp"
 	"github.com/syndtr/goleveldb/leveldb"
 	leveldberrors "github.com/syndtr/goleveldb/leveldb/errors"
@@ -35,7 +36,7 @@ func TestApplyExtensionSettingsUsesCallerFile(t *testing.T) {
 	}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	if err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		Settings:   []string{settingsPath},
 	}); err != nil {
@@ -66,103 +67,10 @@ func TestApplyExtensionSettingsUsesCallerFile(t *testing.T) {
 	}
 }
 
-func TestBrowserConfiguredSettingsRunBeforeCallerOverrides(t *testing.T) {
-	root := t.TempDir()
-	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	basePath := filepath.Join(root, "base.json")
-	overridePath := filepath.Join(root, "override.json")
-	for path, value := range map[string]string{
-		basePath:     "base",
-		overridePath: "override",
-	} {
-		if err := os.WriteFile(path, []byte(`{"local":[{
-			"id":"`+extensionID+`",
-			"values":{"value":"`+value+`"}
-		}]}`), 0o600); err != nil {
-			t.Fatal(err)
-		}
-	}
-	instance, err := New(Config{
-		Browser: BrowserConfig{ExecutableName: "test-browser"},
-		ExtensionSettings: ExtensionSettingsConfig{
-			Files: []string{basePath},
-		},
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	profileDir := filepath.Join(root, "Default")
-	if err := instance.ApplyExtensionSettings(t.Context(), ApplyOptions{
-		ProfileDir: profileDir,
-		Settings:   []string{overridePath},
-	}); err != nil {
-		t.Fatal(err)
-	}
-	if got := readExtensionStorageValue(
-		t,
-		profileDir,
-		localExtensionSettingsDir,
-		extensionID,
-		"value",
-	); got != "override" {
-		t.Fatalf("configured/caller precedence = %#v, want override", got)
-	}
-}
-
-func TestBrowserExtensionAliasesApplyToEverySettingsOperation(t *testing.T) {
-	const sourceID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	const installedID = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-	instance, err := New(Config{Browser: BrowserConfig{
-		ExecutableName: "test-browser",
-		ExtensionIDAliases: map[string]string{
-			sourceID: installedID,
-		},
-	}})
-	if err != nil {
-		t.Fatal(err)
-	}
-	profileDir := filepath.Join(t.TempDir(), "Default")
-	if err := instance.ApplyExtensionSettings(t.Context(), ApplyOptions{
-		ProfileDir: profileDir,
-		SettingsSource: []SettingsSource{{
-			Name: "aliased",
-			Data: []byte(`{
-				"local":[{
-					"id":"` + sourceID + `",
-					"values":{"items":["base"]}
-				}],
-				"operations":[{
-					"id":"` + sourceID + `",
-					"area":"local",
-					"key":"items",
-					"operation":"append",
-					"value":["extra"]
-				}]
-			}`),
-		}},
-	}); err != nil {
-		t.Fatal(err)
-	}
-	if got := readExtensionStorageValue(
-		t,
-		profileDir,
-		localExtensionSettingsDir,
-		installedID,
-		"items",
-	); !reflect.DeepEqual(got, []any{"base", "extra"}) {
-		t.Fatalf("aliased storage value = %#v", got)
-	}
-	if _, err := os.Stat(
-		filepath.Join(profileDir, localExtensionSettingsDir, sourceID),
-	); !os.IsNotExist(err) {
-		t.Fatalf("source extension storage exists after aliasing: %v", err)
-	}
-}
-
 func TestApplyExtensionSettingsRejectsInvalidCallerAliasBeforeWriting(t *testing.T) {
 	profileDir := filepath.Join(t.TempDir(), "Default")
 	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		ExtensionIDAliases: map[string]string{
 			extensionID: "../outside-storage",
@@ -183,8 +91,15 @@ func TestApplyExtensionSettingsRejectsInvalidCallerAliasBeforeWriting(t *testing
 	}
 }
 
+func TestApplyExtensionSettingsRequiresProfileDirectory(t *testing.T) {
+	err := Apply(t.Context(), ApplyOptions{})
+	if err == nil || !strings.Contains(err.Error(), "profile directory is required") {
+		t.Fatalf("apply error = %v, want profile directory error", err)
+	}
+}
+
 func TestApplyExtensionSettingsRejectsTrailingJSON(t *testing.T) {
-	err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: t.TempDir(),
 		SettingsSource: []SettingsSource{{
 			Name: "invalid",
@@ -200,7 +115,7 @@ func TestApplyExtensionSettingsHonorsCanceledContext(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	cancel()
 
-	err := ApplyExtensionSettings(ctx, ApplyOptions{
+	err := Apply(ctx, ApplyOptions{
 		ProfileDir: t.TempDir(),
 		SettingsSource: []SettingsSource{{
 			Name: "settings",
@@ -214,7 +129,7 @@ func TestApplyExtensionSettingsHonorsCanceledContext(t *testing.T) {
 
 func TestApplyExtensionSettingsPreflightsEverySourceBeforeWriting(t *testing.T) {
 	profileDir := filepath.Join(t.TempDir(), "Default")
-	err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{
 			{
@@ -252,7 +167,7 @@ func TestApplyExtensionSettingsPreflightsEverySourceBeforeWriting(t *testing.T) 
 
 func TestApplyExtensionSettingsPreflightsRuntimeInputTypesBeforeWriting(t *testing.T) {
 	profileDir := filepath.Join(t.TempDir(), "Default")
-	err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "runtime-input",
@@ -270,7 +185,7 @@ func TestApplyExtensionSettingsPreflightsRuntimeInputTypesBeforeWriting(t *testi
 				}]
 			}`),
 		}},
-		Input: ApplyInput{ExtensionValues: map[string]any{
+		Input: Input{ExtensionValues: map[string]any{
 			"must-be-array": map[string]any{"not": "an array"},
 		}},
 	})
@@ -285,7 +200,7 @@ func TestApplyExtensionSettingsPreflightsRuntimeInputTypesBeforeWriting(t *testi
 func TestApplyExtensionSettingsBatchesEachExtensionAreaAtomically(t *testing.T) {
 	profileDir := filepath.Join(t.TempDir(), "Default")
 	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "colliding mutation",
@@ -394,7 +309,7 @@ func TestApplyExtensionSettingsSupportsCompleteMutationSurface(t *testing.T) {
 			}
 		]
 	}`
-	if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	if err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "complete",
@@ -503,13 +418,13 @@ func TestApplyExtensionInputsAcceptArbitraryJSONAndEmptyStrings(t *testing.T) {
 		"append": []any{"one", "one", "two"},
 		"empty":  "",
 	}
-	if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	if err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "inputs",
 			Data: []byte(settings),
 		}},
-		Input: ApplyInput{ExtensionValues: inputs},
+		Input: Input{ExtensionValues: inputs},
 	}); err != nil {
 		t.Fatal(err)
 	}
@@ -539,7 +454,7 @@ func TestApplyExtensionSettingsClearIsExplicitAndScoped(t *testing.T) {
 	const firstID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	const secondID = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 	for _, id := range []string{firstID, secondID} {
-		if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+		if err := Apply(t.Context(), ApplyOptions{
 			ProfileDir: profileDir,
 			SettingsSource: []SettingsSource{{
 				Name: "seed",
@@ -549,7 +464,7 @@ func TestApplyExtensionSettingsClearIsExplicitAndScoped(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	if err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "clear",
@@ -584,8 +499,8 @@ func TestApplyExtensionSettingsEnforcesChromeSyncPerItemQuotaBeforeWriting(t *te
 	profileDir := filepath.Join(t.TempDir(), "Default")
 	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	oversized := strings.Repeat("x", syncStorageQuotaBytesPerItem)
-	settings, err := json.Marshal(ExtensionStorageSettings{
-		Sync: []ExtensionStorageEntry{{
+	settings, err := json.Marshal(Settings{
+		Sync: []Entry{{
 			ID: extensionID,
 			Values: map[string]any{
 				"oversized": oversized,
@@ -595,7 +510,7 @@ func TestApplyExtensionSettingsEnforcesChromeSyncPerItemQuotaBeforeWriting(t *te
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = ApplyExtensionSettings(t.Context(), ApplyOptions{
+	err = Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		SettingsSource: []SettingsSource{{
 			Name: "oversized",
@@ -663,84 +578,11 @@ func TestValidateSyncStorageStateQuotaBoundaries(t *testing.T) {
 	})
 }
 
-func TestApplyProfileSettingsDoesNotPatchBrowserDataWhenExtensionStorageLocked(t *testing.T) {
-	root := t.TempDir()
-	profileDir := filepath.Join(root, "Default")
-	if err := os.MkdirAll(profileDir, 0o700); err != nil {
-		t.Fatal(err)
-	}
-	browserData := map[string][]byte{
-		filepath.Join(profileDir, PreferencesFilename): []byte(
-			`{"browser":{"existing":"preferences"}}`,
-		),
-		filepath.Join(root, LocalStateFilename): []byte(
-			`{"browser":{"existing":"local-state"}}`,
-		),
-		filepath.Join(root, VariationsFilename): []byte(
-			`{"existing":"variations"}`,
-		),
-	}
-	for path, data := range browserData {
-		if err := os.WriteFile(path, data, 0o600); err != nil {
-			t.Fatal(err)
-		}
-	}
-
-	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	storagePath := filepath.Join(profileDir, localExtensionSettingsDir, extensionID)
-	if err := os.MkdirAll(storagePath, 0o700); err != nil {
-		t.Fatal(err)
-	}
-	locked, err := leveldb.OpenFile(storagePath, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() {
-		if err := locked.Close(); err != nil {
-			t.Error(err)
-		}
-	})
-
-	instance, err := New(Config{Browser: BrowserConfig{
-		ExecutableName: "test-browser",
-		Preferences: PreferenceDefaultsConfig{
-			Values:           []PreferenceValueConfig{{Path: "browser.lock_test", Value: true}},
-			LocalStateValues: []PreferenceValueConfig{{Path: "browser.lock_test", Value: true}},
-			VariationValues:  []PreferenceValueConfig{{Path: "lock_test", Value: true}},
-		},
-	}})
-	if err != nil {
-		t.Fatal(err)
-	}
-	err = instance.ApplyProfileSettings(t.Context(), ApplyOptions{
-		ProfileDir: profileDir,
-		SettingsSource: []SettingsSource{{
-			Name: "locked",
-			Data: []byte(`{"local":[{
-				"id":"` + extensionID + `",
-				"values":{"enabled":true}
-			}]}`),
-		}},
-	})
-	if err == nil || !strings.Contains(err.Error(), "close the browser and retry") {
-		t.Fatalf("apply error = %v, want actionable storage lock error", err)
-	}
-	for path, want := range browserData {
-		got, readErr := os.ReadFile(path)
-		if readErr != nil {
-			t.Fatal(readErr)
-		}
-		if !bytes.Equal(got, want) {
-			t.Errorf("browser data changed after storage lock: %s", path)
-		}
-	}
-}
-
 func TestExtensionStorageSettingsRejectsNonPersistentAreas(t *testing.T) {
-	for _, area := range []ExtensionStorageArea{"session", "managed"} {
+	for _, area := range []Area{"session", "managed"} {
 		t.Run(string(area), func(t *testing.T) {
-			settings := ExtensionStorageSettings{
-				Operations: []ExtensionStorageOperation{{
+			settings := Settings{
+				Operations: []Operation{{
 					ID:    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 					Area:  area,
 					Key:   "value",
@@ -759,54 +601,54 @@ func TestExtensionStorageOperationSpecificationsDriveValidation(t *testing.T) {
 	const extensionID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	tests := []struct {
 		name      string
-		operation ExtensionStorageOperation
+		operation Operation
 		wantError string
 	}{
 		{
 			name: "set requires value",
-			operation: ExtensionStorageOperation{
-				ID: extensionID, Area: ExtensionStorageAreaLocal, Key: "value",
+			operation: Operation{
+				ID: extensionID, Area: AreaLocal, Key: "value",
 			},
 			wantError: "value is required",
 		},
 		{
 			name: "merge requires value",
-			operation: ExtensionStorageOperation{
+			operation: Operation{
 				ID:        extensionID,
-				Area:      ExtensionStorageAreaLocal,
+				Area:      AreaLocal,
 				Key:       "value",
-				Operation: ExtensionStorageOperationMerge,
+				Operation: OperationMerge,
 			},
 			wantError: "value is required",
 		},
 		{
 			name: "append requires value",
-			operation: ExtensionStorageOperation{
+			operation: Operation{
 				ID:        extensionID,
-				Area:      ExtensionStorageAreaLocal,
+				Area:      AreaLocal,
 				Key:       "value",
-				Operation: ExtensionStorageOperationAppend,
+				Operation: OperationAppend,
 			},
 			wantError: "value is required",
 		},
 		{
 			name: "remove forbids value",
-			operation: ExtensionStorageOperation{
+			operation: Operation{
 				ID:        extensionID,
-				Area:      ExtensionStorageAreaLocal,
+				Area:      AreaLocal,
 				Key:       "value",
-				Operation: ExtensionStorageOperationRemove,
+				Operation: OperationRemove,
 				Value:     json.RawMessage(`true`),
 			},
 			wantError: "remove must not specify value",
 		},
 		{
 			name: "clear is area scoped",
-			operation: ExtensionStorageOperation{
+			operation: Operation{
 				ID:        extensionID,
-				Area:      ExtensionStorageAreaLocal,
+				Area:      AreaLocal,
 				Key:       "value",
-				Operation: ExtensionStorageOperationClear,
+				Operation: OperationClear,
 			},
 			wantError: "clear must not specify key, path, or value",
 		},
@@ -823,14 +665,14 @@ func TestExtensionStorageOperationSpecificationsDriveValidation(t *testing.T) {
 
 func TestExtensionStorageOperationSpecificationsRestrictInputs(t *testing.T) {
 	for _, test := range []struct {
-		operation ExtensionStorageOperationKind
+		operation OperationKind
 		wantValid bool
 	}{
-		{operation: ExtensionStorageOperationSet, wantValid: true},
-		{operation: ExtensionStorageOperationMerge, wantValid: true},
-		{operation: ExtensionStorageOperationAppend, wantValid: true},
-		{operation: ExtensionStorageOperationRemove, wantValid: false},
-		{operation: ExtensionStorageOperationClear, wantValid: false},
+		{operation: OperationSet, wantValid: true},
+		{operation: OperationMerge, wantValid: true},
+		{operation: OperationAppend, wantValid: true},
+		{operation: OperationRemove, wantValid: false},
+		{operation: OperationClear, wantValid: false},
 	} {
 		t.Run(string(test.operation), func(t *testing.T) {
 			if got := test.operation.validForInput(); got != test.wantValid {
@@ -842,6 +684,7 @@ func TestExtensionStorageOperationSpecificationsRestrictInputs(t *testing.T) {
 
 func TestComprehensiveStorageCorpus(t *testing.T) {
 	settingsPath := filepath.Join(
+		"..",
 		"testdata",
 		"extension-settings",
 		"comprehensive.json",
@@ -850,15 +693,15 @@ func TestComprehensiveStorageCorpus(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	var settings ExtensionStorageSettings
-	if err := decodeJSONStrict(bytes.NewReader(data), &settings); err != nil {
+	var settings Settings
+	if err := jsonutil.Strict.DecodeInto(bytes.NewReader(data), &settings); err != nil {
 		t.Fatal(err)
 	}
 	if err := settings.validate(); err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(t.TempDir(), "Default")
-	input := ApplyInput{ExtensionValues: map[string]any{
+	input := Input{ExtensionValues: map[string]any{
 		"whole-object": map[string]any{
 			"array": []any{true, nil, json.Number("9007199254740993")},
 			"empty": map[string]any{},
@@ -892,7 +735,7 @@ func TestComprehensiveStorageCorpus(t *testing.T) {
 		},
 		"after-clear": map[string]any{"fresh": true},
 	}}
-	if err := ApplyExtensionSettings(t.Context(), ApplyOptions{
+	if err := Apply(t.Context(), ApplyOptions{
 		ProfileDir: profileDir,
 		Settings:   []string{settingsPath},
 		Input:      input,
@@ -1043,7 +886,7 @@ func TestComprehensiveStorageCorpus(t *testing.T) {
 		"cccccccccccccccccccccccccccccccc",
 		"compressed-document",
 	)
-	decoded, err := decodeStorageValue(compressed, ExtensionStorageEncodingLZStringURI)
+	decoded, err := decodeStorageValue(compressed, EncodingLZStringURI)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1276,11 +1119,11 @@ func TestStorageUnavailableRecognizesWrappedTemporaryFailures(t *testing.T) {
 		errors.Join(errors.New("open storage"), syscall.EAGAIN),
 		errors.Join(errors.New("open storage"), corrupted),
 	} {
-		if !isStorageTemporarilyUnavailable(err) {
-			t.Errorf("isStorageTemporarilyUnavailable(%v) = false", err)
+		if !IsTemporarilyUnavailable(err) {
+			t.Errorf("IsTemporarilyUnavailable(%v) = false", err)
 		}
 	}
-	if isStorageTemporarilyUnavailable(errors.New("permanent failure")) {
+	if IsTemporarilyUnavailable(errors.New("permanent failure")) {
 		t.Error("permanent storage failure reported as temporary")
 	}
 }
@@ -1305,7 +1148,7 @@ func readExtensionStorageValue(
 		t.Fatal(err)
 	}
 	var value any
-	if err := decodeJSON(bytes.NewReader(raw), &value); err != nil {
+	if err := jsonutil.Default.DecodeInto(bytes.NewReader(raw), &value); err != nil {
 		t.Fatal(err)
 	}
 	return value

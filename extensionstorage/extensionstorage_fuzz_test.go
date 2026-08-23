@@ -1,10 +1,12 @@
-package browser
+package extensionstorage
 
 import (
 	"bytes"
 	"encoding/json"
 	"reflect"
 	"testing"
+
+	"github.com/4evy/browser/internal/jsonutil"
 )
 
 func FuzzExtensionStorageSettingsParser(f *testing.F) {
@@ -20,8 +22,8 @@ func FuzzExtensionStorageSettingsParser(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, data []byte) {
-		var settings ExtensionStorageSettings
-		if err := decodeJSONStrict(bytes.NewReader(data), &settings); err == nil {
+		var settings Settings
+		if err := jsonutil.Strict.DecodeInto(bytes.NewReader(data), &settings); err == nil {
 			_ = settings.validate()
 		}
 	})
@@ -40,12 +42,12 @@ func FuzzStorageJSONRoundTrip(f *testing.F) {
 
 	f.Fuzz(func(t *testing.T, input string) {
 		var want any
-		if err := decodeJSON(bytes.NewBufferString(input), &want); err != nil {
+		if err := jsonutil.Default.DecodeInto(bytes.NewBufferString(input), &want); err != nil {
 			t.Skip()
 		}
-		for _, encoding := range []ExtensionStorageEncoding{
-			ExtensionStorageEncodingJSON,
-			ExtensionStorageEncodingLZStringURI,
+		for _, encoding := range []Encoding{
+			EncodingJSON,
+			EncodingLZStringURI,
 		} {
 			encoded, err := encodeStorageValue(want, encoding)
 			if err != nil {
