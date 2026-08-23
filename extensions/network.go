@@ -1,10 +1,10 @@
 package extensions
 
 import (
+	"cmp"
 	"context"
 	"fmt"
 	"io"
-	"maps"
 	"net/http"
 	"net/url"
 	"strings"
@@ -104,8 +104,11 @@ func (client HTTPClient) ResolveLatestGitHubRelease(
 	}
 	owner, name, _ := strings.Cut(repository, "/")
 	options := []github.ClientOptionsFunc{
-		github.WithHTTPClient(client.githubHTTPClient()),
+		github.WithHTTPClient(client.httpClient(githubAPIURL)),
 		github.WithUserAgent(client.userAgent()),
+	}
+	if client.GitHubToken != "" {
+		options = append(options, github.WithAuthToken(client.GitHubToken))
 	}
 	api, err := github.NewClient(options...)
 	if err != nil {
@@ -145,26 +148,10 @@ func (client HTTPClient) request(rawURL string) *requests.Builder {
 		AddValidator(requireSuccessfulHTTPStatus)
 }
 
-func (client HTTPClient) githubHTTPClient() *http.Client {
-	githubClient := client
-	githubClient.Headers = maps.Clone(client.Headers)
-	if client.GitHubToken != "" {
-		if githubClient.Headers == nil {
-			githubClient.Headers = map[string]string{}
-		}
-		githubClient.Headers["Authorization"] = "Bearer " + client.GitHubToken
-	}
-	return githubClient.httpClient(githubAPIURL)
-}
-
 func (client HTTPClient) httpClient(headerURL string) *http.Client {
 	base := client.Client
 	if base == nil {
-		timeout := client.Timeout
-		if timeout == 0 {
-			timeout = defaultHTTPTimeout
-		}
-		base = &http.Client{Timeout: timeout}
+		base = &http.Client{Timeout: cmp.Or(client.Timeout, defaultHTTPTimeout)}
 	}
 	origin := requestOrigin(headerURL)
 	if len(client.Headers) > 0 && origin != "" {
@@ -183,8 +170,8 @@ func (client HTTPClient) httpClient(headerURL string) *http.Client {
 	retry := retryablehttp.NewClient()
 	retry.HTTPClient = base
 	retry.Logger = nil
-	retry.RetryWaitMin = durationOr(client.RetryWaitMin, defaultHTTPRetryWaitMin)
-	retry.RetryWaitMax = durationOr(client.RetryWaitMax, defaultHTTPRetryWaitMax)
+	retry.RetryWaitMin = cmp.Or(client.RetryWaitMin, defaultHTTPRetryWaitMin)
+	retry.RetryWaitMax = cmp.Or(client.RetryWaitMax, defaultHTTPRetryWaitMax)
 	retry.RetryMax = defaultHTTPRetryMax
 	if client.RetryMax != nil {
 		retry.RetryMax = *client.RetryMax
@@ -200,7 +187,6 @@ type headerTransport struct {
 
 func (transport headerTransport) RoundTrip(request *http.Request) (*http.Response, error) {
 	request = request.Clone(request.Context())
-	request.Header = request.Header.Clone()
 	if requestOrigin(request.URL.String()) == transport.Origin {
 		for name, value := range transport.Headers {
 			request.Header.Set(name, value)
@@ -225,13 +211,6 @@ func (client HTTPClient) userAgent() string {
 		return chromeUserAgent(client.ChromeVersion)
 	}
 	return defaultUserAgent
-}
-
-func durationOr(value, fallback time.Duration) time.Duration {
-	if value != 0 {
-		return value
-	}
-	return fallback
 }
 
 func (config NetworkConfig) HTTPClient(githubToken string) HTTPClient {
