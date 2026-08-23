@@ -1,3 +1,5 @@
+# Copy this file and adapt it for the browser you want to configure.
+
 [browser]
 name = "Example Browser"
 executable_name = "example-browser"
@@ -54,6 +56,13 @@ external_extension_dirs = [
 # path = "example.preference.path"
 # value = true
 #
+# Helium stores its custom shortcuts at this Chromium preference path. Repeat
+# this table for each shortcut; command IDs are Chromium browser command IDs.
+# [[browser.preferences.accelerators]]
+# path = "helium.browser.custom_accelerators"
+# command_id = "34014" # IDC_NEW_TAB
+# accelerator = "Control+Shift+KeyY"
+#
 # Product-only preferences are typed separately and remain opt-in:
 #
 # [browser.helium.services]
@@ -65,12 +74,47 @@ external_extension_dirs = [
 # browser_updates = true
 # ublock_assets = true
 #
+# [browser.helium.appearance]
+# layout = "dynamic" # classic | compact | vertical | dynamic
+# vertical_right_aligned = false
+# centered_location_bar = true
+# minimal_location_bar = false
+# rounded_frame = true
+# zen_mode = false
+#
+# [browser.helium.behavior]
+# new_tab_next_to_active = true
+# cycle_tabs_by_most_recent_use = true
+# shift_right_click_menu = true
+# copy_page_url_shortcut = true
+# vertical_collapse_shortcut = true
+# suppress_default_browser_prompt = true
+#
+# [browser.helium.privacy]
+# global_privacy_control = true
+# noise = true
+#
 # [browser.helium.toolbar]
 # show_back_button = true
 # show_extensions_button = false
+# show_vertical_tabs_collapse_button = true
+# show_dynamic_new_tab_button = true
+# show_page_zoom_indicator = true
 #
 # [browser.helium]
 # crash_reporting = "ask" # disabled | ask | automatic
+#
+# `origin` reproduces the official Brave Origin policy and UI defaults on
+# regular Brave without changing purchase or branding state. Disable only
+# Wallet, Rewards/BAT, decentralized Web3 DNS, and legacy crypto integrations
+# with disable_web3. disable_annoyances includes that narrower preset and also
+# disables Brave ads, sponsored content, AI, VPN, News, Talk, Playlist,
+# telemetry, promotions, new-tab widgets, and the other bundled services.
+#
+# [browser.brave]
+# origin = true
+# disable_web3 = true
+# disable_annoyances = true
 #
 # [browser.brave.tabs]
 # vertical = true
@@ -79,6 +123,48 @@ external_extension_dirs = [
 # on_right = false
 # tree = false
 # hover_mode = "card" # tooltip | card | card_with_preview
+# disable_clickable_mute_indicator = false
+# always_use_mini_accent_icon = false
+#
+# Explicit feature settings override either preset:
+#
+# [browser.brave.features]
+# news = true
+# speedreader = true
+#
+# Arbitrary Brave profile and Local State values run last, so every upstream
+# preference remains configurable even before it receives a typed field:
+#
+# [[browser.brave.profile_values]]
+# path = "brave.some_new_profile_preference"
+# value = false
+#
+# [[browser.brave.local_state_values]]
+# path = "brave.some_new_local_state_preference"
+# value = 3
+#
+# Arbitrary managed policies also run last. Use
+# `browser policy render browser.toml --output PATH` to produce the
+# policy JSON; Brave hard-disables Wallet and Rewards only when their switches
+# come from a managed policy store.
+#
+# [browser.brave.managed_policies]
+# BrowserSignin = 0
+#
+# [browser.brave.toolbar]
+# location_bar_wide = false
+# web_view_rounded_corners = true
+# subtle_app_menu_logo = false
+# show_bookmarks_button = true
+# show_side_panel_button = true
+# show_screenshot_button = false
+#
+# [browser.brave.behavior]
+# cycle_tabs_by_most_recent_use = true
+# confirm_window_close = true
+# close_window_with_last_tab = true
+# show_fullscreen_reminder = true
+# show_default_browser_prompt = false
 #
 # [browser.brave.sidebar]
 # show = "mouseover" # always | mouseover | never
@@ -125,6 +211,35 @@ external_extension_dirs = [
 # repository = "owner/repository"
 # asset_template = "extension-{tag}.zip"
 # archive_root = "extension"
+# load_unpacked = true
+
+# A ready-to-load extension can also be exported from GitHub, GitLab, Codeberg,
+# or SourceHut. Use provider = "github", "gitlab", or "codeberg" with an
+# owner/project repository; GitLab also accepts nested namespaces. SourceHut
+# uses provider = "sourcehut" and a ~owner/project repository.
+#
+# [[extensions.git]]
+# id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+# name = "Pinned Codeberg extension"
+# provider = "codeberg"
+# repository = "owner/extension"
+# update_policy = "pinned"
+# ref = "v1.2.3"
+# commit = "0123456789abcdef0123456789abcdef01234567"
+# subdirectory = "dist/extension"
+# load_unpacked = true
+#
+# Arbitrary HTTPS, SSH, Git-protocol, file, and scp-style remotes use the
+# generic git provider. The provider may be omitted when url is set. A latest
+# entry follows ref, or the remote's default branch when ref is omitted.
+#
+# [[extensions.git]]
+# id = "ffffffffffffffffffffffffffffffff"
+# name = "Latest generic Git extension"
+# provider = "git"
+# url = "ssh://git@example.test/team/extension.git"
+# update_policy = "latest"
+# ref = "main"
 # load_unpacked = true
 #
 # Or it may be fully pinned without any GitHub API lookup:
