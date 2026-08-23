@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "golang.go",
+    "jnoortheen.nix-ide",
+    "tamasfe.even-better-toml"
+  ]
+}

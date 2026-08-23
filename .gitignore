@@ -1,3 +1,61 @@
+# Project artifacts
 /browser
 /dist/
-.sources/
+/.sources/
+/node_modules/
+
+# Go build, test, and workspace artifacts
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.prof
+*.coverprofile
+/coverage/
+/go.work
+/go.work.sum
+
+# Nix artifacts
+/result
+/result-*
+/.direnv/
+
+# Local tools and environment
+/.jj/
+/.idea/
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.log
+*.swp
+*.swo
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux metadata and editor backups
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*

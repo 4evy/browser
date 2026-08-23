@@ -1,0 +1,10 @@
+# Dependencies and generated outputs
+node_modules/
+dist/
+.sources/
+browser
+flake.lock
+package-lock.json
+
+# Contains whitespace-sensitive Go templates inside YAML scalars
+.config/goreleaser.yaml
