@@ -41,8 +41,11 @@ extensions, creates a launcher, and applies the profile settings.
 
 ## Configuration
 
-Start with [the annotated example](examples/browser.toml). This is a minimal
-Linux configuration:
+Start with [the annotated example](examples/browser.toml). The TOML and Nix
+examples below describe the same Linux setup, including a Chrome Web Store
+extension.
+
+### TOML
 
 ```toml
 [browser]
@@ -63,8 +66,58 @@ id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 name = "Example extension"
 ```
 
-Paths support `${home}`, `${config_home}`, and `${data_home}`. Close the browser
-before changing its profile or extension storage.
+### Nix
+
+Add the flake input:
+
+```nix
+inputs.browser.url = "github:4evy/browser";
+```
+
+```nix
+{
+  imports = [ inputs.browser.homeModules.default ];
+
+  programs.browser = {
+    enable = true;
+    settings = {
+      browser = {
+        name = "Chromium";
+        executable_name = "chromium";
+        flags = [ "--no-first-run" "--no-default-browser-check" ];
+
+        linux = {
+          app_dir = "/opt/chromium";
+          launcher_name = "chromium";
+        };
+
+        paths.linux = {
+          profile_dir = "\${config_home}/chromium/Default";
+          external_extension_dirs = [
+            "\${config_home}/chromium/External Extensions"
+          ];
+        };
+      };
+
+      extensions.chrome_store = [
+        {
+          id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+          name = "Example extension";
+        }
+      ];
+    };
+  };
+}
+```
+
+Home Manager writes the configuration to `$XDG_CONFIG_HOME/browser`. The flake
+also provides NixOS and nix-darwin modules as `nixosModules.default` and
+`darwinModules.default`. Modules install the CLI and write the configuration,
+but do not edit a live profile during activation. Run `browser apply` after
+activation.
+
+Paths in either format support `${home}`, `${config_home}`, and `${data_home}`.
+Close the browser before changing its profile or extension storage.
 
 The annotated example includes preferences, extension sources, extension
 storage, Helium settings, and Brave settings. The
@@ -73,11 +126,17 @@ JSON mutation format for `storage.local` and `storage.sync`.
 
 ### Brave
 
-To disable Brave's bundled services and promotions:
+To disable Brave's bundled services and promotions, use either format:
 
 ```toml
 [browser.brave]
 disable_annoyances = true
+```
+
+```nix
+programs.browser.settings.browser.brave = {
+  disable_annoyances = true;
+};
 ```
 
 Use `disable_web3 = true` for only crypto and Web3 features, or `origin = true`
@@ -91,47 +150,6 @@ managed policy directory:
 sudo browser policy render browser.toml \
   --output /etc/brave/policies/managed/browser.json
 ```
-
-## Nix
-
-Add the flake input and import the Home Manager module:
-
-```nix
-inputs.browser.url = "github:4evy/browser";
-```
-
-```nix
-{
-  imports = [ inputs.browser.homeModules.default ];
-
-  programs.browser = {
-    enable = true;
-    settings.browser = {
-      name = "Chromium";
-      executable_name = "chromium";
-      flags = [ "--no-first-run" "--no-default-browser-check" ];
-
-      linux = {
-        app_dir = "/opt/chromium";
-        launcher_name = "chromium";
-      };
-
-      paths.linux = {
-        profile_dir = "\${config_home}/chromium/Default";
-        external_extension_dirs = [
-          "\${config_home}/chromium/External Extensions"
-        ];
-      };
-    };
-  };
-}
-```
-
-Home Manager writes the configuration to `$XDG_CONFIG_HOME/browser`. The flake
-also provides NixOS and nix-darwin modules as `nixosModules.default` and
-`darwinModules.default`. Modules install the CLI and write the configuration,
-but do not edit a live profile during activation. Run `browser apply` after
-activation.
 
 ## Commands
 
