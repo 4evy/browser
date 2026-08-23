@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+project_name: browser
+
+report_sizes: true
+
+metadata:
+  mod_timestamp: "{{ .CommitTimestamp }}"
+
+builds:
+  - id: browser
+    main: ./cmd/browser
+    binary: browser
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: browser
+    ids:
+      - browser
+    formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else }}{{ .Arch }}{{ end }}
+    builds_info: &archive_file_info
+      owner: root
+      group: root
+      mtime: "{{ .CommitDate }}"
+    files:
+      - src: LICENSE
+        info: *archive_file_info
+      - src: README.md
+        info: *archive_file_info
+      - src: examples/browser.toml
+        info: *archive_file_info
+
+changelog:
+  use: github
+  format: >-
+    {{ .SHA }}: {{ .Message }}
+    {{- if .Logins }} ({{ .Logins | englishJoin }}){{ end }}
+  sort: asc
+  abbrev: 7
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 100
+    - title: Fixes
+      regexp: '^.*?(fix|perf|refactor)(\(.+\))??!?:.+$'
+      order: 200
+    - title: Other changes
+      order: 999
+  filters:
+    exclude:
+      - "^(build|chore|ci|docs|style|test)(\\(.+\\))?!?:"
+      - "^fix\\(deps\\)!?:"
+
+release:
+  prerelease: auto
