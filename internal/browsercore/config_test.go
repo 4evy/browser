@@ -1,12 +1,16 @@
-package browser
+package browsercore
 
 import (
+	"encoding/json/v2"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/4evy/browser/extensions"
+	"github.com/4evy/browser/internal/profile"
+	"github.com/4evy/browser/internal/xdgdirs"
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -22,8 +26,8 @@ profile_dir = "${config_home}/test-browser/Default"
 `), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	t.Setenv(envHome, "/home/tester")
-	t.Setenv(envXDGConfigHome, "/custom/config")
+	t.Setenv("HOME", "/home/tester")
+	t.Setenv("XDG_CONFIG_HOME", "/custom/config")
 
 	config, err := LoadConfig(path)
 	if err != nil {
@@ -89,6 +93,17 @@ update_policy = "pinned"
 version = "1.2.3"
 url = "https://example.test/pinned-1.2.3.zip"
 sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+[[extensions.git]]
+id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+name = "SourceHut extension"
+provider = "sourcehut"
+repository = "~owner/extension"
+update_policy = "pinned"
+ref = "v2.3.4"
+commit = "0123456789abcdef0123456789abcdef01234567"
+subdirectory = "dist/extension"
+load_unpacked = true
 `), 0o600); err != nil {
 		t.Fatal(err)
 	}
@@ -115,6 +130,14 @@ sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 	}
 	if got := config.Extensions.ZIP[0].UpdatePolicy; got != "pinned" {
 		t.Fatalf("ZIP update policy = %q", got)
+	}
+	gitExtension := config.Extensions.Git[0]
+	if gitExtension.Provider != extensions.GitProviderSourceHut ||
+		gitExtension.Repository != "~owner/extension" ||
+		gitExtension.Commit != "0123456789abcdef0123456789abcdef01234567" ||
+		gitExtension.Subdirectory != "dist/extension" ||
+		!gitExtension.LoadUnpacked {
+		t.Fatalf("Git extension = %#v", gitExtension)
 	}
 }
 
@@ -163,10 +186,9 @@ files = ["settings/extension.json"]
 	); err != nil {
 		t.Fatal(err)
 	}
-	got := readExtensionStorageValue(
+	got := readIntegratedStorageValue(
 		t,
 		profileDir,
-		localExtensionSettingsDir,
 		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 		"enabled",
 	)
@@ -195,16 +217,16 @@ files = ["invalid.json"]
 		t.Fatal(err)
 	}
 	_, err := LoadConfig(configPath)
-	if err == nil || !strings.Contains(err.Error(), `unknown field "typo"`) {
+	if !errors.Is(err, json.ErrUnknownName) || !strings.Contains(err.Error(), `"typo"`) {
 		t.Fatalf("load error = %v, want unknown settings field", err)
 	}
 }
 
 func TestPathTemplatesIgnoreRelativeXDGDirectories(t *testing.T) {
 	home := filepath.Join(t.TempDir(), "home")
-	t.Setenv(envHome, home)
-	t.Setenv(envXDGConfigHome, "relative/config")
-	t.Setenv(envXDGDataHome, "relative/data")
+	t.Setenv("HOME", home)
+	t.Setenv("XDG_CONFIG_HOME", "relative/config")
+	t.Setenv("XDG_DATA_HOME", "relative/data")
 
 	config := BrowserConfig{Paths: map[string]ModePaths{
 		string(ModeLinux): {
@@ -214,7 +236,7 @@ func TestPathTemplatesIgnoreRelativeXDGDirectories(t *testing.T) {
 			},
 		},
 	}}
-	directories := currentXDGDirectories()
+	directories := xdgdirs.Current()
 	if got, want := config.DefaultProfileDir(ModeLinux),
 		filepath.Join(directories.ConfigHome, "browser", "Default"); got != want {
 		t.Fatalf("profile path = %q, want %q", got, want)
@@ -244,18 +266,18 @@ func TestApplyProfileSettingsUsesOnlyConfiguredPreferences(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	preferences, err := ReadPreferences(profileDir)
+	preferences, err := profile.ReadPreferences(profileDir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	testPreferences, err := NestedObject(preferences, "test")
+	testPreferences, err := profile.NestedObject(preferences, "test")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if got := testPreferences["enabled"]; got != true {
 		t.Fatalf("test.enabled = %v", got)
 	}
-	if _, err := os.Stat(filepath.Join(profileDir, localExtensionSettingsDir)); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(profileDir, localExtensionStorageDirectory)); !os.IsNotExist(err) {
 		t.Fatalf("extension settings directory exists without caller settings: %v", err)
 	}
 }
@@ -353,6 +375,53 @@ func TestConfigValidationRejectsInvalidLinuxApplicationIDs(t *testing.T) {
 				ExecutableName: "test-browser",
 				Linux:          test.linux,
 			}}).Validate()
+			if err == nil || !strings.Contains(err.Error(), test.expect) {
+				t.Fatalf("validation error = %v, want %q", err, test.expect)
+			}
+		})
+	}
+}
+
+func TestConfigValidationRejectsUnsafeOrSelfReferentialLauncherNames(t *testing.T) {
+	for _, test := range []struct {
+		name   string
+		config BrowserConfig
+		expect string
+	}{
+		{
+			name: "executable path",
+			config: BrowserConfig{
+				ExecutableName: "../outside",
+			},
+			expect: "browser.executable_name must be a file name",
+		},
+		{
+			name: "alias path",
+			config: BrowserConfig{
+				ExecutableName: "browser",
+				AliasName:      "nested/alias",
+			},
+			expect: "browser.alias_name must be a file name",
+		},
+		{
+			name: "self alias",
+			config: BrowserConfig{
+				ExecutableName: "browser",
+				AliasName:      "browser",
+			},
+			expect: "browser.alias_name must differ",
+		},
+		{
+			name: "case-folded self alias",
+			config: BrowserConfig{
+				ExecutableName: "Browser",
+				AliasName:      "browser",
+			},
+			expect: "browser.alias_name must differ",
+		},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			err := (Config{Browser: test.config}).Validate()
 			if err == nil || !strings.Contains(err.Error(), test.expect) {
 				t.Fatalf("validation error = %v, want %q", err, test.expect)
 			}

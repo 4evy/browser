@@ -1,4 +1,5 @@
-package browser
+// Package launcher installs and executes browser launcher symlinks.
+package launcher
 
 import (
 	"bytes"
@@ -13,12 +14,17 @@ import (
 	"syscall"
 
 	"github.com/4evy/browser/internal/fileutil"
+	"github.com/4evy/browser/internal/jsonutil"
+	"github.com/4evy/browser/internal/xdgdirs"
 	"github.com/buildkite/shellwords"
+	"github.com/google/renameio/v2"
 )
 
 const launcherConfigSuffix = ".browser-launcher.json"
 
 const (
+	envPath              = "PATH"
+	envXDGDataDirs       = "XDG_DATA_DIRS"
 	envFontconfigFile    = "FONTCONFIG_FILE"
 	envFontconfigPath    = "FONTCONFIG_PATH"
 	envFontconfigSysroot = "FONTCONFIG_SYSROOT"
@@ -35,7 +41,7 @@ type launcherConfig struct {
 
 type execProcess func(path string, argv []string, envv []string) error
 
-func writeLauncher(
+func Write(
 	target,
 	launcherExecutable,
 	browserExecutable,
@@ -68,36 +74,36 @@ func writeLauncher(
 		return fmt.Errorf("launcher executable is not a regular file: %s", launcherExecutable)
 	}
 
-	config := launcherConfig{
+	configuration := launcherConfig{
 		Command:   slices.Concat([]string{browserExecutable}, flags, extraFlags),
 		FlagsFile: flagsFile,
 	}
 	if _, err := fileutil.WriteJSONIfChanged(
-		launcherConfigPath(target),
-		config,
+		configPath(target),
+		configuration,
 		fileutil.DefaultFilePerm,
 	); err != nil {
 		return fmt.Errorf("write launcher configuration: %w", err)
 	}
-	if err := replaceSymlink(launcherExecutable, target); err != nil {
+	if err := renameio.Symlink(launcherExecutable, target); err != nil {
 		return fmt.Errorf("install launcher: %w", err)
 	}
 	return nil
 }
 
-func launcherConfigPath(launcher string) string {
+func configPath(launcher string) string {
 	return launcher + launcherConfigSuffix
 }
 
-// RunLauncher detects whether invocation names an installed browser launcher.
-// If it does, RunLauncher replaces the current process with the configured
+// Run detects whether invocation names an installed browser launcher.
+// If it does, Run replaces the current process with the configured
 // browser and returns only when preparing or executing the browser fails.
-func RunLauncher(invocation string, arguments []string) (bool, error) {
+func Run(invocation string, arguments []string) (bool, error) {
 	return runLauncher(
 		invocation,
 		arguments,
 		os.Environ(),
-		currentXDGDirectories(),
+		xdgdirs.Current(),
 		syscall.Exec,
 	)
 }
@@ -106,14 +112,14 @@ func runLauncher(
 	invocation string,
 	arguments,
 	environ []string,
-	directories xdgDirectories,
+	directories xdgdirs.Directories,
 	exec execProcess,
 ) (bool, error) {
-	config, handled, err := findLauncherConfig(invocation)
+	configuration, handled, err := findConfig(invocation)
 	if err != nil || !handled {
 		return handled, err
 	}
-	command, err := launcherCommand(config, arguments, directories.ConfigHome)
+	command, err := launcherCommand(configuration, arguments, directories.ConfigHome)
 	if err != nil {
 		return true, err
 	}
@@ -127,7 +133,7 @@ func runLauncher(
 	return true, nil
 }
 
-func findLauncherConfig(invocation string) (launcherConfig, bool, error) {
+func findConfig(invocation string) (launcherConfig, bool, error) {
 	path, err := resolveInvocation(invocation)
 	if err != nil {
 		return launcherConfig{}, false, nil
@@ -139,9 +145,9 @@ func findLauncherConfig(invocation string) (launcherConfig, bool, error) {
 		}
 		visited[path] = struct{}{}
 
-		config, err := readLauncherConfig(launcherConfigPath(path))
+		configuration, err := readConfig(configPath(path))
 		if err == nil {
-			return config, true, nil
+			return configuration, true, nil
 		}
 		if !errors.Is(err, os.ErrNotExist) {
 			return launcherConfig{}, true, err
@@ -162,6 +168,18 @@ func findLauncherConfig(invocation string) (launcherConfig, bool, error) {
 	}
 }
 
+// ResolveExecutable returns the public executable path represented by
+// invocation. It searches PATH when necessary and resolves symlinks, but does
+// not use os.Executable: package wrappers may have replaced the running image
+// while preserving their public path in argv[0].
+func ResolveExecutable(invocation string) (string, error) {
+	path, err := resolveInvocation(invocation)
+	if err != nil {
+		return "", err
+	}
+	return filepath.EvalSymlinks(path)
+}
+
 func resolveInvocation(invocation string) (string, error) {
 	if !strings.ContainsRune(invocation, filepath.Separator) {
 		path, err := exec.LookPath(invocation)
@@ -173,40 +191,40 @@ func resolveInvocation(invocation string) (string, error) {
 	return filepath.Abs(invocation)
 }
 
-func readLauncherConfig(path string) (launcherConfig, error) {
+func readConfig(path string) (launcherConfig, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return launcherConfig{}, err
 	}
-	var config launcherConfig
-	if err := decodeJSONStrict(bytes.NewReader(data), &config); err != nil {
+	configuration, err := jsonutil.Strict.Decode[launcherConfig](bytes.NewReader(data))
+	if err != nil {
 		return launcherConfig{}, fmt.Errorf("decode launcher configuration %s: %w", path, err)
 	}
-	if len(config.Command) == 0 || config.Command[0] == "" {
+	if len(configuration.Command) == 0 || configuration.Command[0] == "" {
 		return launcherConfig{}, fmt.Errorf(
 			"decode launcher configuration %s: browser command is required",
 			path,
 		)
 	}
-	return config, nil
+	return configuration, nil
 }
 
 func launcherCommand(
-	config launcherConfig,
+	configuration launcherConfig,
 	arguments []string,
 	configHome string,
 ) ([]string, error) {
-	flags, err := readLauncherFlags(config.FlagsFile, configHome)
+	flags, err := readFlags(configuration.FlagsFile, configHome)
 	if err != nil {
 		return nil, err
 	}
-	command := slices.Clone(config.Command)
+	command := slices.Clone(configuration.Command)
 	command = append(command, flags...)
 	command = append(command, arguments...)
 	return command, nil
 }
 
-func readLauncherFlags(path, configHome string) ([]string, error) {
+func readFlags(path, configHome string) ([]string, error) {
 	if path == "" {
 		return nil, nil
 	}
@@ -215,17 +233,22 @@ func readLauncherFlags(path, configHome string) ([]string, error) {
 	}
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, nil
+		if errors.Is(err, os.ErrNotExist) {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("read browser flags %s: %w", path, err)
 	}
 	var flags []string
-	for number, line := range strings.Split(string(data), "\n") {
+	lineNumber := 0
+	for line := range strings.SplitSeq(string(data), "\n") {
+		lineNumber++
 		line = strings.TrimSpace(line)
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}
 		values, err := shellwords.SplitPosix(line)
 		if err != nil {
-			return nil, fmt.Errorf("parse browser flags %s:%d: %w", path, number+1, err)
+			return nil, fmt.Errorf("parse browser flags %s:%d: %w", path, lineNumber, err)
 		}
 		flags = append(flags, values...)
 	}

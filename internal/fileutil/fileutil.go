@@ -2,7 +2,8 @@ package fileutil
 
 import (
 	"bytes"
-	"encoding/json"
+	"encoding/json/jsontext"
+	json "encoding/json/v2"
 	"errors"
 	"io"
 	"io/fs"
@@ -55,7 +56,11 @@ func WriteTextIfChanged(path, text string) (bool, error) {
 }
 
 func WriteJSONIfChanged(path string, value any, perm fs.FileMode) (bool, error) {
-	data, err := json.MarshalIndent(value, "", "  ")
+	data, err := json.Marshal(
+		value,
+		json.Deterministic(true),
+		jsontext.WithIndent("  "),
+	)
 	if err != nil {
 		return false, err
 	}

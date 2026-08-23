@@ -1,4 +1,4 @@
-package browser
+package browsercore
 
 import (
 	"encoding/json"
@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/4evy/browser/internal/profile"
 )
 
 func TestHeliumConfigAppliesProductPreferences(t *testing.T) {
@@ -29,6 +31,29 @@ spellcheck_files = false
 browser_updates = true
 ublock_assets = false
 
+[browser.helium.appearance]
+layout = "dynamic"
+vertical_right_aligned = true
+centered_location_bar = true
+minimal_location_bar = false
+rounded_frame = true
+native_frame_materials = false
+zen_mode = true
+zen_mode_sidebar_pinned = false
+zen_mode_top_chrome_pinned = true
+
+[browser.helium.behavior]
+new_tab_next_to_active = true
+cycle_tabs_by_most_recent_use = true
+shift_right_click_menu = false
+copy_page_url_shortcut = true
+vertical_collapse_shortcut = false
+suppress_default_browser_prompt = true
+
+[browser.helium.privacy]
+global_privacy_control = true
+noise = false
+
 [browser.helium.toolbar]
 show_back_button = false
 show_reload_button = true
@@ -36,6 +61,9 @@ show_avatar_button = false
 show_extensions_button = true
 show_menu_button = false
 show_media_button = true
+show_vertical_tabs_collapse_button = false
+show_dynamic_new_tab_button = true
+show_page_zoom_indicator = false
 `), 0o600); err != nil {
 		t.Fatal(err)
 	}
@@ -64,41 +92,61 @@ show_media_button = true
 		t.Fatal(err)
 	}
 
-	preferences, err := ReadPreferences(profileDir)
+	preferences, err := profile.ReadPreferences(profileDir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, preferences, heliumCompletedOnboardingPreference, true)
-	assertNestedPreference(t, preferences, heliumServicesEnabledPreference, false)
-	assertNestedPreference(t, preferences, heliumServicesConsentedPreference, true)
+	assertNestedPreference(t, preferences, "helium.completed_onboarding", true)
+	assertNestedPreference(t, preferences, "helium.services.enabled", false)
+	assertNestedPreference(t, preferences, "helium.services.user_consented", true)
 	assertNestedPreference(
 		t,
 		preferences,
-		heliumServicesOriginPreference,
+		"helium.services.origin_override",
 		"https://helium-services.example.test/base/",
 	)
-	assertNestedPreference(t, preferences, heliumExtensionProxyPreference, false)
-	assertNestedPreference(t, preferences, heliumBangsPreference, true)
-	assertNestedPreference(t, preferences, heliumSpellcheckFilesPreference, false)
-	assertNestedPreference(t, preferences, heliumBrowserUpdatesPreference, true)
-	assertNestedPreference(t, preferences, heliumUBlockAssetsPreference, false)
-	assertNestedPreference(t, preferences, heliumShowBackButtonPreference, false)
-	assertNestedPreference(t, preferences, heliumShowReloadButtonPreference, true)
-	assertNestedPreference(t, preferences, heliumShowAvatarButtonPreference, false)
-	assertNestedPreference(t, preferences, heliumShowExtensionsButtonPreference, true)
-	assertNestedPreference(t, preferences, heliumShowMenuButtonPreference, false)
-	assertNestedPreference(t, preferences, heliumShowMediaButtonPreference, true)
+	assertNestedPreference(t, preferences, "helium.services.ext_proxy", false)
+	assertNestedPreference(t, preferences, "helium.services.bangs", true)
+	assertNestedPreference(t, preferences, "helium.services.spellcheck_files", false)
+	assertNestedPreference(t, preferences, "helium.services.browser_updates", true)
+	assertNestedPreference(t, preferences, "helium.services.ublock_assets", false)
+	assertNestedPreference(t, preferences, "helium.browser.layout", json.Number("3"))
+	assertNestedPreference(t, preferences, "helium.browser.vertical_right_aligned", true)
+	assertNestedPreference(t, preferences, "helium.browser.centered_location_bar", true)
+	assertNestedPreference(t, preferences, "helium.browser.minimal_location_bar", false)
+	assertNestedPreference(t, preferences, "helium.browser.rounded_frame", true)
+	assertNestedPreference(t, preferences, "helium.browser.native_frame_materials", false)
+	assertNestedPreference(t, preferences, "helium.browser.zen_mode", true)
+	assertNestedPreference(t, preferences, "helium.browser.zen_mode_sidebar_pinned", false)
+	assertNestedPreference(t, preferences, "helium.browser.zen_mode_top_chrome_pinned", true)
+	assertNestedPreference(t, preferences, "helium.browser.new_tab_next_to_active", true)
+	assertNestedPreference(t, preferences, "helium.browser.mru_tab_cycling", true)
+	assertNestedPreference(t, preferences, "helium.browser.shift_right_click_context_menu", false)
+	assertNestedPreference(t, preferences, "helium.settings.a11y.copy_page_url_shortcut", true)
+	assertNestedPreference(t, preferences, "helium.settings.behavior.vertical_collapse_shortcut", false)
+	assertNestedPreference(t, preferences, "helium.global_privacy_control", true)
+	assertNestedPreference(t, preferences, "helium.noise.enabled", false)
+	assertNestedPreference(t, preferences, "helium.browser.show_back_button", false)
+	assertNestedPreference(t, preferences, "helium.browser.show_reload_button", true)
+	assertNestedPreference(t, preferences, "helium.browser.show_avatar_button", false)
+	assertNestedPreference(t, preferences, "helium.browser.show_extensions_button", true)
+	assertNestedPreference(t, preferences, "helium.browser.show_menu_button", false)
+	assertNestedPreference(t, preferences, "helium.browser.show_media_button", true)
+	assertNestedPreference(t, preferences, "helium.browser.show_vertical_tabs_collapse_button", false)
+	assertNestedPreference(t, preferences, "helium.browser.show_dynamic_new_tab_button", true)
+	assertNestedPreference(t, preferences, "helium.browser.show_zoom_indicator", false)
 
-	localState, err := ReadLocalState(profileDir)
+	localState, err := profile.ReadLocalState(profileDir)
 	if err != nil {
 		t.Fatal(err)
 	}
 	assertNestedPreference(
 		t,
 		localState,
-		heliumCrashReportingModePreference,
+		"helium.crash_reporting.mode",
 		json.Number("-1"),
 	)
+	assertNestedPreference(t, localState, "helium.browser.default_browser_infobar_rejected", true)
 }
 
 func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
@@ -107,6 +155,7 @@ func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
 		ExecutableName: "helium",
 		Helium: HeliumConfig{
 			Services:       HeliumServicesConfig{OriginOverride: &origin},
+			Appearance:     HeliumAppearanceConfig{Layout: HeliumLayoutMode("stacked")},
 			CrashReporting: HeliumCrashReportingMode("sometimes"),
 		},
 	}}
@@ -117,10 +166,28 @@ func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
 	}
 	for _, message := range []string{
 		heliumInvalidServicesOriginError,
+		"browser.helium.appearance.layout must be one of",
 		"browser.helium.crash_reporting must be one of",
 	} {
 		if !strings.Contains(err.Error(), message) {
 			t.Errorf("validation error %q does not contain %q", err, message)
+		}
+	}
+}
+
+func TestHeliumEnumsMatchUpstreamStoredValues(t *testing.T) {
+	for _, test := range []struct {
+		mode HeliumLayoutMode
+		want int
+	}{
+		{mode: HeliumLayoutClassic, want: 0},
+		{mode: HeliumLayoutCompact, want: 1},
+		{mode: HeliumLayoutVertical, want: 2},
+		{mode: HeliumLayoutDynamic, want: 3},
+	} {
+		got, valid := test.mode.preferenceValue()
+		if !valid || got != test.want {
+			t.Errorf("layout mode %q = (%d, %t), want (%d, true)", test.mode, got, valid, test.want)
 		}
 	}
 }
@@ -131,6 +198,8 @@ func TestHeliumServicesOriginAllowsResetAndLocalhost(t *testing.T) {
 		"http://localhost:8787",
 		"http://127.0.0.1:8787",
 		"http://[::1]:8787",
+		"ws://development.localhost/socket",
+		"ftp://localhost./assets",
 		"https://services.example.test",
 	} {
 		if !validHeliumServicesOrigin(value) {
@@ -206,7 +275,7 @@ func TestConfigurePersistsHeliumUserColorFlag(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	preferences, err := ReadPreferences(profileDir)
+	preferences, err := profile.ReadPreferences(profileDir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -224,7 +293,7 @@ func assertNestedPreference(
 ) {
 	t.Helper()
 	current := any(root)
-	for _, component := range strings.Split(path, ".") {
+	for component := range strings.SplitSeq(path, ".") {
 		object, ok := current.(map[string]any)
 		if !ok {
 			t.Fatalf("preference %q parent is %#v, want object", path, current)

@@ -1,4 +1,4 @@
-package browser
+package browsercore
 
 import (
 	"os"
@@ -46,8 +46,8 @@ func TestInstallLinuxPreservesExistingXDGDirectoryMode(t *testing.T) {
 
 func TestInstallLinuxUsesConfiguredApplicationDirectory(t *testing.T) {
 	root := t.TempDir()
-	t.Setenv(envHome, filepath.Join(root, "home"))
-	t.Setenv(envXDGDataHome, filepath.Join(root, "data"))
+	t.Setenv("HOME", filepath.Join(root, "home"))
+	t.Setenv("XDG_DATA_HOME", filepath.Join(root, "data"))
 	appDir := filepath.Join(root, "custom-app")
 	if err := os.MkdirAll(appDir, 0o755); err != nil {
 		t.Fatal(err)
@@ -76,12 +76,7 @@ func TestInstallLinuxUsesConfiguredApplicationDirectory(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	config, err := readLauncherConfig(
-		launcherConfigPath(filepath.Join(binDir, "example-browser")),
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
+	config := readInstalledLauncherConfig(t, filepath.Join(binDir, "example-browser"))
 	if got := config.Command[0]; got != browserExecutable {
 		t.Fatalf("configured browser executable = %q, want %q", got, browserExecutable)
 	}
@@ -108,8 +103,8 @@ func TestRemoveLinuxQtShim(t *testing.T) {
 func TestInstallLinuxCreatesWaylandAndPortalDesktopAliases(t *testing.T) {
 	root := t.TempDir()
 	dataHome := filepath.Join(root, "data")
-	t.Setenv(envHome, filepath.Join(root, "home"))
-	t.Setenv(envXDGDataHome, dataHome)
+	t.Setenv("HOME", filepath.Join(root, "home"))
+	t.Setenv("XDG_DATA_HOME", dataHome)
 
 	appDir := filepath.Join(root, "app")
 	if err := os.MkdirAll(appDir, 0o755); err != nil {
@@ -166,11 +161,14 @@ func TestInstallLinuxCreatesWaylandAndPortalDesktopAliases(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		desktop := entry.Section(desktopEntrySection)
-		if got := desktop.Key(desktopEntryStartupClassKey).String(); got != "test-browser-wayland" {
+		desktop := entry.Section("Desktop Entry")
+		if got := desktop.Key("StartupWMClass").String(); got != "test-browser-wayland" {
 			t.Errorf("%s StartupWMClass = %q", test.id, got)
 		}
-		noDisplay := desktop.Key(desktopEntryNoDisplayKey).String()
+		if got := desktop.Key("Icon").String(); got != "test-browser" {
+			t.Errorf("%s Icon = %q, want test-browser", test.id, got)
+		}
+		noDisplay := desktop.Key("NoDisplay").String()
 		if test.noDisplay && noDisplay != "true" {
 			t.Errorf("%s NoDisplay = %q, want true", test.id, noDisplay)
 		}
@@ -179,82 +177,19 @@ func TestInstallLinuxCreatesWaylandAndPortalDesktopAliases(t *testing.T) {
 		}
 	}
 
-	config, err := readLauncherConfig(
-		launcherConfigPath(filepath.Join(root, "bin", "test-browser")),
+	config := readInstalledLauncherConfig(
+		t,
+		filepath.Join(root, "bin", "test-browser"),
 	)
-	if err != nil {
-		t.Fatal(err)
-	}
 	if !slices.Contains(config.Command, linuxClassFlagPrefix+"test-browser-wayland") {
 		t.Fatalf("launcher command = %q", config.Command)
 	}
 }
 
-func TestLinuxDesktopEntryQuotesGeneratedExecutable(t *testing.T) {
-	text, err := LinuxDesktopEntry(
-		"[Desktop Entry]\nExec=example-browser --new-window %U\n",
-		"/home/test/My $Browser/browser",
-		"example-browser",
-		"ExampleBrowser",
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	entry, err := ini.Load([]byte(text))
-	if err != nil {
-		t.Fatal(err)
-	}
-	desktop := entry.Section(desktopEntrySection)
-	if got, want := desktop.Key(desktopEntryExecKey).String(),
-		`"/home/test/My \\$Browser/browser" --new-window %U`; got != want {
-		t.Fatalf("desktop Exec = %q, want %q", got, want)
-	}
-	if got := desktop.Key(desktopEntryStartupNotifyKey).String(); got != "false" {
-		t.Fatalf("desktop StartupNotify = %q", got)
-	}
-	if got := desktop.Key(desktopEntryStartupClassKey).String(); got != "ExampleBrowser" {
-		t.Fatalf("desktop StartupWMClass = %q", got)
-	}
-}
-
-func TestDesktopExecExecutableEscaping(t *testing.T) {
-	tests := []struct {
-		executable string
-		want       string
-	}{
-		{executable: "/usr/bin/browser", want: "/usr/bin/browser"},
-		{executable: "/opt/My Browser", want: `"/opt/My Browser"`},
-		{executable: "/opt/$browser", want: `"/opt/\\$browser"`},
-		{executable: `/opt/\browser`, want: `"/opt/\\\\browser"`},
-		{executable: "/opt/%browser", want: `"/opt/%%browser"`},
-	}
-	for _, test := range tests {
-		got, err := desktopExecExecutable(test.executable)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if got != test.want {
-			t.Errorf("quoted executable %q = %q, want %q", test.executable, got, test.want)
-		}
-	}
-}
-
-func TestLinuxDesktopEntryRejectsEqualsInExecutable(t *testing.T) {
-	_, err := LinuxDesktopEntry(
-		"[Desktop Entry]\nExec=example-browser\n",
-		"/home/test/browser=invalid",
-		"example-browser",
-		"",
-	)
-	if err == nil {
-		t.Fatal("expected invalid desktop entry executable")
-	}
-}
-
 func installLinuxTestBrowser(t *testing.T, root, dataHome string) {
 	t.Helper()
-	t.Setenv(envHome, filepath.Join(root, "home"))
-	t.Setenv(envXDGDataHome, dataHome)
+	t.Setenv("HOME", filepath.Join(root, "home"))
+	t.Setenv("XDG_DATA_HOME", dataHome)
 
 	appDir := filepath.Join(root, "app")
 	if err := os.MkdirAll(appDir, 0o755); err != nil {

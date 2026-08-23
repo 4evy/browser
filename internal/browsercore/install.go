@@ -1,7 +1,8 @@
-package browser
+package browsercore
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,7 +10,7 @@ import (
 
 	"github.com/4evy/browser/extensions"
 	"github.com/4evy/browser/internal/fileutil"
-	"github.com/buildkite/shellwords"
+	launcherpkg "github.com/4evy/browser/internal/launcher"
 	"github.com/google/renameio/v2"
 )
 
@@ -24,7 +25,8 @@ type ConfigureOptions struct {
 	Root               string
 	AppDir             string
 	BinDir             string
-	Flags              string
+	ProfileDir         string
+	Flags              []string
 	Settings           []string
 	Input              ApplyInput
 	ApplySettings      bool
@@ -36,6 +38,7 @@ type InstallOptions struct {
 	Root               string
 	AppDir             string
 	BinDir             string
+	ProfileDir         string
 	Flags              []string
 	Settings           []string
 	SettingsSource     []SettingsSource
@@ -48,10 +51,6 @@ type InstallOptions struct {
 }
 
 func Configure(ctx context.Context, options ConfigureOptions) error {
-	flags, err := shellwords.SplitPosix(options.Flags)
-	if err != nil {
-		return fmt.Errorf("parse browser flags: %w", err)
-	}
 	browser, err := New(options.Config)
 	if err != nil {
 		return err
@@ -60,14 +59,15 @@ func Configure(ctx context.Context, options ConfigureOptions) error {
 	if options.Mode == ModeLinux {
 		themeFlags = append(themeFlags, options.Config.Browser.Linux.WrapperFlags...)
 	}
-	themeFlags = append(themeFlags, flags...)
+	themeFlags = append(themeFlags, options.Flags...)
 	browser.addHeliumThemePreferencesFromFlags(options.Config.Browser.Helium, themeFlags)
 	return browser.Install(ctx, InstallOptions{
 		Mode:               options.Mode,
 		Root:               options.Root,
 		AppDir:             options.AppDir,
 		BinDir:             options.BinDir,
-		Flags:              flags,
+		ProfileDir:         options.ProfileDir,
+		Flags:              slices.Clone(options.Flags),
 		Settings:           options.Settings,
 		Input:              options.Input,
 		ApplySettings:      options.ApplySettings,
@@ -88,10 +88,10 @@ func (browser Browser) Install(ctx context.Context, options InstallOptions) erro
 
 func (browser Browser) prepareInstall(options *InstallOptions, appDir string) error {
 	if options.Root == "" {
-		return fmt.Errorf("installation root is required")
+		return errors.New("installation root is required")
 	}
 	if options.BinDir == "" {
-		return fmt.Errorf("binary directory is required")
+		return errors.New("binary directory is required")
 	}
 	for _, dir := range []string{options.Root, options.BinDir} {
 		if err := os.MkdirAll(dir, fileutil.DefaultDirPerm); err != nil {
@@ -127,7 +127,7 @@ func (browser Browser) configureApp(
 		)
 	}
 	configuredFlags = append(configuredFlags, options.Flags...)
-	if err := writeLauncher(
+	if err := launcherpkg.Write(
 		filepath.Join(options.BinDir, browser.Config.ExecutableName),
 		options.LauncherExecutable,
 		launcher,
@@ -160,6 +160,7 @@ func (browser Browser) installExtensions(ctx context.Context, options *InstallOp
 		return err
 	}
 	httpClient.ChromeVersion = chromeVersion
+	gitClient := extensions.GitClient{}
 	result, err := extensions.Install(ctx, extensions.Options{
 		Root:                 options.Root,
 		ExternalDirs:         browser.Config.ExternalExtensionDirs(options.Mode),
@@ -168,15 +169,17 @@ func (browser Browser) installExtensions(ctx context.Context, options *InstallOp
 		Download:             httpClient.Download,
 		Resolve:              httpClient.ResolveURL,
 		ResolveLatestRelease: httpClient.ResolveLatestGitHubRelease,
+		CheckoutGit:          gitClient.Checkout,
 		ExcludedIDs:          excludedIDs,
 	})
 	if err != nil {
 		return err
 	}
-	options.extraLauncherFlags = append(
-		options.extraLauncherFlags,
-		loadExtensionFlags(result.LoadExtensionPaths)...,
-	)
+	loadFlags, err := loadExtensionFlags(result.LoadExtensionPaths)
+	if err != nil {
+		return err
+	}
+	options.extraLauncherFlags = append(options.extraLauncherFlags, loadFlags...)
 	options.extensionIDAliases = result.ExtensionIDAliases
 	return nil
 }
@@ -208,7 +211,10 @@ func (browser Browser) applyInstallSettings(ctx context.Context, options *Instal
 	if !options.ApplySettings {
 		return nil
 	}
-	profile := browser.Config.DefaultProfileDir(options.Mode)
+	profile := options.ProfileDir
+	if profile == "" {
+		profile = browser.Config.DefaultProfileDir(options.Mode)
+	}
 	if profile == "" {
 		return nil
 	}

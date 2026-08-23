@@ -1,11 +1,30 @@
-package browser
+package profile
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 
 	"github.com/Jeffail/gabs/v2"
 )
+
+func TestBuilderCollectsTypedPreferenceValues(t *testing.T) {
+	builder := NewBuilder(func(name string) string { return "resolved." + name }, 4)
+	builder.Add("enabled", true, true)
+	builder.Add("ignored", 1, false)
+	builder.AddOptional("count", new(3))
+	builder.AddOptional[string]("missing", nil)
+	builder.AddPath("literal.path", []string{"one", "two"})
+
+	want := []Value{
+		{Path: "resolved.enabled", Value: true},
+		{Path: "resolved.count", Value: 3},
+		{Path: "literal.path", Value: []string{"one", "two"}},
+	}
+	if got := builder.Values(); !reflect.DeepEqual(got, want) {
+		t.Fatalf("values = %#v, want %#v", got, want)
+	}
+}
 
 func TestSetCookiePolicyCoversDefaultsThirdPartyAndExceptions(t *testing.T) {
 	preferences := map[string]any{
@@ -21,7 +40,7 @@ func TestSetCookiePolicyCoversDefaultsThirdPartyAndExceptions(t *testing.T) {
 			},
 		},
 	}
-	if err := SetCookiePolicy(preferences, CookiePreferenceConfig{
+	if err := SetCookiePolicy(preferences, CookiePolicy{
 		Default:     "session_only",
 		ThirdParty:  "block",
 		Allow:       []string{"[*.]allowed.test"},

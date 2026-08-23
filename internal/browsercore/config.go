@@ -1,16 +1,15 @@
-package browser
+package browsercore
 
 import (
 	"cmp"
 	"errors"
 	"fmt"
-	"maps"
 	"os"
 	"path/filepath"
-	"slices"
 	"strings"
 
 	"github.com/4evy/browser/extensions"
+	"github.com/4evy/browser/internal/xdgdirs"
 	"github.com/pelletier/go-toml/v2"
 	"golang.org/x/net/http/httpguts"
 )
@@ -25,9 +24,6 @@ const (
 	defaultBrowserIconSource  = "product_logo_256.png"
 	minDBusApplicationIDParts = 2
 	maxDBusApplicationIDLen   = 255
-
-	cookieSettingChoices          = "allow, block, or session_only"
-	thirdPartyCookiePolicyChoices = "off, block, or incognito_only"
 )
 
 type Config struct {
@@ -82,54 +78,6 @@ type ModePaths struct {
 	ExternalExtensionDirs []string `toml:"external_extension_dirs"`
 }
 
-type PreferenceDefaultsConfig struct {
-	Values           []PreferenceValueConfig       `toml:"values"`
-	LocalStateValues []PreferenceValueConfig       `toml:"local_state_values"`
-	VariationValues  []PreferenceValueConfig       `toml:"variation_values"`
-	Accelerators     []PreferenceAcceleratorConfig `toml:"accelerators"`
-	Cookies          CookiePreferenceConfig        `toml:"cookies"`
-}
-
-type PreferenceValueConfig struct {
-	Path  string `toml:"path"`
-	Value any    `toml:"value"`
-}
-
-type CookieSetting string
-
-const (
-	CookieSettingAllow       CookieSetting = "allow"
-	CookieSettingBlock       CookieSetting = "block"
-	CookieSettingSessionOnly CookieSetting = "session_only"
-)
-
-type ThirdPartyCookiePolicy string
-
-const (
-	ThirdPartyCookiePolicyOff           ThirdPartyCookiePolicy = "off"
-	ThirdPartyCookiePolicyBlock         ThirdPartyCookiePolicy = "block"
-	ThirdPartyCookiePolicyIncognitoOnly ThirdPartyCookiePolicy = "incognito_only"
-)
-
-type CookiePreferenceConfig struct {
-	Default     CookieSetting          `toml:"default"`
-	ThirdParty  ThirdPartyCookiePolicy `toml:"third_party"`
-	Allow       []string               `toml:"allow"`
-	Block       []string               `toml:"block"`
-	SessionOnly []string               `toml:"session_only"`
-}
-
-type cookieExceptionRule struct {
-	setting  CookieSetting
-	patterns []string
-}
-
-type PreferenceAcceleratorConfig struct {
-	Path        string `toml:"path"`
-	CommandID   string `toml:"command_id"`
-	Accelerator string `toml:"accelerator"`
-}
-
 func LoadConfig(path string) (Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -159,8 +107,8 @@ func LoadConfig(path string) (Config, error) {
 func (config Config) Validate() error {
 	return errors.Join(
 		config.Browser.validate(),
-		config.Browser.Preferences.Cookies.validate(),
-		validateExtensionIDAliases(config.Browser.ExtensionIDAliases),
+		config.Browser.Preferences.Cookies.Validate(),
+		extensions.ValidateIDAliases(config.Browser.ExtensionIDAliases),
 		validateUniquePaths("extension_settings.files", config.ExtensionSettings.Files),
 		extensions.ValidateCatalog(config.Extensions),
 	)
@@ -170,6 +118,25 @@ func (config BrowserConfig) validate() error {
 	var errs []error
 	if config.ExecutableName == "" {
 		errs = append(errs, errors.New("browser.executable_name is required"))
+	} else if !validFileName(config.ExecutableName) {
+		errs = append(errs, fmt.Errorf(
+			"browser.executable_name must be a file name, got %q",
+			config.ExecutableName,
+		))
+	}
+	if config.AliasName != "" && !validFileName(config.AliasName) {
+		errs = append(errs, fmt.Errorf(
+			"browser.alias_name must be a file name, got %q",
+			config.AliasName,
+		))
+	}
+	if config.AliasName != "" && strings.EqualFold(
+		config.AliasName,
+		config.ExecutableName,
+	) {
+		errs = append(errs, errors.New(
+			"browser.alias_name must differ from browser.executable_name",
+		))
 	}
 	for index, flag := range config.Flags {
 		if flag == "" {
@@ -183,6 +150,12 @@ func (config BrowserConfig) validate() error {
 	errs = append(errs, config.Helium.validate())
 	errs = append(errs, config.Brave.validate())
 	return errors.Join(errs...)
+}
+
+func validFileName(value string) bool {
+	return value != "." && value != ".." &&
+		value == filepath.Base(value) &&
+		!strings.ContainsRune(value, 0)
 }
 
 func (config LinuxConfig) validate() error {
@@ -222,24 +195,6 @@ func validateUniquePaths(name string, paths []string) error {
 			continue
 		}
 		seen[path] = index
-	}
-	return errors.Join(errs...)
-}
-
-func validateExtensionIDAliases(aliases map[string]string) error {
-	var errs []error
-	for _, sourceID := range slices.Sorted(maps.Keys(aliases)) {
-		installedID := aliases[sourceID]
-		if !extensions.ValidExtensionID(sourceID) {
-			errs = append(errs, fmt.Errorf("invalid extension ID alias source %q", sourceID))
-		}
-		if !extensions.ValidExtensionID(installedID) {
-			errs = append(errs, fmt.Errorf(
-				"invalid installed extension ID %q for alias %q",
-				installedID,
-				sourceID,
-			))
-		}
 	}
 	return errors.Join(errs...)
 }
@@ -307,70 +262,6 @@ func isASCIIDigit(character rune) bool {
 	return character >= '0' && character <= '9'
 }
 
-func (config CookiePreferenceConfig) validate() error {
-	var errs []error
-	if config.Default != "" && !config.Default.valid() {
-		errs = append(errs, fmt.Errorf(
-			"browser.preferences.cookies.default must be one of %s, got %q",
-			cookieSettingChoices,
-			config.Default,
-		))
-	}
-	if !config.ThirdParty.valid() {
-		errs = append(errs, fmt.Errorf(
-			"browser.preferences.cookies.third_party must be one of %s, got %q",
-			thirdPartyCookiePolicyChoices,
-			config.ThirdParty,
-		))
-	}
-	seen := map[string]string{}
-	for _, rule := range config.exceptionRules() {
-		setting, patterns := string(rule.setting), rule.patterns
-		for index, pattern := range patterns {
-			canonical := canonicalCookiePattern(pattern)
-			if canonical == "" {
-				errs = append(errs, fmt.Errorf(
-					"browser.preferences.cookies.%s[%d] must not be empty",
-					setting,
-					index,
-				))
-				continue
-			}
-			if previous, exists := seen[canonical]; exists && previous != setting {
-				errs = append(errs, fmt.Errorf(
-					"cookie pattern %q appears in both %s and %s",
-					pattern,
-					previous,
-					setting,
-				))
-			}
-			seen[canonical] = setting
-		}
-	}
-	return errors.Join(errs...)
-}
-
-func (config CookiePreferenceConfig) exceptionRules() []cookieExceptionRule {
-	return []cookieExceptionRule{
-		{setting: CookieSettingAllow, patterns: config.Allow},
-		{setting: CookieSettingBlock, patterns: config.Block},
-		{setting: CookieSettingSessionOnly, patterns: config.SessionOnly},
-	}
-}
-
-func (setting CookieSetting) valid() bool {
-	_, valid := setting.contentSettingValue()
-	return valid
-}
-
-func (policy ThirdPartyCookiePolicy) valid() bool {
-	if policy == "" {
-		return true
-	}
-	_, valid := policy.mode()
-	return valid
-}
-
 func (config BrowserConfig) normalized() BrowserConfig {
 	config.Name = cmp.Or(config.Name, defaultBrowserName)
 	config.LogPrefix = cmp.Or(config.LogPrefix, config.ExecutableName)
@@ -403,7 +294,7 @@ func expandPathTemplate(path string) string {
 	if path == "" {
 		return ""
 	}
-	directories := currentXDGDirectories()
+	directories := xdgdirs.Current()
 	variables := map[string]string{
 		"home":        directories.Home,
 		"config_home": directories.ConfigHome,

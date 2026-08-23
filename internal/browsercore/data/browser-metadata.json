@@ -1,0 +1,538 @@
+{
+  "brave": {
+    "audited_against": "brave-core 2f817e264632a29c264f657f673d500a5c51696b (2026-08-22)",
+    "profile": {
+      "tabs.hover_mode": "brave.tabs.hover_mode",
+      "tabs.vertical": "brave.tabs.vertical_tabs_enabled",
+      "tabs.collapsed": "brave.tabs.vertical_tabs_collapsed",
+      "tabs.expanded_state_per_window": "brave.tabs.vertical_tabs_expanded_state_per_window",
+      "tabs.show_window_title": "brave.tabs.vertical_tabs_show_title_on_window",
+      "tabs.hide_completely_when_collapsed": "brave.tabs.vertical_tabs_hide_completely_when_collapsed",
+      "tabs.floating": "brave.tabs.vertical_tabs_floating_enabled",
+      "tabs.show_toggle_button": "brave.tabs.vertical_tabs_show_toggle_button",
+      "tabs.expanded_width": "brave.tabs.vertical_tabs_expanded_width",
+      "tabs.on_right": "brave.tabs.vertical_tabs_on_right",
+      "tabs.show_scrollbar": "brave.tabs.vertical_tabs_show_scrollbar",
+      "tabs.tree": "brave.tabs.tree_tabs_enabled",
+      "tabs.shared_pinned": "brave.tabs.shared_pinned_tab",
+      "tabs.always_hide_close_button": "brave.tabs.always_hide_tab_close_button",
+      "tabs.middle_click_close": "brave.tabs.middle_click_close_tab_enabled",
+      "tabs.disable_clickable_mute_indicator": "brave.tabs.mute_indicator_not_clickable",
+      "tabs.min_width": "brave.tabs.min_width_mode",
+      "tabs.scrollable_horizontal": "brave.tabs.scrollable_horizontal_tab_strip",
+      "tabs.show_horizontal_scroll_buttons": "brave.tabs.show_horizontal_tab_scroll_buttons",
+      "tabs.always_use_mini_accent_icon": "brave.tabs.always_use_mini_accent_icon",
+      "toolbar.location_bar_wide": "brave.location_bar_is_wide",
+      "toolbar.web_view_rounded_corners": "brave.web_view_rounded_corners",
+      "toolbar.subtle_app_menu_logo": "brave.subtle_app_menu_logo",
+      "toolbar.show_bookmarks_button": "brave.show_bookmarks_button",
+      "toolbar.show_side_panel_button": "brave.show_side_panel_button",
+      "toolbar.show_screenshot_button": "brave.show_screenshot_button",
+      "behavior.cycle_tabs_by_most_recent_use": "brave.mru_cycling_enabled",
+      "behavior.confirm_window_close": "brave.enable_window_closing_confirm",
+      "behavior.close_window_with_last_tab": "brave.enable_closing_last_tab",
+      "behavior.show_fullscreen_reminder": "brave.show_fullscreen_reminder",
+      "sidebar.show": "brave.sidebar.sidebar_show_option"
+    },
+    "local_state": {
+      "tabs.compact_horizontal": "brave.tabs.compact_horizontal_tabs",
+      "behavior.show_default_browser_prompt": "brave.default_browser_prompt_enabled",
+      "shields.adblock_only_mode": "brave.shields.adblock_only_mode_enabled",
+      "shields.custom_filters": "brave.ad_block.custom_filters",
+      "shields.facebook_embeds": "brave.shields.fb_embed_default",
+      "shields.twitter_embeds": "brave.shields.twitter_embed_default",
+      "shields.linkedin_embeds": "brave.shields.linkedin_embed_default"
+    },
+    "choices": {
+      "tabs.hover_mode": {
+        "config_name": "browser.brave.tabs.hover_mode",
+        "options": [
+          { "name": "tooltip", "value": 0 },
+          { "name": "card", "value": 1 },
+          { "name": "card_with_preview", "value": 2 }
+        ]
+      },
+      "tabs.min_width": {
+        "config_name": "browser.brave.tabs.min_width",
+        "options": [
+          { "name": "default", "value": 0 },
+          { "name": "minimum", "value": 1 },
+          { "name": "medium", "value": 2 },
+          { "name": "large", "value": 3 },
+          { "name": "full", "value": 4 }
+        ]
+      },
+      "sidebar.show": {
+        "config_name": "browser.brave.sidebar.show",
+        "options": [
+          { "name": "always", "value": 0 },
+          { "name": "mouseover", "value": 1 },
+          { "name": "never", "value": 3 }
+        ]
+      }
+    },
+    "values": {},
+    "presets": {
+      "disable_web3": [
+        "wallet",
+        "rewards",
+        "decentralized_dns",
+        "ipfs",
+        "webtorrent",
+        "crypto_widgets"
+      ],
+      "disable_annoyances": [
+        "wallet",
+        "rewards",
+        "decentralized_dns",
+        "ipfs",
+        "webtorrent",
+        "crypto_widgets",
+        "ads",
+        "sponsored_content",
+        "ai_chat",
+        "local_ai",
+        "vpn",
+        "news",
+        "talk",
+        "playlist",
+        "web_discovery",
+        "p3a",
+        "stats",
+        "email_aliases",
+        "search_promotions",
+        "suggested_sites",
+        "new_tab_widgets",
+        "speedreader",
+        "wayback_machine",
+        "psst",
+        "crash_reporting_prompt"
+      ],
+      "origin": [
+        "wallet",
+        "rewards",
+        "decentralized_dns",
+        "ipfs",
+        "webtorrent",
+        "crypto_widgets",
+        "ads",
+        "sponsored_content",
+        "ai_chat",
+        "local_ai",
+        "vpn",
+        "news",
+        "talk",
+        "playlist",
+        "web_discovery",
+        "p3a",
+        "stats",
+        "email_aliases",
+        "search_promotions",
+        "suggested_sites",
+        "new_tab_widgets",
+        "speedreader",
+        "wayback_machine",
+        "psst",
+        "crash_reporting_prompt",
+        "tor"
+      ]
+    },
+    "features": {
+      "wallet": {
+        "profile": [
+          {
+            "path": "brave.wallet.default_wallet2",
+            "enabled": { "integer": 3 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.wallet.default_solana_wallet",
+            "enabled": { "integer": 3 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.wallet.default_cardano_wallet",
+            "enabled": { "integer": 4 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.wallet.show_wallet_icon_on_toolbar",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.wallet.should_show_wallet_suggestion_badge",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.wallet.nft_discovery_enabled",
+            "disabled": { "boolean": false }
+          },
+          {
+            "path": "brave.wallet.private_windows_enabled",
+            "disabled": { "boolean": false }
+          }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveWalletDisabled", "mode": "inverse" }]
+      },
+      "rewards": {
+        "profile": [
+          { "path": "brave.rewards.enabled", "mode": "identity" },
+          {
+            "path": "brave.rewards.show_brave_rewards_button_in_location_bar",
+            "mode": "identity"
+          },
+          { "path": "brave.new_tab_page.show_rewards", "mode": "identity" },
+          {
+            "path": "brave.rewards.ac.enabled",
+            "disabled": { "boolean": false }
+          }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveRewardsDisabled", "mode": "inverse" }]
+      },
+      "decentralized_dns": {
+        "profile": [],
+        "local_state": [
+          {
+            "path": "brave.unstoppable_domains.resolve_method",
+            "enabled": { "integer": 3 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.ens.resolve_method",
+            "enabled": { "integer": 3 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.ens.offchain_resolve_method",
+            "enabled": { "integer": 2 },
+            "disabled": { "integer": 1 }
+          },
+          {
+            "path": "brave.sns.resolve_method",
+            "enabled": { "integer": 3 },
+            "disabled": { "integer": 1 }
+          }
+        ],
+        "policies": []
+      },
+      "ipfs": {
+        "profile": [{ "path": "brave.ipfs.enabled", "mode": "identity" }],
+        "local_state": [],
+        "policies": [{ "name": "IPFSEnabled", "mode": "identity" }]
+      },
+      "webtorrent": {
+        "profile": [{ "path": "brave.webtorrent_enabled", "mode": "identity" }],
+        "local_state": [],
+        "policies": []
+      },
+      "crypto_widgets": {
+        "profile": [
+          { "path": "ftx.new_tab_page.show_ftx", "mode": "identity" },
+          {
+            "path": "crypto_dot_com.new_tab_page.show_crypto_dot_com",
+            "mode": "identity"
+          },
+          { "path": "brave.new_tab_page.show_gemini", "mode": "identity" },
+          { "path": "brave.new_tab_page.show_binance", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": []
+      },
+      "ads": {
+        "profile": [],
+        "local_state": [
+          {
+            "path": "brave.brave_ads.notifications.enabled",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.brave_ads.opted_in_to_search_result_ads",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.brave_ads.should_show_my_first_ad_notification",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.search.search_result_ad.should_show_clicked_infobar",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.brave_ads.should_allow_ads_subdivision_targeting",
+            "disabled": { "boolean": false }
+          }
+        ],
+        "policies": []
+      },
+      "sponsored_content": {
+        "profile": [
+          {
+            "path": "brave.new_tab_page.show_branded_background_image",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.new_tab_page.show_sponsored_sites",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.branded_wallpaper_notification_dismissed",
+            "disabled": { "boolean": true }
+          },
+          {
+            "path": "brave.new_tab_page.new_tab_takeover_infobar_remaining_display_count",
+            "disabled": { "integer": 0 }
+          }
+        ],
+        "local_state": [],
+        "policies": []
+      },
+      "ai_chat": {
+        "profile": [
+          { "path": "brave.ai_chat.storage_enabled", "mode": "identity" },
+          {
+            "path": "brave.ai_chat.autocomplete_provider_enabled",
+            "mode": "identity"
+          },
+          { "path": "brave.ai_chat.context_menu_enabled", "mode": "identity" },
+          { "path": "brave.ai_chat.show_toolbar_button", "mode": "identity" },
+          {
+            "path": "brave.ai_chat.tab_organization_enabled",
+            "mode": "identity"
+          },
+          {
+            "path": "brave.ai_chat.user_customization_enabled",
+            "mode": "identity"
+          },
+          { "path": "brave.ai_chat.user_memory_enabled", "mode": "identity" }
+        ],
+        "local_state": [
+          {
+            "path": "brave.ai_chat.ntp_input_day_zero_enabled",
+            "mode": "identity"
+          }
+        ],
+        "policies": [{ "name": "BraveAIChatEnabled", "mode": "identity" }]
+      },
+      "local_ai": {
+        "profile": [
+          { "path": "brave.history_embeddings_enabled", "mode": "identity" }
+        ],
+        "local_state": [
+          { "path": "brave.local_ai_enabled", "mode": "identity" }
+        ],
+        "policies": [{ "name": "BraveLocalAIEnabled", "mode": "identity" }]
+      },
+      "vpn": {
+        "profile": [
+          { "path": "brave.brave_vpn.show_button", "mode": "identity" },
+          { "path": "brave.new_tab_page.show_brave_vpn", "mode": "identity" }
+        ],
+        "local_state": [
+          {
+            "path": "brave.brave_vpn.smart_proxy_routing_enabled",
+            "mode": "identity"
+          }
+        ],
+        "policies": [{ "name": "BraveVPNDisabled", "mode": "inverse" }]
+      },
+      "news": {
+        "profile": [
+          { "path": "brave.new_tab_page.show_brave_news", "mode": "identity" },
+          { "path": "brave.today.opted_in", "mode": "identity" },
+          {
+            "path": "brave.today.should_show_toolbar_button",
+            "mode": "identity"
+          }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveNewsDisabled", "mode": "inverse" }]
+      },
+      "talk": {
+        "profile": [
+          { "path": "brave.new_tab_page.show_together", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveTalkDisabled", "mode": "inverse" }]
+      },
+      "playlist": {
+        "profile": [{ "path": "brave.playlist.enabled", "mode": "identity" }],
+        "local_state": [],
+        "policies": [{ "name": "BravePlaylistEnabled", "mode": "identity" }]
+      },
+      "web_discovery": {
+        "profile": [
+          { "path": "brave.web_discovery_enabled", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveWebDiscoveryEnabled", "mode": "identity" }]
+      },
+      "p3a": {
+        "profile": [],
+        "local_state": [{ "path": "brave.p3a.enabled", "mode": "identity" }],
+        "policies": [{ "name": "BraveP3AEnabled", "mode": "identity" }]
+      },
+      "stats": {
+        "profile": [],
+        "local_state": [
+          { "path": "brave.stats.reporting_enabled", "mode": "identity" },
+          { "path": "metrics.reporting_enabled", "mode": "identity" }
+        ],
+        "policies": [
+          { "name": "BraveStatsPingEnabled", "mode": "identity" },
+          { "name": "MetricsReportingEnabled", "mode": "identity" }
+        ]
+      },
+      "email_aliases": {
+        "profile": [
+          { "path": "brave.email_aliases.enabled", "mode": "identity" },
+          {
+            "path": "brave.email_aliases.new_alias_autofill_suggestion_enabled",
+            "mode": "identity"
+          }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "EmailAliasesEnabled", "mode": "identity" }]
+      },
+      "search_promotions": {
+        "profile": [
+          {
+            "path": "brave.brave_search_conversion.dismissed",
+            "mode": "inverse"
+          },
+          {
+            "path": "brave.brave_search.ntp-search_prompt_enable_suggestions",
+            "mode": "identity"
+          }
+        ],
+        "local_state": [],
+        "policies": []
+      },
+      "suggested_sites": {
+        "profile": [
+          {
+            "path": "brave.brave_suggested_site_suggestions_enabled",
+            "mode": "identity"
+          }
+        ],
+        "local_state": [],
+        "policies": []
+      },
+      "new_tab_widgets": {
+        "profile": [
+          { "path": "brave.new_tab_page.hide_all_widgets", "mode": "inverse" }
+        ],
+        "local_state": [],
+        "policies": []
+      },
+      "speedreader": {
+        "profile": [
+          { "path": "brave.speedreader.feature_enabled", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "BraveSpeedreaderEnabled", "mode": "identity" }]
+      },
+      "wayback_machine": {
+        "profile": [
+          { "path": "brave.wayback_machine_enabled", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": [
+          { "name": "BraveWaybackMachineEnabled", "mode": "identity" }
+        ]
+      },
+      "psst": {
+        "profile": [
+          { "path": "brave.psst.settings.enable_psst", "mode": "identity" }
+        ],
+        "local_state": [],
+        "policies": [{ "name": "PsstEnabled", "mode": "identity" }]
+      },
+      "tor": {
+        "profile": [{ "path": "tor.tor_disabled", "mode": "inverse" }],
+        "local_state": [],
+        "policies": [{ "name": "TorDisabled", "mode": "inverse" }]
+      },
+      "crash_reporting_prompt": {
+        "profile": [],
+        "local_state": [
+          { "path": "brave.dont_ask_for_crash_reporting", "mode": "inverse" }
+        ],
+        "policies": []
+      }
+    }
+  },
+  "helium": {
+    "audited_against": "Helium 208a56bab803ceda8202f8c79dd0e9bfcffe600a on Chromium 151.0.7922.173 (2026-08-23)",
+    "profile": {
+      "completed_onboarding": "helium.completed_onboarding",
+      "services.enabled": "helium.services.enabled",
+      "services.user_consented": "helium.services.user_consented",
+      "services.origin_override": "helium.services.origin_override",
+      "services.extension_proxy": "helium.services.ext_proxy",
+      "services.bangs": "helium.services.bangs",
+      "services.spellcheck_files": "helium.services.spellcheck_files",
+      "services.browser_updates": "helium.services.browser_updates",
+      "services.ublock_assets": "helium.services.ublock_assets",
+      "appearance.layout": "helium.browser.layout",
+      "appearance.vertical_right_aligned": "helium.browser.vertical_right_aligned",
+      "appearance.centered_location_bar": "helium.browser.centered_location_bar",
+      "appearance.minimal_location_bar": "helium.browser.minimal_location_bar",
+      "appearance.rounded_frame": "helium.browser.rounded_frame",
+      "appearance.native_frame_materials": "helium.browser.native_frame_materials",
+      "appearance.zen_mode": "helium.browser.zen_mode",
+      "appearance.zen_mode_sidebar_pinned": "helium.browser.zen_mode_sidebar_pinned",
+      "appearance.zen_mode_top_chrome_pinned": "helium.browser.zen_mode_top_chrome_pinned",
+      "behavior.new_tab_next_to_active": "helium.browser.new_tab_next_to_active",
+      "behavior.cycle_tabs_by_most_recent_use": "helium.browser.mru_tab_cycling",
+      "behavior.shift_right_click_menu": "helium.browser.shift_right_click_context_menu",
+      "behavior.copy_page_url_shortcut": "helium.settings.a11y.copy_page_url_shortcut",
+      "behavior.vertical_collapse_shortcut": "helium.settings.behavior.vertical_collapse_shortcut",
+      "privacy.global_privacy_control": "helium.global_privacy_control",
+      "privacy.noise": "helium.noise.enabled",
+      "toolbar.show_back_button": "helium.browser.show_back_button",
+      "toolbar.show_reload_button": "helium.browser.show_reload_button",
+      "toolbar.show_avatar_button": "helium.browser.show_avatar_button",
+      "toolbar.show_extensions_button": "helium.browser.show_extensions_button",
+      "toolbar.show_menu_button": "helium.browser.show_menu_button",
+      "toolbar.show_media_button": "helium.browser.show_media_button",
+      "toolbar.show_vertical_tabs_collapse_button": "helium.browser.show_vertical_tabs_collapse_button",
+      "toolbar.show_dynamic_new_tab_button": "helium.browser.show_dynamic_new_tab_button",
+      "toolbar.show_page_zoom_indicator": "helium.browser.show_zoom_indicator",
+      "theme.color_variant": "browser.theme.color_variant2",
+      "theme.grayscale": "browser.theme.is_grayscale2",
+      "theme.user_color": "browser.theme.user_color2",
+      "theme.extension_id": "extensions.theme.id"
+    },
+    "local_state": {
+      "crash_reporting": "helium.crash_reporting.mode",
+      "behavior.suppress_default_browser_prompt": "helium.browser.default_browser_infobar_rejected"
+    },
+    "choices": {
+      "appearance.layout": {
+        "config_name": "browser.helium.appearance.layout",
+        "options": [
+          { "name": "classic", "value": 0 },
+          { "name": "compact", "value": 1 },
+          { "name": "vertical", "value": 2 },
+          { "name": "dynamic", "value": 3 }
+        ]
+      },
+      "crash_reporting": {
+        "config_name": "browser.helium.crash_reporting",
+        "options": [
+          { "name": "disabled", "value": -1 },
+          { "name": "ask", "value": 0 },
+          { "name": "automatic", "value": 1 }
+        ]
+      }
+    },
+    "values": {
+      "theme.default_color_variant": { "integer": 1 },
+      "theme.user_color_id": { "string": "user_color_theme_id" }
+    },
+    "presets": {},
+    "features": {}
+  }
+}

@@ -1,4 +1,4 @@
-package browser
+package browsercore
 
 import (
 	"context"
@@ -6,9 +6,17 @@ import (
 	"fmt"
 	"maps"
 	"slices"
+	"strings"
 
 	"github.com/4evy/browser/extensions"
+	"github.com/4evy/browser/internal/launcher"
+	"github.com/4evy/browser/internal/profile"
 )
+
+// RunLauncher detects and executes an installed browser launcher.
+func RunLauncher(invocation string, arguments []string) (bool, error) {
+	return launcher.Run(invocation, arguments)
+}
 
 const (
 	loadExtensionFlagPrefix         = "--load-extension="
@@ -86,12 +94,12 @@ func (browser Browser) ApplyProfileSettings(ctx context.Context, options ApplyOp
 		browser.PreferencePatches = append(
 			browser.PreferencePatches,
 			func(preferences map[string]any) error {
-				return SetCookieAllowlist(preferences, options.Input.CookieAllowlist)
+				return profile.SetCookieAllowlist(preferences, options.Input.CookieAllowlist)
 			},
 		)
 	}
 	for _, patchSet := range browser.browserDataPatchSets() {
-		if err := patchSet.apply(options.ProfileDir); err != nil {
+		if err := patchSet.run(options.ProfileDir); err != nil {
 			return err
 		}
 	}
@@ -130,10 +138,22 @@ func (browser Browser) extensionInstallExclusions() map[string]bool {
 	return excluded
 }
 
-func loadExtensionFlags(paths []string) []string {
-	flags := make([]string, 0, len(paths))
-	for _, path := range paths {
-		flags = append(flags, loadExtensionFlagPrefix+path)
+func loadExtensionFlags(paths []string) ([]string, error) {
+	if len(paths) == 0 {
+		return nil, nil
 	}
-	return flags
+	for _, path := range paths {
+		if strings.ContainsRune(path, ',') {
+			return nil, fmt.Errorf(
+				"unpacked extension path contains a comma and cannot be passed to Chromium: %s",
+				path,
+			)
+		}
+	}
+	// Chromium defines --load-extension as one comma-separated list. Repeating
+	// the switch replaces its earlier value, which silently loads only the last
+	// extension.
+	// Source:
+	// https://chromium.googlesource.com/chromium/src/+/main/extensions/common/switches.cc
+	return []string{loadExtensionFlagPrefix + strings.Join(paths, ",")}, nil
 }

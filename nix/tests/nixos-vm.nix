@@ -176,6 +176,10 @@ pkgs.testers.nixosTest {
             "/home/alice/.local/share/applications/vm-browser.desktop"
         )
         machine.succeed(
+            "grep -E '^Icon[[:space:]]*=[[:space:]]*vm-browser$' "
+            "/home/alice/.local/share/applications/vm-browser.desktop"
+        )
+        machine.succeed(
             "grep -E '^NoDisplay[[:space:]]*=[[:space:]]*true$' "
             "/home/alice/.local/share/applications/org.chromium.Chromium.desktop"
         )
