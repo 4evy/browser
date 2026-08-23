@@ -42,8 +42,7 @@ extensions, creates a launcher, and applies the profile settings.
 ## Configuration
 
 Start with [the annotated example](examples/browser.toml). The TOML and Nix
-examples below describe the same Linux setup, including a Chrome Web Store
-extension.
+examples below describe the same Linux setup.
 
 ### TOML
 
@@ -60,10 +59,6 @@ launcher_name = "chromium"
 [browser.paths.linux]
 profile_dir = "${config_home}/chromium/Default"
 external_extension_dirs = ["${config_home}/chromium/External Extensions"]
-
-[[extensions.chrome_store]]
-id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-name = "Example extension"
 ```
 
 ### Nix
@@ -98,13 +93,6 @@ inputs.browser.url = "github:4evy/browser";
           ];
         };
       };
-
-      extensions.chrome_store = [
-        {
-          id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-          name = "Example extension";
-        }
-      ];
     };
   };
 }
@@ -119,10 +107,180 @@ activation.
 Paths in either format support `${home}`, `${config_home}`, and `${data_home}`.
 Close the browser before changing its profile or extension storage.
 
-The annotated example includes preferences, extension sources, extension
-storage, Helium settings, and Brave settings. The
-[extension settings schema](schema/extension-settings.schema.json) documents the
-JSON mutation format for `storage.local` and `storage.sync`.
+## Extensions
+
+Every extension source works in TOML and through the Nix modules. These
+equivalent catalogs show each source type.
+
+### TOML
+
+```toml
+[extensions]
+chrome_store_update_url = "https://clients2.google.com/service/update2/crx"
+
+[[extensions.chrome_store]]
+id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+name = "Chrome Web Store extension"
+
+[[extensions.update_url]]
+id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+name = "Extension with an update manifest"
+update_url = "https://example.test/extension/updates.xml"
+
+[[extensions.crx]]
+id = "cccccccccccccccccccccccccccccccc"
+name = "Pinned CRX"
+version = "1.2.3"
+url = "https://example.test/extension-1.2.3.crx"
+sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+[[extensions.zip]]
+id = "dddddddddddddddddddddddddddddddd"
+name = "Latest GitHub release"
+update_policy = "latest"
+repository = "owner/repository"
+asset_template = "extension-{tag}.zip"
+archive_root = "extension"
+load_unpacked = true
+
+[[extensions.zip]]
+id = "ffffffffffffffffffffffffffffffff"
+name = "Pinned ZIP"
+update_policy = "pinned"
+version = "1.2.3"
+url = "https://example.test/extension-1.2.3.zip"
+sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+archive_root = "extension"
+load_unpacked = true
+
+[[extensions.git]]
+id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+name = "Pinned Codeberg extension"
+provider = "codeberg"
+repository = "owner/extension"
+update_policy = "pinned"
+ref = "v1.2.3"
+commit = "0123456789abcdef0123456789abcdef01234567"
+subdirectory = "dist/extension"
+load_unpacked = true
+
+[[extensions.git]]
+id = "gggggggggggggggggggggggggggggggg"
+name = "Latest generic Git extension"
+provider = "git"
+url = "ssh://git@example.test/team/extension.git"
+update_policy = "latest"
+ref = "main"
+load_unpacked = true
+```
+
+### Nix
+
+```nix
+programs.browser.settings.extensions = {
+  chrome_store_update_url = "https://clients2.google.com/service/update2/crx";
+
+  chrome_store = [
+    {
+      id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+      name = "Chrome Web Store extension";
+    }
+  ];
+
+  update_url = [
+    {
+      id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+      name = "Extension with an update manifest";
+      update_url = "https://example.test/extension/updates.xml";
+    }
+  ];
+
+  crx = [
+    {
+      id = "cccccccccccccccccccccccccccccccc";
+      name = "Pinned CRX";
+      version = "1.2.3";
+      url = "https://example.test/extension-1.2.3.crx";
+      sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    }
+  ];
+
+  zip = [
+    {
+      id = "dddddddddddddddddddddddddddddddd";
+      name = "Latest GitHub release";
+      update_policy = "latest";
+      repository = "owner/repository";
+      asset_template = "extension-{tag}.zip";
+      archive_root = "extension";
+      load_unpacked = true;
+    }
+    {
+      id = "ffffffffffffffffffffffffffffffff";
+      name = "Pinned ZIP";
+      update_policy = "pinned";
+      version = "1.2.3";
+      url = "https://example.test/extension-1.2.3.zip";
+      sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      archive_root = "extension";
+      load_unpacked = true;
+    }
+  ];
+
+  git = [
+    {
+      id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+      name = "Pinned Codeberg extension";
+      provider = "codeberg";
+      repository = "owner/extension";
+      update_policy = "pinned";
+      ref = "v1.2.3";
+      commit = "0123456789abcdef0123456789abcdef01234567";
+      subdirectory = "dist/extension";
+      load_unpacked = true;
+    }
+    {
+      id = "gggggggggggggggggggggggggggggggg";
+      name = "Latest generic Git extension";
+      provider = "git";
+      url = "ssh://git@example.test/team/extension.git";
+      update_policy = "latest";
+      ref = "main";
+      load_unpacked = true;
+    }
+  ];
+};
+```
+
+Chrome Web Store entries follow the latest compatible release. CRX entries are
+checksum-pinned. ZIP entries can follow a GitHub release or use a pinned URL and
+checksum.
+
+Git sources support GitHub, GitLab, Codeberg, and SourceHut through `provider`
+and `repository`. Use `provider = "git"` with `url` for any other Git remote.
+`update_policy = "latest"` follows `ref` or the default branch; pinned entries
+require a full commit ID.
+
+### Extension settings
+
+Extension settings are ordered JSON documents applied to `storage.local` and
+`storage.sync`:
+
+```toml
+[extension_settings]
+files = ["settings/privacy.json", "settings/work.json"]
+```
+
+```nix
+programs.browser.settings.extension_settings.files = [
+  ./settings/privacy.json
+  ./settings/work.json
+];
+```
+
+See the [extension settings schema](schema/extension-settings.schema.json) for
+the JSON mutation format. The annotated example also covers download headers,
+timeouts, retries, and pinned ZIP files.
 
 ### Brave
 
