@@ -322,28 +322,8 @@ func (operation OperationKind) validForInput() bool {
 }
 
 func (operation OperationKind) spec() (extensionStorageOperationSpec, bool) {
-	switch operation {
-	case OperationSet,
-		OperationMerge,
-		OperationAppend:
-		return extensionStorageOperationSpec{
-			allowedInput: true,
-			scope:        extensionStorageOperationScopeKey,
-			value:        extensionStorageValueRequired,
-		}, true
-	case OperationRemove:
-		return extensionStorageOperationSpec{
-			scope: extensionStorageOperationScopeKey,
-			value: extensionStorageValueForbidden,
-		}, true
-	case OperationClear:
-		return extensionStorageOperationSpec{
-			scope: extensionStorageOperationScopeArea,
-			value: extensionStorageValueForbidden,
-		}, true
-	default:
-		return extensionStorageOperationSpec{}, false
-	}
+	spec, valid := extensionStorageOperationSpecs[operation]
+	return spec, valid
 }
 
 func resolveExtensionID(aliases map[string]string, id string) string {

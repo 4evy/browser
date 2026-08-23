@@ -60,6 +60,32 @@ type extensionStorageOperationSpec struct {
 	value        extensionStorageValueRequirement
 }
 
+var extensionStorageOperationSpecs = map[OperationKind]extensionStorageOperationSpec{
+	OperationSet: {
+		allowedInput: true,
+		scope:        extensionStorageOperationScopeKey,
+		value:        extensionStorageValueRequired,
+	},
+	OperationMerge: {
+		allowedInput: true,
+		scope:        extensionStorageOperationScopeKey,
+		value:        extensionStorageValueRequired,
+	},
+	OperationAppend: {
+		allowedInput: true,
+		scope:        extensionStorageOperationScopeKey,
+		value:        extensionStorageValueRequired,
+	},
+	OperationRemove: {
+		scope: extensionStorageOperationScopeKey,
+		value: extensionStorageValueForbidden,
+	},
+	OperationClear: {
+		scope: extensionStorageOperationScopeArea,
+		value: extensionStorageValueForbidden,
+	},
+}
+
 type extensionStorageOperationScope uint8
 
 const (
