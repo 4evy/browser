@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"maps"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -23,9 +25,7 @@ const (
 	defaultUserAgent        = "github.com/4evy/browser"
 	userAgentPrefix         = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
 	userAgentSuffix         = " Safari/537.36"
-	githubJSONMediaType     = "application/vnd.github+json"
-	userAgentHeader         = "User-Agent"
-	acceptHeader            = "Accept"
+	githubAPIURL            = "https://api.github.com/"
 )
 
 func requireSuccessfulHTTPStatus(response *http.Response) error {
@@ -104,11 +104,8 @@ func (client HTTPClient) ResolveLatestGitHubRelease(
 	}
 	owner, name, _ := strings.Cut(repository, "/")
 	options := []github.ClientOptionsFunc{
-		github.WithHTTPClient(client.httpClient()),
+		github.WithHTTPClient(client.githubHTTPClient()),
 		github.WithUserAgent(client.userAgent()),
-	}
-	if client.GitHubToken != "" {
-		options = append(options, github.WithAuthToken(client.GitHubToken))
 	}
 	api, err := github.NewClient(options...)
 	if err != nil {
@@ -131,8 +128,9 @@ func (client HTTPClient) ResolveLatestGitHubRelease(
 		if err != nil {
 			return ReleaseArtifact{}, fmt.Errorf("asset %s has no usable GitHub digest: %w", assetName, err)
 		}
+		version, _ := strings.CutPrefix(tag, releaseVersionPrefix)
 		return ReleaseArtifact{
-			Version: strings.TrimPrefix(tag, releaseVersionPrefix),
+			Version: version,
 			URL:     asset.GetBrowserDownloadURL(),
 			SHA256:  checksum,
 		}, nil
@@ -142,13 +140,24 @@ func (client HTTPClient) ResolveLatestGitHubRelease(
 
 func (client HTTPClient) request(rawURL string) *requests.Builder {
 	return requests.URL(rawURL).
-		Client(client.httpClient()).
-		Header(userAgentHeader, client.userAgent()).
-		Header(acceptHeader, githubJSONMediaType).
+		Client(client.httpClient(rawURL)).
+		UserAgent(client.userAgent()).
 		AddValidator(requireSuccessfulHTTPStatus)
 }
 
-func (client HTTPClient) httpClient() *http.Client {
+func (client HTTPClient) githubHTTPClient() *http.Client {
+	githubClient := client
+	githubClient.Headers = maps.Clone(client.Headers)
+	if client.GitHubToken != "" {
+		if githubClient.Headers == nil {
+			githubClient.Headers = map[string]string{}
+		}
+		githubClient.Headers["Authorization"] = "Bearer " + client.GitHubToken
+	}
+	return githubClient.httpClient(githubAPIURL)
+}
+
+func (client HTTPClient) httpClient(headerURL string) *http.Client {
 	base := client.Client
 	if base == nil {
 		timeout := client.Timeout
@@ -157,13 +166,18 @@ func (client HTTPClient) httpClient() *http.Client {
 		}
 		base = &http.Client{Timeout: timeout}
 	}
-	if len(client.Headers) > 0 {
+	origin := requestOrigin(headerURL)
+	if len(client.Headers) > 0 && origin != "" {
 		copy := *base
 		transport := base.Transport
 		if transport == nil {
 			transport = http.DefaultTransport
 		}
-		copy.Transport = headerTransport{Base: transport, Headers: client.Headers}
+		copy.Transport = headerTransport{
+			Base:    transport,
+			Headers: client.Headers,
+			Origin:  origin,
+		}
 		base = &copy
 	}
 	retry := retryablehttp.NewClient()
@@ -181,15 +195,26 @@ func (client HTTPClient) httpClient() *http.Client {
 type headerTransport struct {
 	Base    http.RoundTripper
 	Headers map[string]string
+	Origin  string
 }
 
 func (transport headerTransport) RoundTrip(request *http.Request) (*http.Response, error) {
 	request = request.Clone(request.Context())
 	request.Header = request.Header.Clone()
-	for name, value := range transport.Headers {
-		request.Header.Set(name, value)
+	if requestOrigin(request.URL.String()) == transport.Origin {
+		for name, value := range transport.Headers {
+			request.Header.Set(name, value)
+		}
 	}
 	return transport.Base.RoundTrip(request)
+}
+
+func requestOrigin(rawURL string) string {
+	parsed, err := url.Parse(rawURL)
+	if err != nil || parsed.Scheme == "" || parsed.Host == "" {
+		return ""
+	}
+	return parsed.Scheme + "://" + parsed.Host
 }
 
 func (client HTTPClient) userAgent() string {

@@ -37,10 +37,7 @@
             {
               "id": "solarized",
               "name": "Solarized",
-              "urls": [
-                "example.test",
-                "*.example.test"
-              ],
+              "urls": ["example.test", "*.example.test"],
               "theme": {
                 "mode": 1,
                 "brightness": 95,
@@ -67,9 +64,7 @@
           ],
           "customThemes": [
             {
-              "url": [
-                "docs.example.test"
-              ],
+              "url": ["docs.example.test"],
               "theme": {
                 "mode": 1,
                 "brightness": 100,
@@ -97,9 +92,7 @@
           ],
           "enabledByDefault": true,
           "enabledFor": [],
-          "disabledFor": [
-            "mail.example.test"
-          ],
+          "disabledFor": ["mail.example.test"],
           "changeBrowserTheme": false,
           "syncSettings": true,
           "syncSitesFixes": false,
@@ -171,10 +164,7 @@
           null,
           {
             "id": 1,
-            "nested": [
-              true,
-              false
-            ]
+            "nested": [true, false]
           }
         ],
         "remove-me": {
@@ -236,9 +226,7 @@
               "left": 1
             }
           },
-          "history": [
-            "seed"
-          ]
+          "history": ["seed"]
         }
       }
     },
@@ -271,9 +259,7 @@
       "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "values": {
         "syncSettings": true,
-        "enabledFor": [
-          "work.example.test"
-        ],
+        "enabledFor": ["work.example.test"],
         "sync-metadata": {
           "revision": 1,
           "device": "desktop"
@@ -298,9 +284,7 @@
       "id": "dddddddddddddddddddddddddddddddd",
       "values": {
         "sync-clear-one": true,
-        "sync-clear-two": [
-          "stale"
-        ]
+        "sync-clear-two": ["stale"]
       }
     },
     {
@@ -324,10 +308,7 @@
           null,
           {
             "id": 1,
-            "nested": [
-              true,
-              false
-            ]
+            "nested": [true, false]
           },
           {
             "id": 2
@@ -419,10 +400,7 @@
       "operation": "merge",
       "value": {
         "revision": 2,
-        "devices": [
-          "desktop",
-          "mobile"
-        ]
+        "devices": ["desktop", "mobile"]
       }
     },
     {
@@ -459,10 +437,7 @@
           {
             "url": "https://example.test/filter.txt",
             "enabled": true,
-            "tags": [
-              "privacy",
-              "regional"
-            ]
+            "tags": ["privacy", "regional"]
           }
         ],
         "options": {
@@ -499,10 +474,7 @@
         {
           "url": "https://example.test/filter.txt",
           "enabled": true,
-          "tags": [
-            "privacy",
-            "regional"
-          ]
+          "tags": ["privacy", "regional"]
         }
       ]
     },
@@ -577,11 +549,7 @@
       "key": "document",
       "path": "created.by.set",
       "operation": "set",
-      "value": [
-        true,
-        null,
-        3
-      ]
+      "value": [true, null, 3]
     },
     {
       "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",

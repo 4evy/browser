@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,6 +24,7 @@ func TestResolveLatestGitHubReleaseUsesGitHubClient(t *testing.T) {
 	ctx := context.WithValue(t.Context(), contextKey{}, "request-context")
 	client := HTTPClient{
 		GitHubToken: token,
+		Headers:     map[string]string{"X-API-Header": "configured"},
 		Client: &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
 			if got := request.Context().Value(contextKey{}); got != "request-context" {
 				t.Fatalf("request context value = %v", got)
@@ -35,6 +37,9 @@ func TestResolveLatestGitHubReleaseUsesGitHubClient(t *testing.T) {
 			}
 			if got := request.Header.Get("User-Agent"); got != defaultUserAgent {
 				t.Fatalf("user agent = %q", got)
+			}
+			if got := request.Header.Get("X-API-Header"); got != "configured" {
+				t.Fatalf("custom API header = %q", got)
 			}
 			return &http.Response{
 				StatusCode: http.StatusOK,
@@ -233,6 +238,49 @@ func TestDownloadUsesConfiguredUserAgentHeadersAndRetryPolicy(t *testing.T) {
 	}
 	if attempts != 1 {
 		t.Fatalf("attempts = %d, want one", attempts)
+	}
+}
+
+func TestDownloadDoesNotForwardConfiguredHeadersAcrossOrigins(t *testing.T) {
+	var redirectedHeader string
+	server := httptest.NewTestServer(
+		t,
+		http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+			switch request.Host {
+			case "origin.example":
+				if got := request.Header.Get("Authorization"); got != "Bearer configured" {
+					t.Fatalf("origin authorization = %q", got)
+				}
+				http.Redirect(
+					writer,
+					request,
+					"https://destination.example/download",
+					http.StatusFound,
+				)
+			case "destination.example":
+				redirectedHeader = request.Header.Get("Authorization")
+				_, _ = io.WriteString(writer, "downloaded")
+			default:
+				t.Fatalf("unexpected request host %q", request.Host)
+			}
+		}),
+	)
+
+	retryMax := 0
+	client := HTTPClient{
+		Headers:  map[string]string{"Authorization": "Bearer configured"},
+		RetryMax: &retryMax,
+		Client:   server.Client(),
+	}
+	if err := client.Download(
+		t.Context(),
+		filepath.Join(t.TempDir(), "download"),
+		"https://origin.example/download",
+	); err != nil {
+		t.Fatal(err)
+	}
+	if redirectedHeader != "" {
+		t.Fatalf("redirected authorization = %q, want empty", redirectedHeader)
 	}
 }
 

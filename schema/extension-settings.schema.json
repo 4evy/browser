@@ -63,10 +63,7 @@
     "entry": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "id",
-        "values"
-      ],
+      "required": ["id", "values"],
       "properties": {
         "id": {
           "$ref": "#/$defs/extensionId"
@@ -80,19 +77,13 @@
     "operation": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "id",
-        "area"
-      ],
+      "required": ["id", "area"],
       "properties": {
         "id": {
           "$ref": "#/$defs/extensionId"
         },
         "area": {
-          "enum": [
-            "local",
-            "sync"
-          ],
+          "enum": ["local", "sync"],
           "description": "Persistent storage area. In-memory session and read-only managed storage cannot be mutated offline."
         },
         "key": {
@@ -100,13 +91,7 @@
           "minLength": 1
         },
         "operation": {
-          "enum": [
-            "set",
-            "merge",
-            "append",
-            "remove",
-            "clear"
-          ],
+          "enum": ["set", "merge", "append", "remove", "clear"],
           "default": "set"
         },
         "path": {
@@ -114,10 +99,7 @@
           "description": "Optional nested path. Use ~1 for a literal dot and ~0 for a literal tilde in a segment."
         },
         "encoding": {
-          "enum": [
-            "json",
-            "json-lz-string-uri"
-          ],
+          "enum": ["json", "json-lz-string-uri"],
           "default": "json"
         },
         "value": true
@@ -130,62 +112,43 @@
                 "const": "clear"
               }
             },
-            "required": [
-              "operation"
-            ]
+            "required": ["operation"]
           },
           "then": {
             "not": {
               "anyOf": [
                 {
-                  "required": [
-                    "key"
-                  ]
+                  "required": ["key"]
                 },
                 {
-                  "required": [
-                    "path"
-                  ]
+                  "required": ["path"]
                 },
                 {
-                  "required": [
-                    "value"
-                  ]
+                  "required": ["value"]
                 }
               ]
             }
           },
           "else": {
-            "required": [
-              "key"
-            ]
+            "required": ["key"]
           }
         },
         {
           "if": {
             "properties": {
               "operation": {
-                "enum": [
-                  "remove",
-                  "clear"
-                ]
+                "enum": ["remove", "clear"]
               }
             },
-            "required": [
-              "operation"
-            ]
+            "required": ["operation"]
           },
           "then": {
             "not": {
-              "required": [
-                "value"
-              ]
+              "required": ["value"]
             }
           },
           "else": {
-            "required": [
-              "value"
-            ]
+            "required": ["value"]
           }
         },
         {
@@ -195,9 +158,7 @@
                 "const": "merge"
               }
             },
-            "required": [
-              "operation"
-            ]
+            "required": ["operation"]
           },
           "then": {
             "properties": {
@@ -214,9 +175,7 @@
                 "const": "append"
               }
             },
-            "required": [
-              "operation"
-            ]
+            "required": ["operation"]
           },
           "then": {
             "properties": {
@@ -231,22 +190,14 @@
     "input": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name",
-        "area",
-        "id",
-        "key"
-      ],
+      "required": ["name", "area", "id", "key"],
       "properties": {
         "name": {
           "type": "string",
           "minLength": 1
         },
         "area": {
-          "enum": [
-            "local",
-            "sync"
-          ],
+          "enum": ["local", "sync"],
           "description": "Persistent storage area."
         },
         "id": {
@@ -261,18 +212,11 @@
           "description": "Optional nested path. Use ~1 for a literal dot and ~0 for a literal tilde in a segment."
         },
         "encoding": {
-          "enum": [
-            "json",
-            "json-lz-string-uri"
-          ],
+          "enum": ["json", "json-lz-string-uri"],
           "default": "json"
         },
         "operation": {
-          "enum": [
-            "set",
-            "merge",
-            "append"
-          ],
+          "enum": ["set", "merge", "append"],
           "default": "set"
         }
       }
