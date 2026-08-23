@@ -5,14 +5,7 @@ on:
     - cron: "17 3 * * *"
   workflow_dispatch:
 
-# Renovate pushes with this token as github-actions[bot]. Pull request write
-# access is deliberately omitted so this workflow cannot create PRs.
-permissions:
-  checks: read
-  contents: write
-  issues: write
-  pull-requests: read
-  statuses: read
+permissions: {}
 
 concurrency:
   group: renovate
@@ -23,9 +16,19 @@ jobs:
     name: Renovate
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    # Renovate pushes with this token as github-actions[bot]. Pull request write
+    # access is deliberately omitted so this workflow cannot create PRs.
+    permissions:
+      checks: read # Required to inspect branch checks before automerging
+      contents: write # Required to create and push dependency branches
+      issues: write # Required for Renovate's issue-based coordination
+      pull-requests: read # Required to inspect existing pull requests
+      statuses: read # Required to inspect commit statuses before automerging
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Run Renovate
         uses: renovatebot/github-action@3064367f740a1a91cca218698a63902689cce200 # v46.1.20
