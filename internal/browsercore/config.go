@@ -1,6 +1,7 @@
 package browsercore
 
 import (
+	"bytes"
 	"cmp"
 	"errors"
 	"fmt"
@@ -84,7 +85,17 @@ func LoadConfig(path string) (Config, error) {
 		return Config{}, fmt.Errorf("read config %s: %w", path, err)
 	}
 	var config Config
-	if err := toml.Unmarshal(data, &config); err != nil {
+	decoder := toml.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(&config); err != nil {
+		if missing, ok := errors.AsType[*toml.StrictMissingError](err); ok {
+			return Config{}, fmt.Errorf(
+				"parse config %s: %w\n%s",
+				path,
+				err,
+				missing.String(),
+			)
+		}
 		return Config{}, fmt.Errorf("parse config %s: %w", path, err)
 	}
 	configPath, err := filepath.Abs(path)

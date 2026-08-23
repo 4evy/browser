@@ -222,6 +222,22 @@ files = ["invalid.json"]
 	}
 }
 
+func TestLoadConfigRejectsUnknownFields(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "browser.toml")
+	if err := os.WriteFile(path, []byte(`
+[browser]
+executable_name = "configured-browser"
+exectuable_name = "misspelled"
+`), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	_, err := LoadConfig(path)
+	if err == nil || !strings.Contains(err.Error(), "exectuable_name") {
+		t.Fatalf("load error = %v, want unknown TOML field", err)
+	}
+}
+
 func TestPathTemplatesIgnoreRelativeXDGDirectories(t *testing.T) {
 	home := filepath.Join(t.TempDir(), "home")
 	t.Setenv("HOME", home)
