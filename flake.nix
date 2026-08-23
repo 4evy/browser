@@ -39,7 +39,7 @@
         system:
         let
           pkgs = inputs.nixpkgs.legacyPackages.${system};
-          browser = pkgs.callPackage ./package.nix { };
+          browser = pkgs.callPackage ./nix/package.nix { };
           formatter = pkgs.nixfmt-tree.override {
             settings.excludes = [ ".sources/**" ];
           };
@@ -69,8 +69,13 @@
           devShells.default = pkgs.mkShell {
             inputsFrom = [ browser ];
             packages = [
-              pkgs.go
+              pkgs.deadnix
+              pkgs.go_1_27
               pkgs.gopls
+              pkgs.nixfmt
+              pkgs.nodejs_24
+              browser.passthru.golangciLint
+              pkgs.statix
               formatter
             ];
           };
@@ -89,10 +94,12 @@
       formatter = outputFor "formatter";
 
       overlays.default = final: _prev: {
-        browser = final.callPackage ./package.nix { };
+        browser = final.callPackage ./nix/package.nix { };
       };
 
       inherit homeModules nixosModules darwinModules;
+
+      # Kept for compatibility with the older community output name.
       homeManagerModules = homeModules;
       lib = import ./nix/lib.nix { inherit lib; };
     };
