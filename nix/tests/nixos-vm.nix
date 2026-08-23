@@ -131,13 +131,12 @@ pkgs.testers.nixosTest {
             "HOME=/home/alice "
             "XDG_CONFIG_HOME=/home/alice/.config "
             "XDG_DATA_HOME=/home/alice/.local/share "
-            "${browserExecutable} configure "
-            "--config=/etc/browser/browser.toml "
-            "--mode=linux "
-            "--root=/home/alice/.cache/browser "
+            "${browserExecutable} apply /etc/browser/browser.toml "
+            "--platform=linux "
+            "--install-dir=/home/alice/.local/share/browser/vm-browser "
             "--app-dir=${fakeBrowserBundle}/app "
             "--bin-dir=/home/alice/.local/bin "
-            "--flags=--from-command"
+            "-- --from-command"
         )
 
     with subtest("the launcher and its alias are native executable links"):

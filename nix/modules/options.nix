@@ -1,59 +1,122 @@
 {
   config,
   lib,
+  options,
   pkgs,
   ...
 }:
 
 let
+  inherit (lib)
+    attrVals
+    attrValues
+    escapeShellArgs
+    filterAttrs
+    literalExpression
+    literalMD
+    mapAttrs
+    mapAttrsToList
+    mkDerivedConfig
+    mkEnableOption
+    mkOption
+    optionalAttrs
+    types
+    ;
+
   cfg = config.programs.browser;
   tomlFormat = pkgs.formats.toml { };
   browserLib = import ../lib.nix { inherit lib; };
+  bravePolicyLib = import ./brave-policy.nix { inherit lib; };
   settingsType = import ./settings.nix {
     inherit lib tomlFormat;
   };
+  packageSet.browser = pkgs.browser or (pkgs.callPackage ../package.nix { });
 
-  configurations =
-    lib.optionalAttrs (cfg.settings != null) {
+  effectiveConfigurations =
+    optionalAttrs (cfg.settings != null) {
       browser = cfg.settings;
     }
     // cfg.configurations;
 
-  generatedFiles = lib.mapAttrs (
+  uncheckedGeneratedFiles = mapAttrs (
     name: settings:
     browserLib.generateConfig {
       inherit pkgs settings;
       name = "${name}.toml";
     }
-  ) configurations;
+  ) effectiveConfigurations;
+
+  configurationCanBeChecked =
+    settings:
+    let
+      extensionSettings = settings.extension_settings or null;
+      files = if extensionSettings == null then [ ] else extensionSettings.files or [ ];
+    in
+    lib.all types.pathInStore.check files;
+
+  generatedFiles = mapAttrs (
+    name: source:
+    if cfg.checkConfig then
+      pkgs.runCommandLocal "${name}.toml" { } ''
+        ${lib.getExe cfg.package} config validate ${source}
+        cp ${source} "$out"
+      ''
+    else
+      source
+  ) uncheckedGeneratedFiles;
+
+  policyConfigurations = filterAttrs (
+    _: settings: bravePolicyLib.hasPolicyIntent settings
+  ) effectiveConfigurations;
+
+  managedPolicyFile =
+    if policyConfigurations == { } then
+      null
+    else
+      pkgs.runCommandLocal "browser-brave-managed-policy.json" { } ''
+        ${lib.getExe packageSet.browser} policy render \
+          ${escapeShellArgs (attrVals (builtins.attrNames policyConfigurations) generatedFiles)} \
+          --output "$out"
+      '';
 
   validConfigurationName =
-    name:
-    name != "browser"
-    && name != "."
-    && name != ".."
-    && builtins.match "[A-Za-z0-9][A-Za-z0-9._-]*" name != null;
+    name: name != "browser" && builtins.match "[A-Za-z0-9][A-Za-z0-9._-]*" name != null;
 in
 {
-  _file = ./options.nix;
-  _class = null;
-
   options.programs.browser = {
-    enable = lib.mkEnableOption "the browser configurator";
+    enable = mkEnableOption "the browser configurator";
 
-    package =
-      lib.mkPackageOption pkgs "browser" {
-        nullable = true;
-        extraDescription = "Set this to `null` to manage configuration files without installing the package.";
-      }
-      // {
-        default = pkgs.browser or (pkgs.callPackage ../../package.nix { });
-      };
+    package = lib.mkPackageOption packageSet "browser" {
+      nullable = true;
+      pkgsText = "pkgs";
+      extraDescription = ''
+        Set this to `null` to manage configuration files without installing the
+        package.
+      '';
+    };
 
-    settings = lib.mkOption {
-      type = lib.types.nullOr settingsType;
+    checkConfig = mkOption {
+      type = types.bool;
+      default =
+        cfg.package != null && lib.all configurationCanBeChecked (attrValues effectiveConfigurations);
+      defaultText = literalMD ''
+        `true` when {option}`programs.browser.package` isn't `null` and every
+        extension-settings file is in the Nix store
+      '';
+      description = ''
+        Whether to validate each generated TOML file with the configured
+        `browser` package. This catches invalid cross-field settings while
+        building the configuration.
+
+        Validation defaults off when an extension-settings file is outside the
+        Nix store because that file isn't available in the build sandbox.
+      '';
+    };
+
+    settings = mkOption {
+      type = types.nullOr settingsType;
       default = null;
-      example = lib.literalExpression ''
+      example = literalExpression ''
         {
           browser = {
             name = "Chromium";
@@ -85,10 +148,13 @@ in
       '';
     };
 
-    configurations = lib.mkOption {
-      type = lib.types.attrsOf settingsType;
+    configurations = mkOption {
+      type = types.attrsWith {
+        elemType = settingsType;
+        placeholder = "configuration";
+      };
       default = { };
-      example = lib.literalExpression ''
+      example = literalExpression ''
         {
           chromium.browser = {
             name = "Chromium";
@@ -104,13 +170,13 @@ in
       description = ''
         Additional named browser configurations. A configuration named `NAME`
         is written to `browser/NAME.toml` and is available as
-        `programs.browser.configFiles.NAME`. The name `browser` is reserved for
-        the default `settings` file.
+        {option}`programs.browser.configFiles.NAME`. The name `browser` is
+        reserved for the default {option}`programs.browser.settings` file.
       '';
     };
 
-    configFile = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
+    configFile = mkOption {
+      type = types.nullOr types.pathInStore;
       readOnly = true;
       description = ''
         Generated default `browser.toml`, or `null` when `settings` is not
@@ -118,29 +184,49 @@ in
       '';
     };
 
-    configFiles = lib.mkOption {
-      type = lib.types.attrsOf lib.types.path;
+    configFiles = mkOption {
+      type = types.attrsOf types.pathInStore;
       readOnly = true;
       description = ''
         Generated configuration files keyed by basename. The default
         configuration, when present, is keyed as `browser`.
       '';
     };
+
+    managedPolicyFile = mkOption {
+      type = types.nullOr types.pathInStore;
+      readOnly = true;
+      description = ''
+        Generated Chromium managed-policy JSON for all Brave configurations,
+        or `null` when no Brave managed policy is configured.
+      '';
+    };
   };
 
   config = {
-    assertions = lib.mapAttrsToList (name: _: {
+    assertions = [
+      {
+        assertion = cfg.checkConfig -> cfg.package != null;
+        message = ''
+          `programs.browser.checkConfig` requires a non-null
+          `programs.browser.package`.
+        '';
+      }
+    ]
+    ++ mapAttrsToList (name: _: {
       assertion = validConfigurationName name;
       message = ''
-        programs.browser.configurations has invalid name ${builtins.toJSON name}.
-        Names must contain only letters, numbers, dots, underscores, and
-        hyphens, must begin with a letter or number, and may not be "browser".
+        `programs.browser.configurations` has invalid name
+        ${builtins.toJSON name}. Names must contain only letters, numbers,
+        dots, underscores, and hyphens, must begin with a letter or number,
+        and may not be "browser".
       '';
     }) cfg.configurations;
 
     programs.browser = {
-      configFile = generatedFiles.browser or null;
+      configFile = mkDerivedConfig options.programs.browser.configFiles (files: files.browser or null);
       configFiles = generatedFiles;
+      inherit managedPolicyFile;
     };
   };
 }

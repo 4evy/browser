@@ -8,7 +8,6 @@ let
   cfg = config.programs.browser;
 in
 {
-  _file = ./home-manager.nix;
   _class = "homeManager";
 
   imports = [ ./options.nix ];
@@ -16,11 +15,15 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = lib.optional (cfg.package != null) cfg.package;
 
-    xdg.configFile = lib.mapAttrs' (
-      name: source:
-      lib.nameValuePair "browser/${name}.toml" {
-        inherit source;
-      }
-    ) cfg.configFiles;
+    xdg.configFile =
+      lib.mapAttrs' (
+        name: source:
+        lib.nameValuePair "browser/${name}.toml" {
+          inherit source;
+        }
+      ) cfg.configFiles
+      // lib.optionalAttrs (cfg.managedPolicyFile != null) {
+        "browser/brave-managed-policy.json".source = cfg.managedPolicyFile;
+      };
   };
 }
