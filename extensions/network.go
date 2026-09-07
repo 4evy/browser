@@ -12,7 +12,7 @@ import (
 
 	"github.com/4evy/browser/internal/fileutil"
 	"github.com/carlmjohnson/requests"
-	"github.com/google/go-github/v90/github"
+	"github.com/google/go-github/v91/github"
 	"github.com/hashicorp/go-retryablehttp"
 )
 

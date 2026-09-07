@@ -15,6 +15,25 @@
   prCreation: "approval",
   dependencyDashboard: false,
 
+  packageRules: [
+    {
+      matchManagers: ["gomod"],
+      postUpdateOptions: ["gomodUpdateImportPaths", "gomodTidy"],
+    },
+    {
+      // Nixpkgs updates can also change the Go toolchain and vendor output.
+      matchManagers: ["gomod", "nix"],
+      postUpgradeTasks: {
+        commands: [
+          "nix --extra-experimental-features 'nix-command flakes' run --inputs-from . nixpkgs#nix-update -- --flake --version=skip --build browser",
+        ],
+        fileFilters: ["nix/package.nix"],
+        executionMode: "branch",
+        installTools: { nix: {} },
+      },
+    },
+  ],
+
   // The Nix manager is opt-in while it is in beta.
   nix: {
     enabled: true,

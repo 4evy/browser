@@ -1,4 +1,7 @@
 module.exports = {
+  allowedCommands: [
+    "^nix --extra-experimental-features 'nix-command flakes' run --inputs-from \\. nixpkgs#nix-update -- --flake --version=skip --build browser$",
+  ],
   platform: "github",
   onboarding: false,
   requireConfig: "required",
