@@ -12,7 +12,7 @@ require (
 	github.com/google/go-github/v91 v91.0.0
 	github.com/google/renameio/v2 v2.0.2
 	github.com/hashicorp/go-retryablehttp v0.7.8
-	github.com/mediabuyerbot/go-crx3 v1.7.0
+	github.com/mediabuyerbot/go-crx3 v1.7.1
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/pelletier/go-toml/v2 v2.4.3
 	github.com/spf13/cobra v1.10.2
