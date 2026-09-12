@@ -23,18 +23,27 @@ jobs:
       contents: write # Required to create and push dependency branches
       issues: write # Required for Renovate's issue-based coordination
       pull-requests: read # Required to inspect existing pull requests
-      statuses: read # Required to inspect commit statuses before automerging
+      statuses: write # Required to record artifact failures before automerging
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Run Renovate
-        uses: renovatebot/github-action@3064367f740a1a91cca218698a63902689cce200 # v46.1.20
+      - name: Install Nix
+        uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
         with:
-          configurationFile: .github/renovate-config.js
-          renovate-version: 43.280.2
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Run on the host so post-upgrade builds use the installed Nix and its
+      # standard store instead of Containerbase's relocated installation.
+      - name: Run Renovate
+        run: >-
+          nix shell --inputs-from . nixpkgs#renovate nixpkgs#go_1_27
+          nixpkgs#nodejs_24 --command renovate
         env:
+          LOG_LEVEL: debug
+          RENOVATE_CONFIG_FILE:
+            ${{ github.workspace }}/.github/renovate-config.js
           RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
