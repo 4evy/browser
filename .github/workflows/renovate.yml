@@ -38,9 +38,12 @@ jobs:
       # Run on the host so post-upgrade builds use the installed Nix and its
       # standard store instead of Containerbase's relocated installation.
       - name: Run Renovate
-        run: >-
-          nix shell --inputs-from . nixpkgs#renovate nixpkgs#go_1_27
-          nixpkgs#nodejs_24 --command renovate
+        run: |
+          export GOBIN="$RUNNER_TEMP/go-bin"
+          mkdir -p "$GOBIN"
+          export PATH="$GOBIN:$PATH"
+          nix shell --inputs-from . nixpkgs#renovate nixpkgs#go_1_27 \
+            nixpkgs#nodejs_24 --command renovate
         env:
           LOG_LEVEL: debug
           RENOVATE_CONFIG_FILE:
