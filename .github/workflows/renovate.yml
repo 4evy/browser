@@ -39,11 +39,9 @@ jobs:
       # standard store instead of Containerbase's relocated installation.
       - name: Run Renovate
         run: |
-          export GOBIN="$RUNNER_TEMP/go-bin"
-          mkdir -p "$GOBIN"
-          export PATH="$GOBIN:$PATH"
+          # gomodUpdateImportPaths needs mod when binarySource is global.
           nix shell --inputs-from . nixpkgs#renovate nixpkgs#go_1_27 \
-            nixpkgs#nodejs_24 --command renovate
+            nixpkgs#mod nixpkgs#nodejs_24 --command renovate
         env:
           LOG_LEVEL: debug
           RENOVATE_CONFIG_FILE:
