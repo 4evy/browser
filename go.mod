@@ -9,7 +9,7 @@ require (
 	github.com/carlmjohnson/requests v0.26.1
 	github.com/daku10/go-lz-string v0.0.7
 	github.com/google/go-cmp v0.7.0
-	github.com/google/go-github/v91 v91.0.0
+	github.com/google/go-github/v92 v92.0.0
 	github.com/google/renameio/v2 v2.0.2
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/mediabuyerbot/go-crx3 v1.7.1
