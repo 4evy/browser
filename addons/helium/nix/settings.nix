@@ -31,6 +31,7 @@ in
     centered_location_bar = optionalBool "Center Helium's location bar.";
     minimal_location_bar = optionalBool "Use Helium's minimal location bar.";
     rounded_frame = optionalBool "Round Helium's web-content frame.";
+    show_progress_bar = optionalBool "Show Helium's page-loading progress bar.";
     native_frame_materials = optionalBool "Use native frame materials where supported.";
     zen_mode = optionalBool "Enable Helium zen mode.";
     zen_mode_sidebar_pinned = optionalBool "Keep the zen-mode sidebar visible.";

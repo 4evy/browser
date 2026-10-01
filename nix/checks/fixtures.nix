@@ -60,6 +60,7 @@ let
       helium = {
         crash_reporting = "ask";
         appearance.layout = "dynamic";
+        appearance.show_progress_bar = false;
         behavior.new_tab_next_to_active = true;
         behavior.suppress_default_browser_prompt = true;
         privacy.global_privacy_control = true;

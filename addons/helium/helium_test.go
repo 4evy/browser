@@ -40,6 +40,7 @@ vertical_right_aligned = true
 centered_location_bar = true
 minimal_location_bar = false
 rounded_frame = true
+show_progress_bar = false
 native_frame_materials = false
 zen_mode = true
 zen_mode_sidebar_pinned = false
@@ -100,6 +101,7 @@ show_page_zoom_indicator = false
 		t.Fatal(err)
 	}
 	assertNestedPreference(t, preferences, "helium.completed_onboarding", true)
+	assertNestedPreference(t, preferences, "helium.browser.show_progress_bar", false)
 	assertNestedPreference(t, preferences, "helium.services.enabled", false)
 	assertNestedPreference(
 		t,

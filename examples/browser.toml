@@ -80,6 +80,7 @@ external_extension_dirs = [
 # centered_location_bar = true
 # minimal_location_bar = false
 # rounded_frame = true
+# show_progress_bar = true
 # zen_mode = false
 #
 # [browser.helium.behavior]

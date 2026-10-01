@@ -65,6 +65,7 @@ type AppearanceConfig struct {
 	CenteredLocationBar    *bool      `toml:"centered_location_bar"`
 	MinimalLocationBar     *bool      `toml:"minimal_location_bar"`
 	RoundedFrame           *bool      `toml:"rounded_frame"`
+	ShowProgressBar        *bool      `toml:"show_progress_bar"`
 	NativeFrameMaterials   *bool      `toml:"native_frame_materials"`
 	ZenMode                *bool      `toml:"zen_mode"`
 	ZenModeSidebarPinned   *bool      `toml:"zen_mode_sidebar_pinned"`

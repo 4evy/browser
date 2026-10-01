@@ -1,5 +1,5 @@
 {
-  "audited_against": "Helium 208a56bab803ceda8202f8c79dd0e9bfcffe600a on Chromium 151.0.7922.173 (2026-08-23)",
+  "audited_against": "Helium 0.18.2 (76141e139aa079aa24977d861e67bdb64923c3e8) on Chromium 154.0.8037.92",
   "profile": {
     "completed_onboarding": "helium.completed_onboarding",
     "services.enabled": "helium.services.enabled",
@@ -38,7 +38,8 @@
     "theme.color_variant": "browser.theme.color_variant2",
     "theme.grayscale": "browser.theme.is_grayscale2",
     "theme.user_color": "browser.theme.user_color2",
-    "theme.extension_id": "extensions.theme.id"
+    "theme.extension_id": "extensions.theme.id",
+    "appearance.show_progress_bar": "helium.browser.show_progress_bar"
   },
   "local_state": {
     "crash_reporting": "helium.crash_reporting.mode",
