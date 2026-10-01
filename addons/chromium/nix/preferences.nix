@@ -41,11 +41,17 @@ in
       "block"
       "session_only"
     ]) "Default cookie behavior.";
-    third_party = optional (types.enum [
-      "off"
-      "block"
-      "incognito_only"
-    ]) "Chromium cookie-controls mode for third-party cookies.";
+    third_party =
+      optional
+        (types.enum [
+          "off"
+          "block"
+          "incognito_only"
+        ])
+        ''
+          Chromium cookie-controls mode for third-party cookies. In Chromium 157,
+          off and incognito_only both block third-party cookies in incognito.
+        '';
     allow = optionalStringList ''
       Cookie patterns to allow; an empty list removes existing allow exceptions.
     '';

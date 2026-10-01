@@ -36,6 +36,8 @@ const (
 
 type ThirdPartyCookiePolicy string
 
+// Chromium 157 treats off and incognito_only alike in incognito profiles
+// Retain both stored enum values for compatibility with other browser builds
 const (
 	ThirdPartyCookiePolicyOff           ThirdPartyCookiePolicy = "off"
 	ThirdPartyCookiePolicyBlock         ThirdPartyCookiePolicy = "block"

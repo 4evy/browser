@@ -48,6 +48,7 @@ external_extension_dirs = [
 # [browser.preferences.cookies]
 # default = "session_only" # allow | block | session_only
 # third_party = "block"    # off | block | incognito_only
+# In Chromium 157, off also blocks third-party cookies in incognito
 # allow = ["[*.]example.com"]
 # block = ["[*.]tracker.example"]
 # session_only = ["[*.]temporary.example"]
