@@ -263,8 +263,9 @@ func (extension ZIPExtension) updatePolicy() UpdatePolicy {
 func validateGitExtension(extension GitExtension) error {
 	var errs []error
 	provider := extension.gitProvider()
-	switch provider {
-	case GitProviderGit:
+	_, hosted := hostedGitProviders[provider]
+	switch {
+	case provider == GitProviderGit:
 		if extension.Repository != "" {
 			errs = append(errs, fmt.Errorf(
 				"git extension %q with provider %q must not set repository",
@@ -278,7 +279,7 @@ func validateGitExtension(extension GitExtension) error {
 				extension.Name,
 			))
 		}
-	case GitProviderGitHub, GitProviderGitLab, GitProviderCodeberg, GitProviderSourceHut:
+	case hosted:
 		if extension.URL != "" {
 			errs = append(errs, fmt.Errorf(
 				"git extension %q with provider %q must not set URL",
@@ -486,6 +487,10 @@ func ValidGitHubRepository(repository string) bool {
 }
 
 func ValidHostedGitRepository(provider GitProvider, repository string) bool {
+	spec, supported := hostedGitProviders[provider]
+	if !supported {
+		return false
+	}
 	if repository == "" || repository != strings.Trim(repository, "/") ||
 		strings.HasSuffix(repository, ".git") ||
 		strings.ContainsAny(repository, "\\:#?\t\r\n ") {
@@ -497,16 +502,11 @@ func ValidHostedGitRepository(provider GitProvider, repository string) bool {
 			return false
 		}
 	}
-	switch provider {
-	case GitProviderGitHub, GitProviderCodeberg:
-		return len(parts) == 2 && !strings.HasPrefix(parts[0], "~")
-	case GitProviderGitLab:
-		return len(parts) >= 2 && !strings.HasPrefix(parts[0], "~")
-	case GitProviderSourceHut:
-		return len(parts) == 2 && len(parts[0]) > 1 && strings.HasPrefix(parts[0], "~")
-	default:
+	if len(parts) < 2 || (!spec.allowSubgroups && len(parts) != 2) {
 		return false
 	}
+	return strings.HasPrefix(parts[0], "~") == spec.tildeOwner &&
+		(!spec.tildeOwner || len(parts[0]) > 1)
 }
 
 func ValidGitURL(rawURL string) bool {

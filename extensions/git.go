@@ -20,6 +20,20 @@ type GitClient struct {
 	Executable string
 }
 
+type hostedGitProvider struct {
+	baseURL        string
+	suffix         string
+	allowSubgroups bool
+	tildeOwner     bool
+}
+
+var hostedGitProviders = map[GitProvider]hostedGitProvider{
+	GitProviderGitHub:    {baseURL: "https://github.com/", suffix: ".git"},
+	GitProviderGitLab:    {baseURL: "https://gitlab.com/", suffix: ".git", allowSubgroups: true},
+	GitProviderCodeberg:  {baseURL: "https://codeberg.org/", suffix: ".git"},
+	GitProviderSourceHut: {baseURL: "https://git.sr.ht/", tildeOwner: true},
+}
+
 func GitCloneURL(extension GitExtension) (string, error) {
 	provider := extension.gitProvider()
 	if provider == GitProviderGit {
@@ -38,18 +52,8 @@ func GitCloneURL(extension GitExtension) (string, error) {
 			extension.Repository,
 		)
 	}
-	switch provider {
-	case GitProviderGitHub:
-		return "https://github.com/" + extension.Repository + ".git", nil
-	case GitProviderGitLab:
-		return "https://gitlab.com/" + extension.Repository + ".git", nil
-	case GitProviderCodeberg:
-		return "https://codeberg.org/" + extension.Repository + ".git", nil
-	case GitProviderSourceHut:
-		return "https://git.sr.ht/" + extension.Repository, nil
-	default:
-		return "", fmt.Errorf("unsupported Git provider %q", provider)
-	}
+	spec := hostedGitProviders[provider]
+	return spec.baseURL + extension.Repository + spec.suffix, nil
 }
 
 func (client GitClient) Checkout(
