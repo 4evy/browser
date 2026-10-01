@@ -22,7 +22,10 @@ const (
 )
 
 func WriteFile(path string, data []byte, perm fs.FileMode) error {
-	return WriteReader(path, bytes.NewReader(data), perm)
+	if err := os.MkdirAll(filepath.Dir(path), DefaultDirPerm); err != nil {
+		return err
+	}
+	return renameio.WriteFile(path, data, perm, renameio.WithStaticPermissions(perm))
 }
 
 func WriteReader(path string, reader io.Reader, perm fs.FileMode) error {
