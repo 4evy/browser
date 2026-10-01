@@ -57,7 +57,7 @@ let
       BraveWebDiscoveryEnabled = false;
       BrowserSignin = 0;
       EmailAliasesEnabled = false;
-      IPFSEnabled = false;
+      DefaultBrowserSettingEnabled = false;
       MetricsReportingEnabled = false;
       PsstEnabled = false;
       TorDisabled = true;
@@ -234,6 +234,17 @@ in
 {
   module-classes =
     assert !wrongClass.success;
+    assert (import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
+      browser.brave.behavior.show_default_browser_prompt = false;
+    };
+    assert
+      !(import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
+        browser.brave.behavior.show_default_browser_prompt = true;
+      };
+    assert
+      !(import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
+        browser.brave.behavior = null;
+      };
     pkgs.runCommandLocal "browser-module-classes" { } "touch $out";
 
   module-home-manager =

@@ -1,5 +1,5 @@
 {
-  "audited_against": "brave-core 2f817e264632a29c264f657f673d500a5c51696b (2026-08-22)",
+  "audited_against": "brave-core v1.99.1 (fd0d4e1823271c7e47ded84b65c9a5fa500da920) on Chromium 155.0.8059.16",
   "profile": {
     "tabs.hover_mode": "brave.tabs.hover_mode",
     "tabs.vertical": "brave.tabs.vertical_tabs_enabled",
@@ -31,16 +31,21 @@
     "behavior.confirm_window_close": "brave.enable_window_closing_confirm",
     "behavior.close_window_with_last_tab": "brave.enable_closing_last_tab",
     "behavior.show_fullscreen_reminder": "brave.show_fullscreen_reminder",
-    "sidebar.show": "brave.sidebar.sidebar_show_option"
+    "sidebar.show": "brave.sidebar.sidebar_show_option",
+    "ai.tab_organization_send_page_content": "brave.ai_chat.tab_organization_send_page_content",
+    "behavior.wayback_machine_auto_check": "brave.wayback_machine_auto_check_enabled",
+    "widgets.rewards": "brave.new_tab_page.show_rewards",
+    "widgets.talk": "brave.new_tab_page.show_together",
+    "widgets.vpn": "brave.new_tab_page.show_brave_vpn"
   },
   "local_state": {
     "tabs.compact_horizontal": "brave.tabs.compact_horizontal_tabs",
-    "behavior.show_default_browser_prompt": "brave.default_browser_prompt_enabled",
     "shields.adblock_only_mode": "brave.shields.adblock_only_mode_enabled",
     "shields.custom_filters": "brave.ad_block.custom_filters",
     "shields.facebook_embeds": "brave.shields.fb_embed_default",
     "shields.twitter_embeds": "brave.shields.twitter_embed_default",
-    "shields.linkedin_embeds": "brave.shields.linkedin_embed_default"
+    "shields.linkedin_embeds": "brave.shields.linkedin_embed_default",
+    "vpn.wireguard_allow_lan_traffic": "brave.brave_vpn.wireguard_allow_lan_traffic"
   },
   "choices": {
     "tabs.hover_mode": {
@@ -103,14 +108,7 @@
   "values": {},
   "presets": {
     "disable_web3": {
-      "features": [
-        "wallet",
-        "rewards",
-        "decentralized_dns",
-        "ipfs",
-        "webtorrent",
-        "crypto_widgets"
-      ]
+      "features": ["wallet", "rewards", "decentralized_dns"]
     },
     "disable_annoyances": {
       "extends": ["disable_web3"],
@@ -128,7 +126,6 @@
         "stats",
         "email_aliases",
         "search_promotions",
-        "suggested_sites",
         "new_tab_widgets",
         "speedreader",
         "wayback_machine",
@@ -195,10 +192,6 @@
           "mode": "identity"
         },
         {
-          "path": "brave.new_tab_page.show_rewards",
-          "mode": "identity"
-        },
-        {
           "path": "brave.rewards.ac.enabled",
           "disabled": false
         }
@@ -237,62 +230,13 @@
       ],
       "policies": []
     },
-    "ipfs": {
-      "profile": [
-        {
-          "path": "brave.ipfs.enabled",
-          "mode": "identity"
-        }
-      ],
-      "local_state": [],
-      "policies": [
-        {
-          "name": "IPFSEnabled",
-          "mode": "identity"
-        }
-      ]
-    },
-    "webtorrent": {
-      "profile": [
-        {
-          "path": "brave.webtorrent_enabled",
-          "mode": "identity"
-        }
-      ],
-      "local_state": [],
-      "policies": []
-    },
-    "crypto_widgets": {
-      "profile": [
-        {
-          "path": "ftx.new_tab_page.show_ftx",
-          "mode": "identity"
-        },
-        {
-          "path": "crypto_dot_com.new_tab_page.show_crypto_dot_com",
-          "mode": "identity"
-        },
-        {
-          "path": "brave.new_tab_page.show_gemini",
-          "mode": "identity"
-        },
-        {
-          "path": "brave.new_tab_page.show_binance",
-          "mode": "identity"
-        }
-      ],
-      "local_state": [],
-      "policies": []
-    },
     "ads": {
-      "profile": [],
-      "local_state": [
+      "remove_profile": ["brave.brave_ads.opted_in_to_search_result_ads"],
+      "remove_local_state": ["brave.brave_ads.opted_in_to_search_result_ads"],
+      "remove_profile_from_local_state": true,
+      "profile": [
         {
           "path": "brave.brave_ads.notifications.enabled",
-          "mode": "identity"
-        },
-        {
-          "path": "brave.brave_ads.opted_in_to_search_result_ads",
           "mode": "identity"
         },
         {
@@ -308,16 +252,17 @@
           "disabled": false
         }
       ],
+      "local_state": [],
       "policies": []
     },
     "sponsored_content": {
+      "remove_profile": [
+        "brave.new_tab_page.show_branded_background_image",
+        "brave.new_tab_page.show_sponsored_sites"
+      ],
       "profile": [
         {
-          "path": "brave.new_tab_page.show_branded_background_image",
-          "mode": "identity"
-        },
-        {
-          "path": "brave.new_tab_page.show_sponsored_sites",
+          "path": "brave.brave_ads.sponsored.enabled",
           "mode": "identity"
         },
         {
@@ -401,10 +346,6 @@
         {
           "path": "brave.brave_vpn.show_button",
           "mode": "identity"
-        },
-        {
-          "path": "brave.new_tab_page.show_brave_vpn",
-          "mode": "identity"
         }
       ],
       "local_state": [
@@ -433,6 +374,11 @@
         {
           "path": "brave.today.should_show_toolbar_button",
           "mode": "identity"
+        },
+        {
+          "path": "brave.news.opt_in_trial",
+          "enabled": false,
+          "disabled": false
         }
       ],
       "local_state": [],
@@ -444,12 +390,7 @@
       ]
     },
     "talk": {
-      "profile": [
-        {
-          "path": "brave.new_tab_page.show_together",
-          "mode": "identity"
-        }
-      ],
+      "profile": [],
       "local_state": [],
       "policies": [
         {
@@ -559,21 +500,19 @@
       "local_state": [],
       "policies": []
     },
-    "suggested_sites": {
-      "profile": [
-        {
-          "path": "brave.brave_suggested_site_suggestions_enabled",
-          "mode": "identity"
-        }
-      ],
-      "local_state": [],
-      "policies": []
-    },
     "new_tab_widgets": {
       "profile": [
         {
-          "path": "brave.new_tab_page.hide_all_widgets",
-          "mode": "inverse"
+          "path": "brave.new_tab_page.show_rewards",
+          "mode": "identity"
+        },
+        {
+          "path": "brave.new_tab_page.show_together",
+          "mode": "identity"
+        },
+        {
+          "path": "brave.new_tab_page.show_brave_vpn",
+          "mode": "identity"
         }
       ],
       "local_state": [],
@@ -625,13 +564,14 @@
       ]
     },
     "tor": {
-      "profile": [
+      "remove_profile": ["tor.tor_disabled"],
+      "profile": [],
+      "local_state": [
         {
           "path": "tor.tor_disabled",
           "mode": "inverse"
         }
       ],
-      "local_state": [],
       "policies": [
         {
           "name": "TorDisabled",

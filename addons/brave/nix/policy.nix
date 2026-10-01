@@ -15,9 +15,12 @@ rec {
       configuredFeatures = brave.features or null;
       features = if configuredFeatures == null then { } else configuredFeatures;
       configuredPolicies = brave.managed_policies or null;
+      configuredBehavior = brave.behavior or null;
+      behavior = if configuredBehavior == null then { } else configuredBehavior;
     in
     lib.any (name: (brave.${name} or null) == true) (builtins.attrNames metadata.presets)
     || (configuredPolicies != null && configuredPolicies != { })
+    || (behavior.show_default_browser_prompt or null) == false
     || lib.any (name: (features.${name} or null) != null) policyFeatures;
   isConfigured =
     cfg:

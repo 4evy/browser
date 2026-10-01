@@ -28,8 +28,8 @@ in
   '';
 
   disable_web3 = optionalBool ''
-    Disable Brave Wallet, Rewards/BAT, decentralized DNS, and legacy IPFS and
-    WebTorrent integration. Explicit `features` values override this preset.
+    Disable Brave Wallet, Rewards/BAT, and decentralized DNS.
+    Explicit `features` values override this preset.
   '';
 
   disable_annoyances = optionalBool ''
@@ -76,7 +76,15 @@ in
     confirm_window_close = optionalBool "Ask for confirmation before closing a Brave window.";
     close_window_with_last_tab = optionalBool "Close the Brave window when its last tab closes.";
     show_fullscreen_reminder = optionalBool "Show Brave's fullscreen reminder.";
-    show_default_browser_prompt = optionalBool "Show Brave's default-browser prompt.";
+    show_default_browser_prompt = optionalBool ''
+      False generates the managed DefaultBrowserSettingEnabled policy to
+      suppress the prompt. True leaves prompt behavior to Brave. Install the
+      rendered policy; this setting does not write a profile preference.
+    '';
+    wayback_machine_auto_check = optionalBool ''
+      Automatically check the Wayback Machine when Brave's experimental
+      WaybackMachineAutoCheck feature is available and enabled.
+    '';
   } "Brave-only window and tab behavior.";
 
   sidebar = optionalSubmodule {
@@ -97,11 +105,8 @@ in
         wallet = optionalBool "Enable Brave Wallet and its provider injection.";
         rewards = optionalBool "Enable Brave Rewards/BAT and its browser surfaces.";
         decentralized_dns = optionalBool "Enable ENS, SNS, and Unstoppable Domains resolution.";
-        ipfs = optionalBool "Enable the deprecated IPFS compatibility policy.";
-        webtorrent = optionalBool "Enable the deprecated WebTorrent preference.";
-        crypto_widgets = optionalBool "Enable legacy FTX, Crypto.com, Gemini, and Binance widgets.";
-        ads = optionalBool "Enable Brave Ads, including search-result and notification ads.";
-        sponsored_content = optionalBool "Enable sponsored new-tab backgrounds and sites.";
+        ads = optionalBool "Enable Brave notification ads and ad notification prompts.";
+        sponsored_content = optionalBool "Enable sponsored content in search results and new tabs.";
         ai_chat = optionalBool "Enable Brave Leo AI and its browser entry points.";
         local_ai = optionalBool "Enable Brave local AI and history embeddings.";
         vpn = optionalBool "Enable Brave VPN surfaces and Smart Proxy Routing.";
@@ -113,8 +118,10 @@ in
         stats = optionalBool "Enable Brave anonymous usage/statistics pings.";
         email_aliases = optionalBool "Enable Brave Email Aliases and autofill suggestions.";
         search_promotions = optionalBool "Enable Brave Search conversion prompts.";
-        suggested_sites = optionalBool "Enable Brave suggested-site suggestions.";
-        new_tab_widgets = optionalBool "Enable Brave's bundled new-tab widgets.";
+        new_tab_widgets = optionalBool ''
+          Show Rewards, Talk, and VPN new-tab widgets. Explicit rewards, talk,
+          and vpn feature choices override this choice for their own widget.
+        '';
         speedreader = optionalBool "Enable Brave Speedreader.";
         wayback_machine = optionalBool "Enable Brave's Wayback Machine integration.";
         psst = optionalBool "Enable Brave's PSST integration.";
@@ -125,6 +132,20 @@ in
         Granular Brave feature controls. These values take precedence over the
         presets and update both user preferences and available managed policies.
       '';
+
+  ai = optionalSubmodule {
+    tab_organization_send_page_content = optionalBool ''
+      Allow Leo tab organization to upload page excerpts. This consent is
+      independent of ai_chat and local_ai and is never enabled by a preset.
+    '';
+  } "Brave AI data-sharing controls.";
+
+  vpn = optionalSubmodule {
+    wireguard_allow_lan_traffic = optionalBool ''
+      Allow local-network traffic through Brave VPN's WireGuard connection.
+      Requires a Brave build with WireGuard support.
+    '';
+  } "Brave VPN connection controls.";
 
   profile_values = optional (types.listOf preferenceValue) ''
     Arbitrary Brave profile Preferences applied after every typed setting.

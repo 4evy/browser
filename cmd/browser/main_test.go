@@ -102,7 +102,6 @@ managed_policies = { BrowserSignin = 0 }
 		"BraveRewardsDisabled": true,
 		"BraveWalletDisabled":  true,
 		"BrowserSignin":        float64(0),
-		"IPFSEnabled":          false,
 	} {
 		if got := policy[name]; got != want {
 			t.Errorf("policy %s = %#v, want %#v", name, got, want)

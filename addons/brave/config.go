@@ -12,8 +12,7 @@ type Config struct {
 	// Origin reproduces Brave Origin's policy defaults and branded UI defaults
 	// on an ordinary Brave installation without changing purchase or SKU state
 	Origin bool `toml:"origin"`
-	// DisableWeb3 turns off Wallet, Rewards, decentralized-domain resolution,
-	// and compatibility switches for retired crypto features
+	// DisableWeb3 turns off Wallet, Rewards, and decentralized-domain resolution
 	DisableWeb3 bool `toml:"disable_web3"`
 	// DisableAnnoyances additionally turns off Brave's bundled promotions,
 	// sponsored content, telemetry, AI, VPN, News, Talk, and similar services
@@ -25,6 +24,8 @@ type Config struct {
 	Sidebar  SidebarConfig  `toml:"sidebar"`
 	Shields  ShieldsConfig  `toml:"shields"`
 	Features FeaturesConfig `toml:"features"`
+	AI       AIConfig       `toml:"ai"`
+	VPN      VPNConfig      `toml:"vpn"`
 
 	// ProfileValues and LocalStateValues are deliberately unbounded escape
 	// hatches for Brave preferences that are newer than this package or too
@@ -75,7 +76,19 @@ type BehaviorConfig struct {
 	ConfirmWindowClose       *bool `toml:"confirm_window_close"`
 	CloseWindowWithLastTab   *bool `toml:"close_window_with_last_tab"`
 	ShowFullscreenReminder   *bool `toml:"show_fullscreen_reminder"`
+	// False requires installing the rendered managed policy to suppress the
+	// prompt; true leaves Brave's upstream prompt behavior in place
 	ShowDefaultBrowserPrompt *bool `toml:"show_default_browser_prompt"`
+	WaybackMachineAutoCheck  *bool `toml:"wayback_machine_auto_check"`
+}
+
+type AIConfig struct {
+	// Page-content upload consent is independent of enabling Leo or local AI
+	TabOrganizationSendPageContent *bool `toml:"tab_organization_send_page_content"`
+}
+
+type VPNConfig struct {
+	WireGuardAllowLANTraffic *bool `toml:"wireguard_allow_lan_traffic"`
 }
 
 type SidebarConfig struct {
@@ -117,11 +130,15 @@ const (
 )
 
 func (config Config) HasProfilePreferences() bool {
-	return len(config.profilePreferenceValues()) > 0
+	return len(config.profilePreferenceValues()) > 0 ||
+		config.effectiveFeatures()["tor"] != nil
 }
 
 func (config Config) HasLocalStatePreferences() bool {
-	return len(config.localStatePreferenceValues()) > 0
+	return len(config.localStatePreferenceValues()) > 0 ||
+		config.effectiveFeatures()["ads"] != nil ||
+		config.Behavior.ShowDefaultBrowserPrompt != nil ||
+		config.DisableAnnoyances || config.Origin
 }
 
 func (config Config) Validate() error {
@@ -132,6 +149,9 @@ func (config Config) Validate() error {
 }
 
 func (config Config) PatchPreferences(preferences map[string]any) error {
+	if err := config.clearMigratedProfilePreferences(preferences); err != nil {
+		return err
+	}
 	return chromium.PatchPreferenceValues(
 		preferences,
 		config.profilePreferenceValues(),
@@ -140,6 +160,9 @@ func (config Config) PatchPreferences(preferences map[string]any) error {
 }
 
 func (config Config) PatchLocalState(localState map[string]any) error {
+	if err := config.clearMigratedLocalState(localState); err != nil {
+		return err
+	}
 	return chromium.PatchPreferenceValues(
 		localState,
 		config.localStatePreferenceValues(),

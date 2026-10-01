@@ -55,6 +55,11 @@ type Feature struct {
 	Profile    []PreferenceRule `json:"profile"`
 	LocalState []PreferenceRule `json:"local_state"`
 	Policies   []PolicyRule     `json:"policies"`
+	// Remove migration inputs only when the owning feature is managed
+	RemoveProfile    []string `json:"remove_profile,omitempty"`
+	RemoveLocalState []string `json:"remove_local_state,omitempty"`
+	// Retire misplaced profile rules without duplicating their paths
+	RemoveProfileFromLocalState bool `json:"remove_profile_from_local_state,omitempty"`
 }
 
 type PreferenceRule struct {
@@ -260,6 +265,11 @@ func (metadata Feature) validate() error {
 	for _, rule := range slices.Concat(metadata.Profile, metadata.LocalState) {
 		if err := rule.validate(); err != nil {
 			errs = append(errs, err)
+		}
+	}
+	for _, path := range slices.Concat(metadata.RemoveProfile, metadata.RemoveLocalState) {
+		if strings.TrimSpace(path) == "" {
+			errs = append(errs, errors.New("obsolete preference path must not be empty"))
 		}
 	}
 	for _, rule := range metadata.Policies {

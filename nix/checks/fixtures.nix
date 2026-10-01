@@ -80,8 +80,13 @@ let
           always_use_mini_accent_icon = true;
         };
         toolbar.web_view_rounded_corners = true;
-        behavior.cycle_tabs_by_most_recent_use = true;
-        behavior.show_default_browser_prompt = false;
+        behavior = {
+          cycle_tabs_by_most_recent_use = true;
+          show_default_browser_prompt = false;
+          wayback_machine_auto_check = false;
+        };
+        ai.tab_organization_send_page_content = false;
+        vpn.wireguard_allow_lan_traffic = true;
         sidebar.show = "mouseover";
         shields.adblock_only_mode = false;
         profile_values = [

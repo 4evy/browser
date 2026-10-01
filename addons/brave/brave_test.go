@@ -55,18 +55,16 @@ disable_annoyances = true
 		"brave.wallet.should_show_wallet_suggestion_badge":                    false,
 		"brave.wallet.nft_discovery_enabled":                                  false,
 		"brave.wallet.private_windows_enabled":                                false,
+		"brave.news.opt_in_trial":                                             false,
+		"brave.brave_ads.notifications.enabled":                               false,
+		"brave.brave_ads.should_allow_ads_subdivision_targeting":              false,
+		"brave.brave_ads.should_show_my_first_ad_notification":                false,
+		"brave.search.search_result_ad.should_show_clicked_infobar":           false,
 		"brave.rewards.enabled":                                               false,
 		"brave.rewards.show_brave_rewards_button_in_location_bar":             false,
 		"brave.rewards.ac.enabled":                                            false,
 		"brave.new_tab_page.show_rewards":                                     false,
-		"brave.ipfs.enabled":                                                  false,
-		"brave.webtorrent_enabled":                                            false,
-		"ftx.new_tab_page.show_ftx":                                           false,
-		"crypto_dot_com.new_tab_page.show_crypto_dot_com":                     false,
-		"brave.new_tab_page.show_gemini":                                      false,
-		"brave.new_tab_page.show_binance":                                     false,
-		"brave.new_tab_page.show_branded_background_image":                    false,
-		"brave.new_tab_page.show_sponsored_sites":                             false,
+		"brave.brave_ads.sponsored.enabled":                                   false,
 		"brave.branded_wallpaper_notification_dismissed":                      true,
 		"brave.new_tab_page.new_tab_takeover_infobar_remaining_display_count": json.Number("0"),
 		"brave.ai_chat.storage_enabled":                                       false,
@@ -89,8 +87,6 @@ disable_annoyances = true
 		"brave.email_aliases.new_alias_autofill_suggestion_enabled":           false,
 		"brave.brave_search_conversion.dismissed":                             true,
 		"brave.brave_search.ntp-search_prompt_enable_suggestions":             false,
-		"brave.brave_suggested_site_suggestions_enabled":                      false,
-		"brave.new_tab_page.hide_all_widgets":                                 true,
 		"brave.speedreader.feature_enabled":                                   false,
 		"brave.wayback_machine_enabled":                                       false,
 		"brave.psst.settings.enable_psst":                                     false,
@@ -103,45 +99,39 @@ disable_annoyances = true
 		t.Fatal(err)
 	}
 	for path, want := range map[string]any{
-		"brave.unstoppable_domains.resolve_method":                  json.Number("1"),
-		"brave.ens.resolve_method":                                  json.Number("1"),
-		"brave.ens.offchain_resolve_method":                         json.Number("1"),
-		"brave.sns.resolve_method":                                  json.Number("1"),
-		"brave.brave_ads.notifications.enabled":                     false,
-		"brave.brave_ads.opted_in_to_search_result_ads":             false,
-		"brave.brave_ads.should_allow_ads_subdivision_targeting":    false,
-		"brave.brave_ads.should_show_my_first_ad_notification":      false,
-		"brave.search.search_result_ad.should_show_clicked_infobar": false,
-		"brave.ai_chat.ntp_input_day_zero_enabled":                  false,
-		"brave.local_ai_enabled":                                    false,
-		"brave.brave_vpn.smart_proxy_routing_enabled":               false,
-		"brave.p3a.enabled":                                         false,
-		"brave.stats.reporting_enabled":                             false,
-		"metrics.reporting_enabled":                                 false,
-		"brave.dont_ask_for_crash_reporting":                        true,
-		"brave.default_browser_prompt_enabled":                      false,
+		"brave.unstoppable_domains.resolve_method":    json.Number("1"),
+		"brave.ens.resolve_method":                    json.Number("1"),
+		"brave.ens.offchain_resolve_method":           json.Number("1"),
+		"brave.sns.resolve_method":                    json.Number("1"),
+		"brave.ai_chat.ntp_input_day_zero_enabled":    false,
+		"brave.local_ai_enabled":                      false,
+		"brave.brave_vpn.smart_proxy_routing_enabled": false,
+		"brave.p3a.enabled":                           false,
+		"brave.stats.reporting_enabled":               false,
+		"metrics.reporting_enabled":                   false,
+		"brave.dont_ask_for_crash_reporting":          true,
 	} {
 		assertNestedPreference(t, localState, path, want)
 	}
 
 	wantPolicies := map[string]any{
-		"BraveWalletDisabled":        true,
-		"BraveRewardsDisabled":       true,
-		"BraveAIChatEnabled":         false,
-		"BraveLocalAIEnabled":        false,
-		"BraveVPNDisabled":           true,
-		"BraveNewsDisabled":          true,
-		"BraveTalkDisabled":          true,
-		"BravePlaylistEnabled":       false,
-		"BraveWebDiscoveryEnabled":   false,
-		"BraveP3AEnabled":            false,
-		"BraveStatsPingEnabled":      false,
-		"MetricsReportingEnabled":    false,
-		"EmailAliasesEnabled":        false,
-		"BraveSpeedreaderEnabled":    false,
-		"BraveWaybackMachineEnabled": false,
-		"PsstEnabled":                false,
-		"IPFSEnabled":                false,
+		"DefaultBrowserSettingEnabled": false,
+		"BraveWalletDisabled":          true,
+		"BraveRewardsDisabled":         true,
+		"BraveAIChatEnabled":           false,
+		"BraveLocalAIEnabled":          false,
+		"BraveVPNDisabled":             true,
+		"BraveNewsDisabled":            true,
+		"BraveTalkDisabled":            true,
+		"BravePlaylistEnabled":         false,
+		"BraveWebDiscoveryEnabled":     false,
+		"BraveP3AEnabled":              false,
+		"BraveStatsPingEnabled":        false,
+		"MetricsReportingEnabled":      false,
+		"EmailAliasesEnabled":          false,
+		"BraveSpeedreaderEnabled":      false,
+		"BraveWaybackMachineEnabled":   false,
+		"PsstEnabled":                  false,
 	}
 	if got := config.Providers[0].(Config).ManagedPolicyValues(); !reflect.DeepEqual(
 		got,
@@ -172,24 +162,24 @@ origin = true
 	}
 
 	wantPolicies := map[string]any{
-		"BraveWalletDisabled":        true,
-		"BraveRewardsDisabled":       true,
-		"BraveAIChatEnabled":         false,
-		"BraveLocalAIEnabled":        false,
-		"BraveVPNDisabled":           true,
-		"BraveNewsDisabled":          true,
-		"BraveTalkDisabled":          true,
-		"BravePlaylistEnabled":       false,
-		"BraveWebDiscoveryEnabled":   false,
-		"BraveP3AEnabled":            false,
-		"BraveStatsPingEnabled":      false,
-		"MetricsReportingEnabled":    false,
-		"EmailAliasesEnabled":        false,
-		"BraveSpeedreaderEnabled":    false,
-		"BraveWaybackMachineEnabled": false,
-		"PsstEnabled":                false,
-		"TorDisabled":                true,
-		"IPFSEnabled":                false,
+		"DefaultBrowserSettingEnabled": false,
+		"BraveWalletDisabled":          true,
+		"BraveRewardsDisabled":         true,
+		"BraveAIChatEnabled":           false,
+		"BraveLocalAIEnabled":          false,
+		"BraveVPNDisabled":             true,
+		"BraveNewsDisabled":            true,
+		"BraveTalkDisabled":            true,
+		"BravePlaylistEnabled":         false,
+		"BraveWebDiscoveryEnabled":     false,
+		"BraveP3AEnabled":              false,
+		"BraveStatsPingEnabled":        false,
+		"MetricsReportingEnabled":      false,
+		"EmailAliasesEnabled":          false,
+		"BraveSpeedreaderEnabled":      false,
+		"BraveWaybackMachineEnabled":   false,
+		"PsstEnabled":                  false,
+		"TorDisabled":                  true,
 	}
 	if got := config.ManagedPolicyValues(); !reflect.DeepEqual(
 		got,
@@ -276,7 +266,7 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 			News:   &enabled,
 		},
 		ProfileValues: []browser.PreferenceValueConfig{
-			{Path: "brave.new_tab_page.show_sponsored_sites", Value: true},
+			{Path: "brave.brave_ads.sponsored.enabled", Value: true},
 		},
 		LocalStateValues: []browser.PreferenceValueConfig{
 			{Path: "brave.ens.resolve_method", Value: 3},
@@ -306,7 +296,7 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 	assertNestedPreference(
 		t,
 		preferences,
-		"brave.new_tab_page.show_sponsored_sites",
+		"brave.brave_ads.sponsored.enabled",
 		true,
 	)
 
@@ -375,6 +365,13 @@ confirm_window_close = false
 close_window_with_last_tab = true
 show_fullscreen_reminder = false
 show_default_browser_prompt = false
+wayback_machine_auto_check = true
+
+[browser.brave.ai]
+tab_organization_send_page_content = false
+
+[browser.brave.vpn]
+wireguard_allow_lan_traffic = false
 
 [browser.brave.sidebar]
 show = "never"
@@ -528,6 +525,8 @@ linkedin_embeds = false
 		true,
 	)
 	assertNestedPreference(t, preferences, "brave.location_bar_is_wide", true)
+	assertNestedPreference(t, preferences, "brave.wayback_machine_auto_check_enabled", true)
+	assertNestedPreference(t, preferences, "brave.ai_chat.tab_organization_send_page_content", false)
 	assertNestedPreference(
 		t,
 		preferences,
@@ -568,17 +567,12 @@ linkedin_embeds = false
 	if err != nil {
 		t.Fatal(err)
 	}
+	assertNestedPreference(t, localState, "brave.brave_vpn.wireguard_allow_lan_traffic", false)
 	assertNestedPreference(
 		t,
 		localState,
 		"brave.tabs.compact_horizontal_tabs",
 		true,
-	)
-	assertNestedPreference(
-		t,
-		localState,
-		"brave.default_browser_prompt_enabled",
-		false,
 	)
 	assertNestedPreference(
 		t,

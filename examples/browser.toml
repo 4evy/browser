@@ -106,8 +106,8 @@ external_extension_dirs = [
 #
 # `origin` reproduces the official Brave Origin policy and UI defaults on
 # regular Brave without changing purchase or branding state. Disable only
-# Wallet, Rewards/BAT, decentralized Web3 DNS, and legacy crypto integrations
-# with disable_web3. disable_annoyances includes that narrower preset and also
+# Wallet, Rewards/BAT, and decentralized Web3 DNS with disable_web3
+# disable_annoyances includes that narrower preset and also
 # disables Brave ads, sponsored content, AI, VPN, News, Talk, Playlist,
 # telemetry, promotions, new-tab widgets, and the other bundled services.
 #
@@ -131,6 +131,16 @@ external_extension_dirs = [
 # [browser.brave.features]
 # news = true
 # speedreader = true
+# ads = false # Notification ads
+# sponsored_content = false # Search and new-tab sponsorship
+# new_tab_widgets = false # Rewards, Talk, and VPN widgets
+# rewards = true # Overrides new_tab_widgets for the Rewards widget
+#
+# [browser.brave.ai]
+# tab_organization_send_page_content = false # Separate Leo upload consent
+#
+# [browser.brave.vpn]
+# wireguard_allow_lan_traffic = true # Requires WireGuard support
 #
 # Arbitrary Brave profile and Local State values run last, so every upstream
 # preference remains configurable even before it receives a typed field:
@@ -164,7 +174,8 @@ external_extension_dirs = [
 # confirm_window_close = true
 # close_window_with_last_tab = true
 # show_fullscreen_reminder = true
-# show_default_browser_prompt = false
+# show_default_browser_prompt = false # Requires the rendered managed policy
+# wayback_machine_auto_check = false # Requires WaybackMachineAutoCheck
 #
 # [browser.brave.sidebar]
 # show = "mouseover" # always | mouseover | never
