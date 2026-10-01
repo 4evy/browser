@@ -218,10 +218,7 @@ func launcherCommand(
 	if err != nil {
 		return nil, err
 	}
-	command := slices.Clone(configuration.Command)
-	command = append(command, flags...)
-	command = append(command, arguments...)
-	return command, nil
+	return slices.Concat(configuration.Command, flags, arguments), nil
 }
 
 func readFlags(path, configHome string) ([]string, error) {

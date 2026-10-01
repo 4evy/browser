@@ -111,7 +111,7 @@ func (browser Browser) ApplyExtensionSettings(ctx context.Context, options Apply
 		return errors.New(profileDirectoryRequiredMessage)
 	}
 	options.Settings = slices.Concat(
-		slices.Clone(browser.ExtensionSettings),
+		browser.ExtensionSettings,
 		options.Settings,
 	)
 	options.ExtensionIDAliases = mergeExtensionIDAliases(

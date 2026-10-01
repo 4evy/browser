@@ -233,7 +233,7 @@ func (metadata featureMetadata) validate() error {
 	if len(metadata.Profile)+len(metadata.LocalState)+len(metadata.Policies) == 0 {
 		errs = append(errs, errors.New("must declare at least one preference or policy rule"))
 	}
-	for _, rule := range append(slices.Clone(metadata.Profile), metadata.LocalState...) {
+	for _, rule := range slices.Concat(metadata.Profile, metadata.LocalState) {
 		if err := rule.validate(); err != nil {
 			errs = append(errs, err)
 		}
