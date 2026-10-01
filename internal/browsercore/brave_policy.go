@@ -1,6 +1,7 @@
 package browsercore
 
 import (
+	"bytes"
 	"encoding/json/jsontext"
 	json "encoding/json/v2"
 	"errors"
@@ -37,16 +38,16 @@ func MergeBraveManagedPolicies(configs ...Config) (map[string]any, error) {
 
 // EncodeBraveManagedPolicy writes a deterministic Chromium policy document.
 func EncodeBraveManagedPolicy(writer io.Writer, policies map[string]any) error {
-	data, err := json.Marshal(
+	var data bytes.Buffer
+	err := json.MarshalEncode(
+		jsontext.NewEncoder(&data, jsontext.WithIndent("  ")),
 		policies,
 		json.Deterministic(true),
-		jsontext.WithIndent("  "),
 	)
 	if err != nil {
 		return fmt.Errorf("encode Brave managed policy: %w", err)
 	}
-	data = append(data, '\n')
-	if _, err := writer.Write(data); err != nil {
+	if _, err := writer.Write(data.Bytes()); err != nil {
 		return fmt.Errorf("write Brave managed policy: %w", err)
 	}
 	return nil

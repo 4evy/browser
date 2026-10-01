@@ -56,16 +56,16 @@ func WriteTextIfChanged(path, text string) (bool, error) {
 }
 
 func WriteJSONIfChanged(path string, value any, perm fs.FileMode) (bool, error) {
-	data, err := json.Marshal(
+	var data bytes.Buffer
+	err := json.MarshalEncode(
+		jsontext.NewEncoder(&data, jsontext.WithIndent("  ")),
 		value,
 		json.Deterministic(true),
-		jsontext.WithIndent("  "),
 	)
 	if err != nil {
 		return false, err
 	}
-	data = append(data, '\n')
-	return writeIfChanged(path, data, perm)
+	return writeIfChanged(path, data.Bytes(), perm)
 }
 
 func writeIfChanged(path string, data []byte, perm fs.FileMode) (bool, error) {
