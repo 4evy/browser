@@ -140,7 +140,7 @@ func (browser Browser) configureApp(
 	if browser.Config.AliasName == "" {
 		return nil
 	}
-	return replaceSymlink(
+	return renameio.Symlink(
 		browser.Config.ExecutableName,
 		filepath.Join(options.BinDir, browser.Config.AliasName),
 	)
@@ -243,8 +243,4 @@ func (browser Browser) installMacOS(ctx context.Context, options *InstallOptions
 		options,
 		filepath.Join(appDir, filepath.FromSlash(browser.Config.MacOS.LauncherPath)),
 	)
-}
-
-func replaceSymlink(oldname, newname string) error {
-	return renameio.Symlink(oldname, newname)
 }

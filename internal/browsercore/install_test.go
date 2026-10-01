@@ -214,23 +214,6 @@ func TestLoadExtensionFlagsRejectsCommaInPath(t *testing.T) {
 	}
 }
 
-func TestReplaceSymlinkReplacesExistingPath(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "launcher")
-	if err := os.WriteFile(path, []byte("old launcher"), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	if err := replaceSymlink("new-launcher", path); err != nil {
-		t.Fatal(err)
-	}
-	target, err := os.Readlink(path)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if target != "new-launcher" {
-		t.Fatalf("symlink target = %q, want %q", target, "new-launcher")
-	}
-}
-
 func TestRunLauncherReplacesProcess(t *testing.T) {
 	printf, err := exec.LookPath("printf")
 	if err != nil {
