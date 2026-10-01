@@ -1,6 +1,6 @@
 module github.com/4evy/browser
 
-go 1.27.0
+go 1.27.1
 
 require (
 	github.com/Jeffail/gabs/v2 v2.7.0
@@ -9,7 +9,7 @@ require (
 	github.com/carlmjohnson/requests v0.26.1
 	github.com/daku10/go-lz-string v0.0.7
 	github.com/google/go-cmp v0.7.0
-	github.com/google/go-github/v91 v91.0.0
+	github.com/google/go-github/v92 v92.0.0
 	github.com/google/renameio/v2 v2.0.2
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/mediabuyerbot/go-crx3 v1.7.1
@@ -32,7 +32,7 @@ require (
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
-	github.com/onsi/gomega v1.43.0 // indirect
+	github.com/onsi/gomega v1.44.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/stretchr/testify v1.12.1 // indirect
 	golang.org/x/sys v0.48.0 // indirect

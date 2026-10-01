@@ -23,7 +23,7 @@ buildGo127Module (finalAttrs: {
     ];
   };
 
-  vendorHash = "sha256-KYNYUEPOHo5XSb8ocYDtVFn3JSwPJ2GfauRAP3XuiTs=";
+  vendorHash = "sha256-c2bq9dJpwDqK7rdnoCSoyZ/Tkv+cskYGY1Kr+nUuBmo=";
 
   subPackages = [ "cmd/browser" ];
 
