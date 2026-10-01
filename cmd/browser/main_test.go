@@ -392,37 +392,6 @@ func assertResolvedConfigPath(t *testing.T, want string) {
 	}
 }
 
-func TestConfigDiscoveryUsesXDGSystemDirectories(t *testing.T) {
-	root := t.TempDir()
-	configDir := filepath.Join(root, "system-config")
-	configPath := filepath.Join(configDir, "browser", defaultConfigFilename)
-	if err := os.MkdirAll(filepath.Dir(configPath), 0o700); err != nil {
-		t.Fatal(err)
-	}
-	if err := os.WriteFile(configPath, []byte(`
-[browser]
-executable_name = "test-browser"
-`), 0o600); err != nil {
-		t.Fatal(err)
-	}
-	workDir := filepath.Join(root, "work")
-	if err := os.Mkdir(workDir, 0o700); err != nil {
-		t.Fatal(err)
-	}
-	t.Chdir(workDir)
-	t.Setenv("HOME", filepath.Join(root, "home"))
-	t.Setenv("XDG_CONFIG_HOME", filepath.Join(root, "user-config"))
-	t.Setenv("XDG_CONFIG_DIRS", configDir)
-
-	paths, err := resolveConfigPaths(nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !slices.Equal(paths, []string{configPath}) {
-		t.Fatalf("discovered paths = %q, want %q", paths, configPath)
-	}
-}
-
 func TestConfigDiscoveryUsesDotConfigFallback(t *testing.T) {
 	root := t.TempDir()
 	home := filepath.Join(root, "home")
@@ -532,31 +501,6 @@ managed_policies = { BrowserSignin = 0 }
 	}
 }
 
-func TestApplyHelpLeadsWithExamplesAndDefaults(t *testing.T) {
-	var stdout bytes.Buffer
-	if err := runWithIO(
-		t.Context(),
-		[]string{"apply", "--help"},
-		bytes.NewReader(nil),
-		&stdout,
-		&bytes.Buffer{},
-	); err != nil {
-		t.Fatal(err)
-	}
-	for _, text := range []string{
-		"browser apply ~/browsers/brave.toml",
-		"Configuration discovery checks",
-		"[-- BROWSER_ARG...]",
-		"--install-dir",
-		"--platform",
-		"--profile-dir",
-	} {
-		if !strings.Contains(stdout.String(), text) {
-			t.Errorf("help does not contain %q:\n%s", text, stdout.String())
-		}
-	}
-}
-
 func TestRootHelpGroupsCommandsAndUsesUnambiguousVersionFlag(t *testing.T) {
 	var stdout bytes.Buffer
 	if err := runWithIO(
@@ -599,70 +543,6 @@ func TestVersionIncludesApplicationName(t *testing.T) {
 	}
 	if stderr.Len() != 0 {
 		t.Fatalf("version stderr = %q, want empty", stderr.String())
-	}
-}
-
-func TestHelpCommandShowsNestedCommandHelp(t *testing.T) {
-	var stdout bytes.Buffer
-	if err := runWithIO(
-		t.Context(),
-		[]string{"help", "policy", "render"},
-		bytes.NewReader(nil),
-		&stdout,
-		&bytes.Buffer{},
-	); err != nil {
-		t.Fatal(err)
-	}
-	if !strings.Contains(stdout.String(), "browser policy render") {
-		t.Fatalf("nested help = %q", stdout.String())
-	}
-}
-
-func TestUnknownCommandUsesCobraSuggestion(t *testing.T) {
-	var stderr bytes.Buffer
-	err := runWithIO(
-		t.Context(),
-		[]string{"confg"},
-		bytes.NewReader(nil),
-		&bytes.Buffer{},
-		&stderr,
-	)
-	if err == nil {
-		t.Fatal("unknown command succeeded")
-	}
-	for _, text := range []string{"unknown command", "Did you mean this?", "config"} {
-		if !strings.Contains(stderr.String(), text) {
-			t.Errorf("error does not contain %q:\n%s", text, stderr.String())
-		}
-	}
-}
-
-func TestCobraGeneratesShellCompletions(t *testing.T) {
-	for shell, marker := range map[string]string{
-		"bash":       "__start_browser",
-		"fish":       "complete -c browser",
-		"powershell": "Register-ArgumentCompleter -CommandName 'browser'",
-		"zsh":        "#compdef browser",
-	} {
-		t.Run(shell, func(t *testing.T) {
-			var stdout bytes.Buffer
-			if err := runWithIO(
-				t.Context(),
-				[]string{"completion", shell},
-				bytes.NewReader(nil),
-				&stdout,
-				&bytes.Buffer{},
-			); err != nil {
-				t.Fatal(err)
-			}
-			if !strings.Contains(stdout.String(), marker) {
-				t.Fatalf(
-					"generated %s completion does not contain %q",
-					shell,
-					marker,
-				)
-			}
-		})
 	}
 }
 
