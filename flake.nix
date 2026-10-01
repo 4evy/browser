@@ -2,6 +2,11 @@
   description = "Declarative configuration for Chromium-family browsers";
 
   inputs = {
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
@@ -16,91 +21,75 @@
   };
 
   outputs =
-    inputs:
-    let
-      inherit (inputs.nixpkgs) lib;
+    inputs@{ flake-parts, self, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { lib, ... }: {
+        imports = [ ./nix/checks.nix ];
 
-      supportedSystems = [
-        "aarch64-darwin"
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
+        systems = [
+          "aarch64-darwin"
+          "aarch64-linux"
+          "x86_64-linux"
+        ];
 
-      withDefault = browser: {
-        inherit browser;
-        default = browser;
-      };
+        perSystem =
+          { config, pkgs, ... }:
+          {
+            packages = {
+              browser = pkgs.callPackage ./nix/package.nix { };
+              default = config.packages.browser;
+            };
 
-      homeModules = withDefault ./nix/modules/home-manager.nix;
-      nixosModules = withDefault ./nix/modules/nixos.nix;
-      darwinModules = withDefault ./nix/modules/nix-darwin.nix;
+            apps.browser = {
+              type = "app";
+              program = lib.getExe config.packages.browser;
+              meta.description = "Configure a Chromium-family browser";
+            };
+            apps.default = config.apps.browser;
 
-      perSystem =
-        system:
-        let
-          pkgs = inputs.nixpkgs.legacyPackages.${system};
-          browser = pkgs.callPackage ./nix/package.nix { };
-          formatter = pkgs.nixfmt-tree.override {
-            settings.excludes = [ ".sources/**" ];
-          };
-          browserApp = {
-            type = "app";
-            program = lib.getExe browser;
-            meta.description = "Configure a Chromium-family browser";
-          };
-        in
-        {
-          packages = withDefault browser;
+            devShells.default = pkgs.mkShell {
+              inputsFrom = [ config.packages.browser ];
+              packages = builtins.attrValues {
+                inherit (pkgs)
+                  deadnix
+                  go_1_27
+                  gopls
+                  nixfmt
+                  nodejs_24
+                  statix
+                  ;
+                inherit (config) formatter;
+                inherit (config.packages.browser.passthru) golangciLint;
+              };
+            };
 
-          checks = import ./nix/checks.nix {
-            inherit lib pkgs;
-            browserPackage = browser;
-            darwinModule = darwinModules.browser;
-            homeManager = inputs.home-manager;
-            homeManagerModule = homeModules.browser;
-            nixDarwin = inputs.nix-darwin;
-            nixosModule = nixosModules.browser;
-            formatterPackage = formatter;
-            src = inputs.self;
-          };
-
-          apps = withDefault browserApp;
-
-          devShells.default = pkgs.mkShell {
-            inputsFrom = [ browser ];
-            packages = [
-              pkgs.deadnix
-              pkgs.go_1_27
-              pkgs.gopls
-              pkgs.nixfmt
-              pkgs.nodejs_24
-              browser.passthru.golangciLint
-              pkgs.statix
-              formatter
-            ];
+            formatter = pkgs.nixfmt-tree.override {
+              settings.excludes = [ ".sources/**" ];
+            };
           };
 
-          inherit formatter;
+        flake = {
+          overlays.default = final: _prev: {
+            browser = final.callPackage ./nix/package.nix { };
+          };
+
+          homeModules = {
+            browser = ./nix/modules/home-manager.nix;
+            default = self.homeModules.browser;
+          };
+          nixosModules = {
+            browser = ./nix/modules/nixos.nix;
+            default = self.nixosModules.browser;
+          };
+          darwinModules = {
+            browser = ./nix/modules/nix-darwin.nix;
+            default = self.darwinModules.browser;
+          };
+
+          # Kept for compatibility with the older community output name
+          homeManagerModules = self.homeModules;
+          lib = import ./nix/lib.nix { inherit lib; };
         };
-
-      perSystemOutputs = lib.genAttrs supportedSystems perSystem;
-      outputFor = name: lib.mapAttrs (_: outputs: outputs.${name}) perSystemOutputs;
-    in
-    {
-      packages = outputFor "packages";
-      checks = outputFor "checks";
-      apps = outputFor "apps";
-      devShells = outputFor "devShells";
-      formatter = outputFor "formatter";
-
-      overlays.default = final: _prev: {
-        browser = final.callPackage ./nix/package.nix { };
-      };
-
-      inherit homeModules nixosModules darwinModules;
-
-      # Kept for compatibility with the older community output name.
-      homeManagerModules = homeModules;
-      lib = import ./nix/lib.nix { inherit lib; };
-    };
+      }
+    );
 }
