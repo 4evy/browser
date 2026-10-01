@@ -9,23 +9,28 @@ in
 rec {
   inherit types;
 
-  freeformSubmodule =
-    options:
+  freeformSubmodule = options: freeformSubmoduleWith [ { inherit options; } ];
+
+  freeformSubmoduleWith =
+    modules:
     types.submodule {
       freeformType = tomlFormat.type;
-      inherit options;
+      imports = modules;
     };
 
   required = type: description: mkOption { inherit type description; };
 
   optional =
     type: description:
-    required (types.nullOr type) description
-    // {
+    mkOption {
+      type = types.nullOr type;
+      inherit description;
       default = null;
     };
 
   optionalBool = optional types.bool;
+  optionalChoice =
+    choices: name: optional (types.enum (map (option: option.name) choices.${name}.options));
   optionalInt = optional types.int;
   optionalNonEmptyString = optional types.nonEmptyStr;
   optionalString = optional types.str;
@@ -33,6 +38,5 @@ rec {
   optionalSubmodule = options: optional (freeformSubmodule options);
   optionalUnsigned = optional types.ints.unsigned;
 
-  extensionId = types.strMatching "[a-p]{32}";
   pathString = types.coercedTo types.path toString types.str;
 }

@@ -8,7 +8,6 @@
 
 let
   inherit (lib)
-    attrVals
     attrValues
     escapeShellArgs
     filterAttrs
@@ -26,7 +25,7 @@ let
   cfg = config.programs.browser;
   tomlFormat = pkgs.formats.toml { };
   browserLib = import ../lib.nix { inherit lib; };
-  bravePolicyLib = import ./brave-policy.nix { inherit lib; };
+  providers = import ../providers { inherit lib; };
   settingsType = import ./settings.nix {
     inherit lib tomlFormat;
   };
@@ -66,16 +65,16 @@ let
   ) uncheckedGeneratedFiles;
 
   policyConfigurations = filterAttrs (
-    _: settings: bravePolicyLib.hasPolicyIntent settings
+    _: settings: providers.hasPolicyIntent settings
   ) effectiveConfigurations;
 
   managedPolicyFile =
     if policyConfigurations == { } then
       null
     else
-      pkgs.runCommandLocal "browser-brave-managed-policy.json" { } ''
+      pkgs.runCommandLocal "browser-managed-policy.json" { } ''
         ${lib.getExe packageSet.browser} policy render \
-          ${escapeShellArgs (attrVals (builtins.attrNames policyConfigurations) generatedFiles)} \
+          ${escapeShellArgs (mapAttrsToList (name: _: generatedFiles.${name}) policyConfigurations)} \
           --output "$out"
       '';
 
@@ -197,8 +196,8 @@ in
       type = types.nullOr types.pathInStore;
       readOnly = true;
       description = ''
-        Generated Chromium managed-policy JSON for all Brave configurations,
-        or `null` when no Brave managed policy is configured.
+        Generated managed-policy JSON from registered addon providers,
+        or `null` when no managed policy is configured.
       '';
     };
   };

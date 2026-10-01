@@ -1,6 +1,9 @@
-{ schema }:
+{ lib, schema }:
 
 let
+  metadata = lib.importJSON ../metadata.json;
+  choice = schema.optionalChoice metadata.choices;
+
   inherit (schema)
     freeformSubmodule
     optional
@@ -36,11 +39,7 @@ in
   '';
 
   tabs = optionalSubmodule {
-    hover_mode = optional (types.enum [
-      "tooltip"
-      "card"
-      "card_with_preview"
-    ]) "Brave tab-hover presentation.";
+    hover_mode = choice "tabs.hover_mode" "Brave tab-hover presentation.";
     vertical = optionalBool "Enable Brave vertical tabs.";
     collapsed = optionalBool "Collapse Brave vertical tabs.";
     expanded_state_per_window = optionalBool "Remember vertical-tab expansion per window.";
@@ -56,13 +55,7 @@ in
     always_hide_close_button = optionalBool "Always hide tab close buttons.";
     middle_click_close = optionalBool "Close a tab when it is middle-clicked.";
     disable_clickable_mute_indicator = optionalBool "Prevent clicks on the tab mute indicator.";
-    min_width = optional (types.enum [
-      "default"
-      "minimum"
-      "medium"
-      "large"
-      "full"
-    ]) "Brave horizontal-tab minimum-width mode.";
+    min_width = choice "tabs.min_width" "Brave horizontal-tab minimum-width mode.";
     scrollable_horizontal = optionalBool "Use Brave's scrollable horizontal tab strip.";
     show_horizontal_scroll_buttons = optionalBool "Show horizontal tab-strip scroll buttons.";
     always_use_mini_accent_icon = optionalBool "Always use Brave's mini accent tab icon.";
@@ -87,11 +80,7 @@ in
   } "Brave-only window and tab behavior.";
 
   sidebar = optionalSubmodule {
-    show = optional (types.enum [
-      "always"
-      "mouseover"
-      "never"
-    ]) "When Brave's sidebar is shown.";
+    show = choice "sidebar.show" "When Brave's sidebar is shown.";
   } "Brave-only sidebar controls.";
 
   shields = optionalSubmodule {

@@ -1,21 +1,18 @@
-{ schema }:
+{ lib, schema }:
 
 let
+  metadata = lib.importJSON ../metadata.json;
+  choice = schema.optionalChoice metadata.choices;
+
   inherit (schema)
-    optional
     optionalBool
     optionalString
     optionalSubmodule
-    types
     ;
 in
 {
   completed_onboarding = optionalBool "Whether Helium's onboarding has been completed.";
-  crash_reporting = optional (types.enum [
-    "disabled"
-    "ask"
-    "automatic"
-  ]) "Helium crash-report upload mode.";
+  crash_reporting = choice "crash_reporting" "Helium crash-report upload mode.";
 
   services = optionalSubmodule {
     enabled = optionalBool "Allow Helium services globally.";
@@ -29,12 +26,7 @@ in
   } "Helium-only service controls.";
 
   appearance = optionalSubmodule {
-    layout = optional (types.enum [
-      "classic"
-      "compact"
-      "vertical"
-      "dynamic"
-    ]) "Helium browser layout.";
+    layout = choice "appearance.layout" "Helium browser layout.";
     vertical_right_aligned = optionalBool "Place Helium vertical tabs on the right.";
     centered_location_bar = optionalBool "Center Helium's location bar.";
     minimal_location_bar = optionalBool "Use Helium's minimal location bar.";

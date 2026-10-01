@@ -5,15 +5,6 @@
 
 let
   schema = import ./lib.nix { inherit lib tomlFormat; };
-
-  browserOptions = import ./browser.nix { inherit schema; };
-  extensionOptions = import ./extensions.nix { inherit schema; };
+  addons = import ../../providers { inherit lib schema; };
 in
-schema.freeformSubmodule (
-  {
-    browser = schema.required (schema.freeformSubmodule browserOptions) ''
-      Browser identity, platform metadata, paths, and preference defaults.
-    '';
-  }
-  // extensionOptions
-)
+schema.freeformSubmoduleWith addons.settingsModules

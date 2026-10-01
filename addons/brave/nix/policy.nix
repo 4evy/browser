@@ -1,27 +1,12 @@
 { lib }:
 
 let
-  policyFeatures = [
-    "wallet"
-    "rewards"
-    "ipfs"
-    "ai_chat"
-    "local_ai"
-    "vpn"
-    "news"
-    "talk"
-    "playlist"
-    "web_discovery"
-    "p3a"
-    "stats"
-    "email_aliases"
-    "speedreader"
-    "wayback_machine"
-    "psst"
-    "tor"
-  ];
+  metadata = lib.importJSON ../metadata.json;
+  policyFeatures = builtins.attrNames (
+    lib.filterAttrs (_: feature: (feature.policies or [ ]) != [ ]) metadata.features
+  );
 in
-{
+rec {
   hasPolicyIntent =
     settings:
     let
@@ -31,9 +16,12 @@ in
       features = if configuredFeatures == null then { } else configuredFeatures;
       configuredPolicies = brave.managed_policies or null;
     in
-    (brave.origin or null) == true
-    || (brave.disable_web3 or null) == true
-    || (brave.disable_annoyances or null) == true
+    lib.any (name: (brave.${name} or null) == true) (builtins.attrNames metadata.presets)
     || (configuredPolicies != null && configuredPolicies != { })
     || lib.any (name: (features.${name} or null) != null) policyFeatures;
+  isConfigured =
+    cfg:
+    lib.any hasPolicyIntent (
+      lib.optional (cfg.settings != null) cfg.settings ++ builtins.attrValues cfg.configurations
+    );
 }

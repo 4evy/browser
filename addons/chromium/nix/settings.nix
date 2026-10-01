@@ -81,14 +81,6 @@ in
     Declarative browser preference mutations.
   '';
 
-  helium = optionalSubmodule (import ./helium.nix { inherit schema; }) ''
-    Preferences implemented only by Helium.
-  '';
-
-  brave = optionalSubmodule (import ./brave.nix { inherit schema; }) ''
-    Preferences implemented only by Brave.
-  '';
-
   extension_id_aliases = optional (types.attrsOf schema.extensionId) ''
     Mapping from configured extension IDs to the IDs of installed variants.
   '';
