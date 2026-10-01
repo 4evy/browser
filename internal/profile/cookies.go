@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"maps"
 	"strings"
 )
 
@@ -43,6 +44,18 @@ const (
 	ThirdPartyCookiePolicyBlock         ThirdPartyCookiePolicy = "block"
 	ThirdPartyCookiePolicyIncognitoOnly ThirdPartyCookiePolicy = "incognito_only"
 )
+
+var cookieSettingValues = map[CookieSetting]int{
+	CookieSettingAllow:       contentSettingAllow,
+	CookieSettingBlock:       contentSettingBlock,
+	CookieSettingSessionOnly: contentSettingSessionOnly,
+}
+
+var thirdPartyCookieModes = map[ThirdPartyCookiePolicy]int{
+	ThirdPartyCookiePolicyOff:           thirdPartyCookieModeOff,
+	ThirdPartyCookiePolicyBlock:         thirdPartyCookieModeBlock,
+	ThirdPartyCookiePolicyIncognitoOnly: thirdPartyCookieModeIncognitoOnly,
+}
 
 type CookiePolicy struct {
 	Default     CookieSetting          `toml:"default"`
@@ -181,11 +194,10 @@ func setCookieExceptions(preferences map[string]any, patterns []string, setting 
 	if err != nil {
 		return fmt.Errorf("open cookie exceptions: %w", err)
 	}
-	for pattern, entry := range exceptions {
-		if _, ok := configured[pattern]; !ok && isCookieException(entry, setting) {
-			delete(exceptions, pattern)
-		}
-	}
+	maps.DeleteFunc(exceptions, func(pattern string, entry any) bool {
+		_, managed := configured[pattern]
+		return !managed && isCookieException(entry, setting)
+	})
 	for pattern := range configured {
 		entry, ok := exceptions[pattern].(map[string]any)
 		if !ok {
@@ -219,16 +231,8 @@ func (setting CookieSetting) valid() bool {
 }
 
 func (setting CookieSetting) contentSettingValue() (int, bool) {
-	switch setting {
-	case CookieSettingAllow:
-		return contentSettingAllow, true
-	case CookieSettingBlock:
-		return contentSettingBlock, true
-	case CookieSettingSessionOnly:
-		return contentSettingSessionOnly, true
-	default:
-		return 0, false
-	}
+	value, valid := cookieSettingValues[setting]
+	return value, valid
 }
 
 func (setting CookieSetting) contentSettingValueOrZero() int {
@@ -245,16 +249,8 @@ func (policy ThirdPartyCookiePolicy) valid() bool {
 }
 
 func (policy ThirdPartyCookiePolicy) mode() (int, bool) {
-	switch policy {
-	case ThirdPartyCookiePolicyOff:
-		return thirdPartyCookieModeOff, true
-	case ThirdPartyCookiePolicyBlock:
-		return thirdPartyCookieModeBlock, true
-	case ThirdPartyCookiePolicyIncognitoOnly:
-		return thirdPartyCookieModeIncognitoOnly, true
-	default:
-		return 0, false
-	}
+	mode, valid := thirdPartyCookieModes[policy]
+	return mode, valid
 }
 
 func contentSettingInt(value any) int {
