@@ -6,6 +6,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/4evy/browser/addons/brave"
+	"github.com/4evy/browser/addons/helium"
+	"github.com/4evy/browser/chromium"
+
 	browser "github.com/4evy/browser"
 )
 
@@ -15,20 +19,20 @@ func TestPublicFacadeSupportsExternalConsumers(t *testing.T) {
 	instance, err := browser.New(browser.Config{Browser: browser.BrowserConfig{
 		ExecutableName: "test-browser",
 		Preferences: browser.PreferenceDefaultsConfig{
-			Values: []browser.PreferenceValueConfig{{Path: "test.enabled", Value: true}},
-		},
-		Helium: browser.HeliumConfig{
-			CompletedOnboarding: &enabled,
-			Appearance: browser.HeliumAppearanceConfig{
-				Layout: browser.HeliumLayoutDynamic,
+			Values: []browser.PreferenceValueConfig{
+				{Path: "test.enabled", Value: true},
 			},
 		},
-		Brave: browser.BraveConfig{
-			Toolbar:  browser.BraveToolbarConfig{LocationBarWide: &enabled},
-			Behavior: browser.BraveBehaviorConfig{CycleTabsByMostRecentUse: &enabled},
-			Features: browser.BraveFeaturesConfig{Wallet: &disabled},
+	}, Providers: []chromium.Provider{helium.Config{
+		CompletedOnboarding: &enabled,
+		Appearance: helium.AppearanceConfig{
+			Layout: helium.LayoutDynamic,
 		},
-	}})
+	}, brave.Config{
+		Toolbar:  brave.ToolbarConfig{LocationBarWide: &enabled},
+		Behavior: brave.BehaviorConfig{CycleTabsByMostRecentUse: &enabled},
+		Features: brave.FeaturesConfig{Wallet: &disabled},
+	}}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,7 +65,11 @@ func TestPublicFacadeSupportsExternalConsumers(t *testing.T) {
 		for part := range strings.SplitSeq(path, ".") {
 			object, ok := current.(map[string]any)
 			if !ok {
-				t.Fatalf("preference %q parent = %#v, want object", path, current)
+				t.Fatalf(
+					"preference %q parent = %#v, want object",
+					path,
+					current,
+				)
 			}
 			current = object[part]
 		}

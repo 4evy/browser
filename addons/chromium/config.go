@@ -1,7 +1,6 @@
-package browsercore
+package chromium
 
 import (
-	"bytes"
 	"cmp"
 	"errors"
 	"fmt"
@@ -9,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/4evy/browser/core"
 	"github.com/4evy/browser/extensions"
 	"github.com/4evy/browser/internal/xdgdirs"
-	"github.com/pelletier/go-toml/v2"
 	"golang.org/x/net/http/httpguts"
 )
 
@@ -28,6 +27,9 @@ const (
 )
 
 type Config struct {
+	// Providers add browser-specific behavior for programmatic callers.
+	// TOML providers are decoded by explicitly registered addons
+	Providers         []Provider              `toml:"-"`
 	Browser           BrowserConfig           `toml:"browser"`
 	Extensions        extensions.Catalog      `toml:"extensions"`
 	ExtensionSettings ExtensionSettingsConfig `toml:"extension_settings"`
@@ -35,7 +37,7 @@ type Config struct {
 
 // ExtensionSettingsConfig names JSON documents that configure chrome.storage
 // for installed extensions. Relative paths are resolved from the TOML
-// configuration file that declares them.
+// configuration file that declares them
 type ExtensionSettingsConfig struct {
 	Files []string `toml:"files"`
 }
@@ -53,8 +55,6 @@ type BrowserConfig struct {
 	Paths              map[string]ModePaths     `toml:"paths"`
 	Preferences        PreferenceDefaultsConfig `toml:"preferences"`
 	ExtensionIDAliases map[string]string        `toml:"extension_id_aliases"`
-	Helium             HeliumConfig             `toml:"helium"`
-	Brave              BraveConfig              `toml:"brave"`
 }
 
 type LinuxConfig struct {
@@ -79,48 +79,28 @@ type ModePaths struct {
 	ExternalExtensionDirs []string `toml:"external_extension_dirs"`
 }
 
-func LoadConfig(path string) (Config, error) {
-	data, err := os.ReadFile(path)
+// LoadConfig preserves the Chromium configuration API through the addon loader
+func LoadConfig(path string, providers ...ProviderAddon) (Config, error) {
+	loaded, err := core.LoadConfig(path, Addon(providers...))
 	if err != nil {
-		return Config{}, fmt.Errorf("read config %s: %w", path, err)
+		return Config{}, err
 	}
-	var config Config
-	decoder := toml.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&config); err != nil {
-		if missing, ok := errors.AsType[*toml.StrictMissingError](err); ok {
-			return Config{}, fmt.Errorf(
-				"parse config %s: %w\n%s",
-				path,
-				err,
-				missing.String(),
-			)
-		}
-		return Config{}, fmt.Errorf("parse config %s: %w", path, err)
+	if len(loaded.Modules) == 0 {
+		return Config{}, errors.New("browser.executable_name is required")
 	}
-	configPath, err := filepath.Abs(path)
-	if err != nil {
-		return Config{}, fmt.Errorf("resolve config path %s: %w", path, err)
-	}
-	config.ExtensionSettings.Files = resolveConfigPaths(
-		filepath.Dir(configPath),
-		config.ExtensionSettings.Files,
-	)
-	if err := config.Validate(); err != nil {
-		return Config{}, fmt.Errorf("validate config %s: %w", path, err)
-	}
-	if err := ValidateExtensionSettingsFiles(config.ExtensionSettings.Files); err != nil {
-		return Config{}, fmt.Errorf("validate config %s: %w", path, err)
-	}
-	return config, nil
+	return loaded.Modules[0].Module.(Module).Config, nil
 }
 
 func (config Config) Validate() error {
 	return errors.Join(
 		config.Browser.validate(),
+		config.validateProviders(),
 		config.Browser.Preferences.Cookies.Validate(),
 		extensions.ValidateIDAliases(config.Browser.ExtensionIDAliases),
-		validateUniquePaths("extension_settings.files", config.ExtensionSettings.Files),
+		validateUniquePaths(
+			"extension_settings.files",
+			config.ExtensionSettings.Files,
+		),
 		extensions.ValidateCatalog(config.Extensions),
 	)
 }
@@ -151,15 +131,21 @@ func (config BrowserConfig) validate() error {
 	}
 	for index, flag := range config.Flags {
 		if flag == "" {
-			errs = append(errs, fmt.Errorf("browser.flags[%d] must not be empty", index))
+			errs = append(
+				errs,
+				fmt.Errorf("browser.flags[%d] must not be empty", index),
+			)
 		}
 	}
 	if !httpguts.ValidHeaderFieldValue(config.UserAgent) {
-		errs = append(errs, errors.New("browser.user_agent contains an invalid control character"))
+		errs = append(
+			errs,
+			errors.New(
+				"browser.user_agent contains an invalid control character",
+			),
+		)
 	}
 	errs = append(errs, config.Linux.validate())
-	errs = append(errs, config.Helium.validate())
-	errs = append(errs, config.Brave.validate())
 	return errors.Join(errs...)
 }
 
@@ -191,7 +177,10 @@ func validateUniquePaths(name string, paths []string) error {
 	seen := map[string]int{}
 	for index, path := range paths {
 		if strings.TrimSpace(path) == "" {
-			errs = append(errs, fmt.Errorf("%s[%d] must not be empty", name, index))
+			errs = append(
+				errs,
+				fmt.Errorf("%s[%d] must not be empty", name, index),
+			)
 			continue
 		}
 		if previous, exists := seen[path]; exists {
@@ -276,11 +265,26 @@ func isASCIIDigit(character rune) bool {
 func (config BrowserConfig) normalized() BrowserConfig {
 	config.Name = cmp.Or(config.Name, defaultBrowserName)
 	config.LogPrefix = cmp.Or(config.LogPrefix, config.ExecutableName)
-	config.Linux.LauncherName = cmp.Or(config.Linux.LauncherName, config.ExecutableName)
-	config.Linux.DesktopExec = cmp.Or(config.Linux.DesktopExec, config.ExecutableName)
-	config.Linux.DesktopName = cmp.Or(config.Linux.DesktopName, config.ExecutableName+".desktop")
-	config.Linux.IconName = cmp.Or(config.Linux.IconName, config.ExecutableName+".png")
-	config.Linux.IconSource = cmp.Or(config.Linux.IconSource, defaultBrowserIconSource)
+	config.Linux.LauncherName = cmp.Or(
+		config.Linux.LauncherName,
+		config.ExecutableName,
+	)
+	config.Linux.DesktopExec = cmp.Or(
+		config.Linux.DesktopExec,
+		config.ExecutableName,
+	)
+	config.Linux.DesktopName = cmp.Or(
+		config.Linux.DesktopName,
+		config.ExecutableName+".desktop",
+	)
+	config.Linux.IconName = cmp.Or(
+		config.Linux.IconName,
+		config.ExecutableName+".png",
+	)
+	config.Linux.IconSource = cmp.Or(
+		config.Linux.IconSource,
+		defaultBrowserIconSource,
+	)
 	config.MacOS.LauncherPath = cmp.Or(
 		config.MacOS.LauncherPath,
 		filepath.Join("Contents", "MacOS", config.Name),

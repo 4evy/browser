@@ -1,4 +1,4 @@
-package browsercore
+package chromium
 
 import (
 	"context"
@@ -39,7 +39,7 @@ func (browser Browser) installLinux(ctx context.Context, options *InstallOptions
 	if err := browser.prepareInstall(options, appDir); err != nil {
 		return err
 	}
-	if err := removeLinuxQtShim(appDir); err != nil {
+	if err := RemoveLinuxQtShim(appDir); err != nil {
 		return err
 	}
 	browser.addLinuxLauncherFlags(options)
@@ -56,10 +56,10 @@ func (browser Browser) installLinux(ctx context.Context, options *InstallOptions
 	return browser.installLinuxIcon(appDir, dataHome)
 }
 
-func removeLinuxQtShim(appDir string) error {
+func RemoveLinuxQtShim(appDir string) error {
 	path := filepath.Join(appDir, linuxQtShimFilename)
 	// A missing entry in a read-only filesystem can make Remove report EROFS
-	// instead of ENOENT, so check for absence before attempting the mutation.
+	// instead of ENOENT, so check for absence before attempting the mutation
 	if _, err := os.Lstat(path); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return nil

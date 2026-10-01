@@ -13,7 +13,7 @@ import (
 	"slices"
 	"strings"
 
-	browser "github.com/4evy/browser"
+	browser "github.com/4evy/browser/addons/chromium"
 	launcherpkg "github.com/4evy/browser/internal/launcher"
 	"github.com/4evy/browser/internal/xdgdirs"
 	"github.com/spf13/cobra"
@@ -210,7 +210,10 @@ browser.`,
 		Args:              validateApplyArguments,
 		ValidArgsFunction: completeSingleConfig,
 		RunE: func(command *cobra.Command, arguments []string) error {
-			configArguments, browserArguments := splitApplyArguments(command, arguments)
+			configArguments, browserArguments := splitApplyArguments(
+				command,
+				arguments,
+			)
 			options.ConfigPath = firstArgument(configArguments)
 			options.BrowserFlags = slices.Clone(browserArguments)
 			return options.run(command, app)
@@ -283,10 +286,15 @@ func newConfigValidateCommand(app *cliApplication) *cobra.Command {
 				return err
 			}
 			for _, path := range paths {
-				if _, err := browser.LoadConfig(path); err != nil {
+				if _, err := loadBrowserConfig(path); err != nil {
 					return err
 				}
-				if err := statusf(app, command, "Valid: %s\n", path); err != nil {
+				if err := statusf(
+					app,
+					command,
+					"Valid: %s\n",
+					path,
+				); err != nil {
 					return err
 				}
 			}
@@ -316,7 +324,10 @@ func newStorageCommand(app *cliApplication) *cobra.Command {
 	return command
 }
 
-func newProfileApplyCommand(app *cliApplication, includeProfile bool) *cobra.Command {
+func newProfileApplyCommand(
+	app *cliApplication,
+	includeProfile bool,
+) *cobra.Command {
 	options := profileOptions{Platform: envOrDefault(envPlatform, "auto")}
 	short := "Apply only extension storage settings to a profile"
 	long := `Apply only chrome.storage.local and chrome.storage.sync settings.
@@ -366,8 +377,8 @@ func newPolicyRenderCommand(app *cliApplication) *cobra.Command {
 	outputPath := standardStreamPath
 	command := &cobra.Command{
 		Use:   "render [CONFIG ...]",
-		Short: "Render merged Brave managed policy as JSON",
-		Long: `Merge Brave managed policy from every CONFIG and emit Chromium policy
+		Short: "Render merged browser managed policy as JSON",
+		Long: `Merge browser managed policy from every CONFIG and emit Chromium policy
 JSON. Conflicting values are rejected. Standard output is the default, making
 the command safe to pipe.`,
 		Example: `  browser policy render > browser-policy.json
@@ -424,7 +435,10 @@ func addPlatformFlag(command *cobra.Command, platform *string) {
 	}
 }
 
-func (options *applyOptions) run(command *cobra.Command, app *cliApplication) error {
+func (options *applyOptions) run(
+	command *cobra.Command,
+	app *cliApplication,
+) error {
 	config, configPath, input, err := options.load(command.InOrStdin())
 	if err != nil {
 		return err
@@ -514,20 +528,16 @@ func (options *profileOptions) run(
 			mode,
 		)
 	}
-	instance, err := browser.New(config)
-	if err != nil {
-		return err
-	}
 	applyOptions := browser.ApplyOptions{
 		ProfileDir: profileDir,
 		Settings:   slices.Clone(options.ExtensionSettings),
 		Input:      input,
 	}
+	var operation any = browser.StorageOptions{ApplyOptions: applyOptions}
 	if includeProfile {
-		err = instance.ApplyProfileSettings(command.Context(), applyOptions)
-	} else {
-		err = instance.ApplyExtensionSettings(command.Context(), applyOptions)
+		operation = browser.ProfileOptions{ApplyOptions: applyOptions}
 	}
+	err = browser.Runtime(config).Run(command.Context(), operation)
 	if err != nil {
 		return err
 	}
@@ -535,7 +545,14 @@ func (options *profileOptions) run(
 	if includeProfile {
 		kind = "Profile settings"
 	}
-	return statusf(app, command, "%s applied to %s from %s\n", kind, profileDir, configPath)
+	return statusf(
+		app,
+		command,
+		"%s applied to %s from %s\n",
+		kind,
+		profileDir,
+		configPath,
+	)
 }
 
 func renderPolicy(
@@ -550,26 +567,28 @@ func renderPolicy(
 	}
 	configs := make([]browser.Config, 0, len(paths))
 	for _, path := range paths {
-		config, err := browser.LoadConfig(path)
+		config, err := loadBrowserConfig(path)
 		if err != nil {
 			return err
 		}
 		configs = append(configs, config)
 	}
-	policies, err := browser.MergeBraveManagedPolicies(configs...)
+	policies, err := browser.MergeManagedPolicies(configs...)
 	if err != nil {
 		return err
 	}
 	if outputPath == standardStreamPath {
-		return browser.EncodeBraveManagedPolicy(command.OutOrStdout(), policies)
+		return browser.EncodeManagedPolicy(command.OutOrStdout(), policies)
 	}
-	if err := browser.WriteBraveManagedPolicyFile(outputPath, policies); err != nil {
+	if err := browser.WriteManagedPolicyFile(outputPath, policies); err != nil {
 		return err
 	}
 	return statusf(app, command, "Wrote policy: %s\n", outputPath)
 }
 
-func (inputs fileInputs) load(stdin io.Reader) (browser.Config, string, browser.ApplyInput, error) {
+func (inputs fileInputs) load(
+	stdin io.Reader,
+) (browser.Config, string, browser.ApplyInput, error) {
 	config, configPath, err := loadConfig(inputs.ConfigPath)
 	if err != nil {
 		return browser.Config{}, "", browser.ApplyInput{}, err
@@ -586,7 +605,7 @@ func loadConfig(path string) (browser.Config, string, error) {
 	if err != nil {
 		return browser.Config{}, "", err
 	}
-	config, err := browser.LoadConfig(paths[0])
+	config, err := loadBrowserConfig(paths[0])
 	if err != nil {
 		return browser.Config{}, "", err
 	}
@@ -664,13 +683,21 @@ func readApplyInput(path string, stdin io.Reader) (browser.ApplyInput, error) {
 	if path != standardStreamPath {
 		data, err := os.ReadFile(path)
 		if err != nil {
-			return browser.ApplyInput{}, fmt.Errorf("read input %s: %w", path, err)
+			return browser.ApplyInput{}, fmt.Errorf(
+				"read input %s: %w",
+				path,
+				err,
+			)
 		}
 		reader = bytes.NewReader(data)
 	}
 	input, err := browser.DecodeApplyInput(reader)
 	if err != nil {
-		return browser.ApplyInput{}, fmt.Errorf("decode input %s: %w", path, err)
+		return browser.ApplyInput{}, fmt.Errorf(
+			"decode input %s: %w",
+			path,
+			err,
+		)
 	}
 	return input, nil
 }

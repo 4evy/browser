@@ -1,4 +1,4 @@
-package browsercore
+package brave
 
 import (
 	"bytes"
@@ -6,18 +6,28 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	browser "github.com/4evy/browser"
+	"github.com/4evy/browser/chromium"
 )
 
 func TestMergeBraveManagedPoliciesRejectsCrossProfileConflicts(t *testing.T) {
-	first := Config{Browser: BrowserConfig{Brave: BraveConfig{
-		ManagedPolicies: map[string]any{"BrowserSignin": int64(0)},
-	}}}
-	second := Config{Browser: BrowserConfig{Brave: BraveConfig{
-		ManagedPolicies: map[string]any{"BrowserSignin": int64(1)},
-	}}}
+	first := browser.Config{
+		Browser: browser.BrowserConfig{},
+		Providers: []chromium.Provider{Config{
+			ManagedPolicies: map[string]any{"BrowserSignin": int64(0)},
+		}},
+	}
+	second := browser.Config{
+		Browser: browser.BrowserConfig{},
+		Providers: []chromium.Provider{Config{
+			ManagedPolicies: map[string]any{"BrowserSignin": int64(1)},
+		}},
+	}
 
-	_, err := MergeBraveManagedPolicies(first, second)
-	if err == nil || !strings.Contains(err.Error(), `policy "BrowserSignin" conflicts`) {
+	_, err := browser.MergeManagedPolicies(first, second)
+	if err == nil ||
+		!strings.Contains(err.Error(), `policy "BrowserSignin" conflicts`) {
 		t.Fatalf("conflict error = %v", err)
 	}
 }
@@ -30,7 +40,7 @@ func TestEncodeAndWriteBraveManagedPolicyDeterministically(t *testing.T) {
 	want := "{\n  \"BraveWalletDisabled\": true,\n  \"BrowserSignin\": 0\n}\n"
 
 	var encoded bytes.Buffer
-	if err := EncodeBraveManagedPolicy(&encoded, policies); err != nil {
+	if err := chromium.EncodeManagedPolicy(&encoded, policies); err != nil {
 		t.Fatal(err)
 	}
 	if encoded.String() != want {
@@ -38,7 +48,7 @@ func TestEncodeAndWriteBraveManagedPolicyDeterministically(t *testing.T) {
 	}
 
 	path := filepath.Join(t.TempDir(), "managed", "browser.json")
-	if err := WriteBraveManagedPolicyFile(path, policies); err != nil {
+	if err := chromium.WriteManagedPolicyFile(path, policies); err != nil {
 		t.Fatal(err)
 	}
 	data, err := os.ReadFile(path)
@@ -51,15 +61,18 @@ func TestEncodeAndWriteBraveManagedPolicyDeterministically(t *testing.T) {
 }
 
 func TestBraveConfigRejectsEmptyManagedPolicyName(t *testing.T) {
-	config := Config{Browser: BrowserConfig{
+	config := browser.Config{Browser: browser.BrowserConfig{
 		ExecutableName: "brave",
-		Brave: BraveConfig{
-			ManagedPolicies: map[string]any{" ": true},
-		},
-	}}
+	}, Providers: []chromium.Provider{Config{
+		ManagedPolicies: map[string]any{" ": true},
+	}}}
 
 	err := config.Validate()
-	if err == nil || !strings.Contains(err.Error(), "managed_policies contains an empty name") {
+	if err == nil ||
+		!strings.Contains(
+			err.Error(),
+			"managed_policies contains an empty name",
+		) {
 		t.Fatalf("validation error = %v", err)
 	}
 }

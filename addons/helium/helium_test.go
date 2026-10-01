@@ -1,4 +1,4 @@
-package browsercore
+package helium
 
 import (
 	"encoding/json"
@@ -6,6 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	browser "github.com/4evy/browser"
+	"github.com/4evy/browser/chromium"
 
 	"github.com/4evy/browser/internal/profile"
 )
@@ -68,26 +71,26 @@ show_page_zoom_indicator = false
 		t.Fatal(err)
 	}
 
-	config, err := LoadConfig(configPath)
+	config, err := browser.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if config.Browser.Helium.Services.Enabled == nil ||
-		*config.Browser.Helium.Services.Enabled {
+	if config.Providers[0].(Config).Services.Enabled == nil ||
+		*config.Providers[0].(Config).Services.Enabled {
 		t.Fatalf(
 			"services enabled = %#v, want configured false",
-			config.Browser.Helium.Services.Enabled,
+			config.Providers[0].(Config).Services.Enabled,
 		)
 	}
 
-	instance, err := New(config)
+	instance, err := browser.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		ApplyOptions{ProfileDir: profileDir},
+		browser.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -98,7 +101,12 @@ show_page_zoom_indicator = false
 	}
 	assertNestedPreference(t, preferences, "helium.completed_onboarding", true)
 	assertNestedPreference(t, preferences, "helium.services.enabled", false)
-	assertNestedPreference(t, preferences, "helium.services.user_consented", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.services.user_consented",
+		true,
+	)
 	assertNestedPreference(
 		t,
 		preferences,
@@ -107,34 +115,159 @@ show_page_zoom_indicator = false
 	)
 	assertNestedPreference(t, preferences, "helium.services.ext_proxy", false)
 	assertNestedPreference(t, preferences, "helium.services.bangs", true)
-	assertNestedPreference(t, preferences, "helium.services.spellcheck_files", false)
-	assertNestedPreference(t, preferences, "helium.services.browser_updates", true)
-	assertNestedPreference(t, preferences, "helium.services.ublock_assets", false)
-	assertNestedPreference(t, preferences, "helium.browser.layout", json.Number("3"))
-	assertNestedPreference(t, preferences, "helium.browser.vertical_right_aligned", true)
-	assertNestedPreference(t, preferences, "helium.browser.centered_location_bar", true)
-	assertNestedPreference(t, preferences, "helium.browser.minimal_location_bar", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.services.spellcheck_files",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.services.browser_updates",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.services.ublock_assets",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.layout",
+		json.Number("3"),
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.vertical_right_aligned",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.centered_location_bar",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.minimal_location_bar",
+		false,
+	)
 	assertNestedPreference(t, preferences, "helium.browser.rounded_frame", true)
-	assertNestedPreference(t, preferences, "helium.browser.native_frame_materials", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.native_frame_materials",
+		false,
+	)
 	assertNestedPreference(t, preferences, "helium.browser.zen_mode", true)
-	assertNestedPreference(t, preferences, "helium.browser.zen_mode_sidebar_pinned", false)
-	assertNestedPreference(t, preferences, "helium.browser.zen_mode_top_chrome_pinned", true)
-	assertNestedPreference(t, preferences, "helium.browser.new_tab_next_to_active", true)
-	assertNestedPreference(t, preferences, "helium.browser.mru_tab_cycling", true)
-	assertNestedPreference(t, preferences, "helium.browser.shift_right_click_context_menu", false)
-	assertNestedPreference(t, preferences, "helium.settings.a11y.copy_page_url_shortcut", true)
-	assertNestedPreference(t, preferences, "helium.settings.behavior.vertical_collapse_shortcut", false)
-	assertNestedPreference(t, preferences, "helium.global_privacy_control", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.zen_mode_sidebar_pinned",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.zen_mode_top_chrome_pinned",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.new_tab_next_to_active",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.mru_tab_cycling",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.shift_right_click_context_menu",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.settings.a11y.copy_page_url_shortcut",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.settings.behavior.vertical_collapse_shortcut",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.global_privacy_control",
+		true,
+	)
 	assertNestedPreference(t, preferences, "helium.noise.enabled", false)
-	assertNestedPreference(t, preferences, "helium.browser.show_back_button", false)
-	assertNestedPreference(t, preferences, "helium.browser.show_reload_button", true)
-	assertNestedPreference(t, preferences, "helium.browser.show_avatar_button", false)
-	assertNestedPreference(t, preferences, "helium.browser.show_extensions_button", true)
-	assertNestedPreference(t, preferences, "helium.browser.show_menu_button", false)
-	assertNestedPreference(t, preferences, "helium.browser.show_media_button", true)
-	assertNestedPreference(t, preferences, "helium.browser.show_vertical_tabs_collapse_button", false)
-	assertNestedPreference(t, preferences, "helium.browser.show_dynamic_new_tab_button", true)
-	assertNestedPreference(t, preferences, "helium.browser.show_zoom_indicator", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_back_button",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_reload_button",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_avatar_button",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_extensions_button",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_menu_button",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_media_button",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_vertical_tabs_collapse_button",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_dynamic_new_tab_button",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"helium.browser.show_zoom_indicator",
+		false,
+	)
 
 	localState, err := profile.ReadLocalState(profileDir)
 	if err != nil {
@@ -146,19 +279,23 @@ show_page_zoom_indicator = false
 		"helium.crash_reporting.mode",
 		json.Number("-1"),
 	)
-	assertNestedPreference(t, localState, "helium.browser.default_browser_infobar_rejected", true)
+	assertNestedPreference(
+		t,
+		localState,
+		"helium.browser.default_browser_infobar_rejected",
+		true,
+	)
 }
 
 func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
 	origin := "http://remote.example.test"
-	config := Config{Browser: BrowserConfig{
+	config := browser.Config{Browser: browser.BrowserConfig{
 		ExecutableName: "helium",
-		Helium: HeliumConfig{
-			Services:       HeliumServicesConfig{OriginOverride: &origin},
-			Appearance:     HeliumAppearanceConfig{Layout: HeliumLayoutMode("stacked")},
-			CrashReporting: HeliumCrashReportingMode("sometimes"),
-		},
-	}}
+	}, Providers: []chromium.Provider{Config{
+		Services:       ServicesConfig{OriginOverride: &origin},
+		Appearance:     AppearanceConfig{Layout: LayoutMode("stacked")},
+		CrashReporting: CrashReportingMode("sometimes"),
+	}}}
 
 	err := config.Validate()
 	if err == nil {
@@ -177,17 +314,23 @@ func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
 
 func TestHeliumEnumsMatchUpstreamStoredValues(t *testing.T) {
 	for _, test := range []struct {
-		mode HeliumLayoutMode
+		mode LayoutMode
 		want int
 	}{
-		{mode: HeliumLayoutClassic, want: 0},
-		{mode: HeliumLayoutCompact, want: 1},
-		{mode: HeliumLayoutVertical, want: 2},
-		{mode: HeliumLayoutDynamic, want: 3},
+		{mode: LayoutClassic, want: 0},
+		{mode: LayoutCompact, want: 1},
+		{mode: LayoutVertical, want: 2},
+		{mode: LayoutDynamic, want: 3},
 	} {
-		got, valid := test.mode.preferenceValue()
+		got, valid := test.mode.PreferenceValue()
 		if !valid || got != test.want {
-			t.Errorf("layout mode %q = (%d, %t), want (%d, true)", test.mode, got, valid, test.want)
+			t.Errorf(
+				"layout mode %q = (%d, %t), want (%d, true)",
+				test.mode,
+				got,
+				valid,
+				test.want,
+			)
 		}
 	}
 }
@@ -202,14 +345,14 @@ func TestHeliumServicesOriginAllowsResetAndLocalhost(t *testing.T) {
 		"ftp://localhost./assets",
 		"https://services.example.test",
 	} {
-		if !validHeliumServicesOrigin(value) {
+		if !ValidServicesOrigin(value) {
 			t.Errorf("origin %q should be valid", value)
 		}
 	}
 }
 
 func TestHeliumUserColorFromFlagsUsesLastValidValue(t *testing.T) {
-	got, ok := heliumUserColorFromFlags([]string{
+	got, ok := UserColorFromFlags([]string{
 		"--set-user-color=1,2,3",
 		"--some-flag",
 		"--set-user-color=12,34,56",
@@ -230,7 +373,7 @@ func TestHeliumUserColorFromFlagsRejectsInvalidLastValue(t *testing.T) {
 		{"--set-user-color=12,34,pink"},
 		{"--set-user-color=1,2,3", "--set-user-color=invalid"},
 	} {
-		if color, ok := heliumUserColorFromFlags(flags); ok {
+		if color, ok := UserColorFromFlags(flags); ok {
 			t.Fatalf("user color %d parsed from invalid flags %q", color, flags)
 		}
 	}
@@ -252,22 +395,21 @@ func TestConfigurePersistsHeliumUserColorFlag(t *testing.T) {
 	}
 	profileDir := filepath.Join(root, "Default")
 	completed := true
-	config := Config{Browser: BrowserConfig{
+	config := browser.Config{Browser: browser.BrowserConfig{
 		Name:           "Helium",
 		ExecutableName: "helium-browser",
 		Flags:          []string{"--set-user-color=244,184,228"},
-		MacOS: MacOSConfig{
+		MacOS: browser.MacOSConfig{
 			AppDir:       appDir,
 			LauncherPath: "Contents/MacOS/Helium",
 		},
-		Paths: map[string]ModePaths{
-			string(ModeMacOS): {ProfileDir: profileDir},
+		Paths: map[string]browser.ModePaths{
+			string(browser.ModeMacOS): {ProfileDir: profileDir},
 		},
-		Helium: HeliumConfig{CompletedOnboarding: &completed},
-	}}
-	if err := Configure(t.Context(), ConfigureOptions{
+	}, Providers: []chromium.Provider{Config{CompletedOnboarding: &completed}}}
+	if err := browser.Configure(t.Context(), browser.ConfigureOptions{
 		Config:             config,
-		Mode:               ModeMacOS,
+		Mode:               browser.ModeMacOS,
 		Root:               filepath.Join(root, "install"),
 		BinDir:             filepath.Join(root, "bin"),
 		ApplySettings:      true,
@@ -279,10 +421,25 @@ func TestConfigurePersistsHeliumUserColorFlag(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, preferences, "browser.theme.color_variant2", json.Number("1"))
+	assertNestedPreference(
+		t,
+		preferences,
+		"browser.theme.color_variant2",
+		json.Number("1"),
+	)
 	assertNestedPreference(t, preferences, "browser.theme.is_grayscale2", false)
-	assertNestedPreference(t, preferences, "browser.theme.user_color2", json.Number("-739100"))
-	assertNestedPreference(t, preferences, "extensions.theme.id", "user_color_theme_id")
+	assertNestedPreference(
+		t,
+		preferences,
+		"browser.theme.user_color2",
+		json.Number("-739100"),
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"extensions.theme.id",
+		"user_color_theme_id",
+	)
 }
 
 func assertNestedPreference(

@@ -1,4 +1,4 @@
-package browsercore
+package brave
 
 import (
 	"encoding/json"
@@ -7,6 +7,9 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	browser "github.com/4evy/browser"
+	"github.com/4evy/browser/chromium"
 
 	"github.com/4evy/browser/internal/profile"
 )
@@ -24,18 +27,18 @@ disable_annoyances = true
 		t.Fatal(err)
 	}
 
-	config, err := LoadConfig(configPath)
+	config, err := browser.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
-	instance, err := New(config)
+	instance, err := browser.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		ApplyOptions{ProfileDir: profileDir},
+		browser.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -140,7 +143,10 @@ disable_annoyances = true
 		"PsstEnabled":                false,
 		"IPFSEnabled":                false,
 	}
-	if got := config.Browser.Brave.ManagedPolicyValues(); !reflect.DeepEqual(got, wantPolicies) {
+	if got := config.Providers[0].(Config).ManagedPolicyValues(); !reflect.DeepEqual(
+		got,
+		wantPolicies,
+	) {
 		t.Fatalf("managed policies = %#v, want %#v", got, wantPolicies)
 	}
 }
@@ -156,11 +162,11 @@ origin = true
 `), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	loaded, err := LoadConfig(configPath)
+	loaded, err := browser.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
-	config := loaded.Browser.Brave
+	config := loaded.Providers[0].(Config)
 	if !config.Origin {
 		t.Fatal("browser.brave.origin was not decoded")
 	}
@@ -185,7 +191,10 @@ origin = true
 		"TorDisabled":                true,
 		"IPFSEnabled":                false,
 	}
-	if got := config.ManagedPolicyValues(); !reflect.DeepEqual(got, wantPolicies) {
+	if got := config.ManagedPolicyValues(); !reflect.DeepEqual(
+		got,
+		wantPolicies,
+	) {
 		t.Fatalf("managed policies = %#v, want %#v", got, wantPolicies)
 	}
 
@@ -193,36 +202,51 @@ origin = true
 	if err := config.PatchPreferences(preferences); err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, preferences, "brave.show_side_panel_button", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.show_side_panel_button",
+		false,
+	)
 	assertNestedPreference(
 		t,
 		preferences,
 		"brave.sidebar.sidebar_show_option",
 		3,
 	)
-	assertNestedPreference(t, preferences, "brave.brave_search_conversion.dismissed", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.brave_search_conversion.dismissed",
+		true,
+	)
 
 	localState := map[string]any{}
 	if err := config.PatchLocalState(localState); err != nil {
 		t.Fatal(err)
 	}
 	assertNestedPreference(t, localState, "brave.p3a.enabled", false)
-	assertNestedPreference(t, localState, "brave.stats.reporting_enabled", false)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.stats.reporting_enabled",
+		false,
+	)
 	assertNestedPreference(t, localState, "metrics.reporting_enabled", false)
 }
 
 func TestBraveOriginExplicitSettingsOverridePreset(t *testing.T) {
 	enabled := true
-	config := BraveConfig{
+	config := Config{
 		Origin: true,
-		Features: BraveFeaturesConfig{
+		Features: FeaturesConfig{
 			Tor: &enabled,
 		},
-		Toolbar: BraveToolbarConfig{
+		Toolbar: ToolbarConfig{
 			ShowSidePanelButton: &enabled,
 		},
-		Sidebar: BraveSidebarConfig{
-			Show: BraveSidebarShowAlways,
+		Sidebar: SidebarConfig{
+			Show: SidebarShowAlways,
 		},
 	}
 
@@ -245,16 +269,16 @@ func TestBraveOriginExplicitSettingsOverridePreset(t *testing.T) {
 
 func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 	enabled := true
-	config := BraveConfig{
+	config := Config{
 		DisableAnnoyances: true,
-		Features: BraveFeaturesConfig{
+		Features: FeaturesConfig{
 			Wallet: &enabled,
 			News:   &enabled,
 		},
-		ProfileValues: []PreferenceValueConfig{
+		ProfileValues: []browser.PreferenceValueConfig{
 			{Path: "brave.new_tab_page.show_sponsored_sites", Value: true},
 		},
-		LocalStateValues: []PreferenceValueConfig{
+		LocalStateValues: []browser.PreferenceValueConfig{
 			{Path: "brave.ens.resolve_method", Value: 3},
 		},
 		ManagedPolicies: map[string]any{
@@ -267,9 +291,24 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 	if err := config.PatchPreferences(preferences); err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, preferences, "brave.wallet.show_wallet_icon_on_toolbar", true)
-	assertNestedPreference(t, preferences, "brave.new_tab_page.show_brave_news", true)
-	assertNestedPreference(t, preferences, "brave.new_tab_page.show_sponsored_sites", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.wallet.show_wallet_icon_on_toolbar",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.new_tab_page.show_brave_news",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.new_tab_page.show_sponsored_sites",
+		true,
+	)
 
 	localState := map[string]any{}
 	if err := config.PatchLocalState(localState); err != nil {
@@ -283,7 +322,8 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 	)
 
 	policies := config.ManagedPolicyValues()
-	if policies["BraveWalletDisabled"] != false || policies["BraveNewsDisabled"] != false {
+	if policies["BraveWalletDisabled"] != false ||
+		policies["BraveNewsDisabled"] != false {
 		t.Fatalf("feature policy overrides were not applied: %#v", policies)
 	}
 	if policies["BrowserSignin"] != int64(0) {
@@ -349,26 +389,26 @@ linkedin_embeds = false
 		t.Fatal(err)
 	}
 
-	config, err := LoadConfig(configPath)
+	config, err := browser.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if config.Browser.Brave.Tabs.MiddleClickClose == nil ||
-		*config.Browser.Brave.Tabs.MiddleClickClose {
+	if config.Providers[0].(Config).Tabs.MiddleClickClose == nil ||
+		*config.Providers[0].(Config).Tabs.MiddleClickClose {
 		t.Fatalf(
 			"middle-click close = %#v, want configured false",
-			config.Browser.Brave.Tabs.MiddleClickClose,
+			config.Providers[0].(Config).Tabs.MiddleClickClose,
 		)
 	}
 
-	instance, err := New(config)
+	instance, err := browser.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		ApplyOptions{ProfileDir: profileDir},
+		browser.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -377,33 +417,98 @@ linkedin_embeds = false
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, preferences, "brave.tabs.hover_mode", json.Number("2"))
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_enabled", true)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_collapsed", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.hover_mode",
+		json.Number("2"),
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_enabled",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_collapsed",
+		false,
+	)
 	assertNestedPreference(
 		t,
 		preferences,
 		"brave.tabs.vertical_tabs_expanded_state_per_window",
 		true,
 	)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_show_title_on_window", false)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_hide_completely_when_collapsed", true)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_floating_enabled", false)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_show_toggle_button", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_show_title_on_window",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_hide_completely_when_collapsed",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_floating_enabled",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_show_toggle_button",
+		true,
+	)
 	assertNestedPreference(
 		t,
 		preferences,
 		"brave.tabs.vertical_tabs_expanded_width",
 		json.Number("280"),
 	)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_on_right", true)
-	assertNestedPreference(t, preferences, "brave.tabs.vertical_tabs_show_scrollbar", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_on_right",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.vertical_tabs_show_scrollbar",
+		true,
+	)
 	assertNestedPreference(t, preferences, "brave.tabs.tree_tabs_enabled", true)
 	assertNestedPreference(t, preferences, "brave.tabs.shared_pinned_tab", true)
-	assertNestedPreference(t, preferences, "brave.tabs.always_hide_tab_close_button", true)
-	assertNestedPreference(t, preferences, "brave.tabs.middle_click_close_tab_enabled", false)
-	assertNestedPreference(t, preferences, "brave.tabs.mute_indicator_not_clickable", true)
-	assertNestedPreference(t, preferences, "brave.tabs.min_width_mode", json.Number("4"))
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.always_hide_tab_close_button",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.middle_click_close_tab_enabled",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.mute_indicator_not_clickable",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.min_width_mode",
+		json.Number("4"),
+	)
 	assertNestedPreference(
 		t,
 		preferences,
@@ -416,48 +521,107 @@ linkedin_embeds = false
 		"brave.tabs.show_horizontal_tab_scroll_buttons",
 		true,
 	)
-	assertNestedPreference(t, preferences, "brave.tabs.always_use_mini_accent_icon", true)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.tabs.always_use_mini_accent_icon",
+		true,
+	)
 	assertNestedPreference(t, preferences, "brave.location_bar_is_wide", true)
-	assertNestedPreference(t, preferences, "brave.web_view_rounded_corners", false)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.web_view_rounded_corners",
+		false,
+	)
 	assertNestedPreference(t, preferences, "brave.subtle_app_menu_logo", true)
 	assertNestedPreference(t, preferences, "brave.show_bookmarks_button", false)
 	assertNestedPreference(t, preferences, "brave.show_side_panel_button", true)
 	assertNestedPreference(t, preferences, "brave.show_screenshot_button", true)
 	assertNestedPreference(t, preferences, "brave.mru_cycling_enabled", true)
-	assertNestedPreference(t, preferences, "brave.enable_window_closing_confirm", false)
-	assertNestedPreference(t, preferences, "brave.enable_closing_last_tab", true)
-	assertNestedPreference(t, preferences, "brave.show_fullscreen_reminder", false)
-	assertNestedPreference(t, preferences, "brave.sidebar.sidebar_show_option", json.Number("3"))
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.enable_window_closing_confirm",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.enable_closing_last_tab",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.show_fullscreen_reminder",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		preferences,
+		"brave.sidebar.sidebar_show_option",
+		json.Number("3"),
+	)
 
 	localState, err := profile.ReadLocalState(profileDir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertNestedPreference(t, localState, "brave.tabs.compact_horizontal_tabs", true)
-	assertNestedPreference(t, localState, "brave.default_browser_prompt_enabled", false)
-	assertNestedPreference(t, localState, "brave.shields.adblock_only_mode_enabled", true)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.tabs.compact_horizontal_tabs",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.default_browser_prompt_enabled",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.shields.adblock_only_mode_enabled",
+		true,
+	)
 	assertNestedPreference(
 		t,
 		localState,
 		"brave.ad_block.custom_filters",
 		"example.test##.sponsor",
 	)
-	assertNestedPreference(t, localState, "brave.shields.fb_embed_default", false)
-	assertNestedPreference(t, localState, "brave.shields.twitter_embed_default", true)
-	assertNestedPreference(t, localState, "brave.shields.linkedin_embed_default", false)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.shields.fb_embed_default",
+		false,
+	)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.shields.twitter_embed_default",
+		true,
+	)
+	assertNestedPreference(
+		t,
+		localState,
+		"brave.shields.linkedin_embed_default",
+		false,
+	)
 }
 
 func TestBraveConfigRejectsInvalidProductValues(t *testing.T) {
-	config := Config{Browser: BrowserConfig{
+	config := browser.Config{Browser: browser.BrowserConfig{
 		ExecutableName: "brave",
-		Brave: BraveConfig{
-			Tabs: BraveTabsConfig{
-				HoverMode: BraveTabHoverMode("giant_preview"),
-				MinWidth:  BraveTabMinWidthMode("tiny"),
-			},
-			Sidebar: BraveSidebarConfig{Show: BraveSidebarShowMode("sometimes")},
+	}, Providers: []chromium.Provider{Config{
+		Tabs: TabsConfig{
+			HoverMode: TabHoverMode("giant_preview"),
+			MinWidth:  TabMinWidthMode("tiny"),
 		},
-	}}
+		Sidebar: SidebarConfig{Show: SidebarShowMode("sometimes")},
+	}}}
 
 	err := config.Validate()
 	if err == nil {
@@ -476,43 +640,81 @@ func TestBraveConfigRejectsInvalidProductValues(t *testing.T) {
 
 func TestBraveEnumsMatchUpstreamStoredValues(t *testing.T) {
 	for _, test := range []struct {
-		mode BraveSidebarShowMode
+		mode SidebarShowMode
 		want int
 	}{
-		{mode: BraveSidebarShowAlways, want: 0},
-		{mode: BraveSidebarShowMouseover, want: 1},
-		{mode: BraveSidebarShowNever, want: 3},
+		{mode: SidebarShowAlways, want: 0},
+		{mode: SidebarShowMouseover, want: 1},
+		{mode: SidebarShowNever, want: 3},
 	} {
-		got, valid := test.mode.preferenceValue()
+		got, valid := test.mode.PreferenceValue()
 		if !valid || got != test.want {
-			t.Errorf("sidebar mode %q = (%d, %t), want (%d, true)", test.mode, got, valid, test.want)
+			t.Errorf(
+				"sidebar mode %q = (%d, %t), want (%d, true)",
+				test.mode,
+				got,
+				valid,
+				test.want,
+			)
 		}
 	}
 }
 
 func TestBraveFeatureMetadataCoversTypedConfig(t *testing.T) {
-	toggles := (BraveFeaturesConfig{}).toggles()
-	metadataFeatures := make(map[string]bool, len(browserMetadata.Brave.Features))
-	for name := range browserMetadata.Brave.Features {
+	toggles := (FeaturesConfig{}).Toggles()
+	metadataFeatures := make(map[string]bool, len(metadata.Features))
+	for name := range metadata.Features {
 		metadataFeatures[name] = true
 	}
 
-	configType := reflect.TypeFor[BraveFeaturesConfig]()
+	configType := reflect.TypeFor[FeaturesConfig]()
 	for field := range configType.Fields() {
 		name := field.Tag.Get("toml")
 		if _, exists := toggles[name]; !exists {
-			t.Errorf("feature field %s has no toggle mapping for %q", field.Name, name)
+			t.Errorf(
+				"feature field %s has no toggle mapping for %q",
+				field.Name,
+				name,
+			)
 		}
 		if !metadataFeatures[name] {
-			t.Errorf("feature field %s has no declarative metadata for %q", field.Name, name)
+			t.Errorf(
+				"feature field %s has no declarative metadata for %q",
+				field.Name,
+				name,
+			)
 		}
 		delete(toggles, name)
 		delete(metadataFeatures, name)
 	}
 	for name := range toggles {
-		t.Errorf("toggle mapping %q has no BraveFeaturesConfig field", name)
+		t.Errorf("toggle mapping %q has no FeaturesConfig field", name)
 	}
 	for name := range metadataFeatures {
-		t.Errorf("declarative feature %q has no BraveFeaturesConfig field", name)
+		t.Errorf("declarative feature %q has no FeaturesConfig field", name)
+	}
+}
+
+func assertNestedPreference(
+	t *testing.T,
+	root map[string]any,
+	path string,
+	want any,
+) {
+	t.Helper()
+	current := any(root)
+	for component := range strings.SplitSeq(path, ".") {
+		object, ok := current.(map[string]any)
+		if !ok {
+			t.Fatalf("preference %q parent is %#v, want object", path, current)
+		}
+		value, exists := object[component]
+		if !exists {
+			t.Fatalf("preference %q is missing at %q", path, component)
+		}
+		current = value
+	}
+	if current != want {
+		t.Fatalf("preference %q = %#v, want %#v", path, current, want)
 	}
 }

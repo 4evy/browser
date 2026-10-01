@@ -18,7 +18,7 @@ buildGo127Module (finalAttrs: {
       (lib.fileset.fileFilter (file: file.hasExt "go") ./..)
       ../go.mod
       ../go.sum
-      ../internal/browsercore/data
+      (lib.fileset.fileFilter (file: file.hasExt "json") ../addons)
       ../testdata
     ];
   };

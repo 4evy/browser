@@ -1,4 +1,4 @@
-package browsercore
+package chromium
 
 import (
 	"context"
@@ -47,7 +47,7 @@ const (
 )
 
 func ApplyExtensionSettings(ctx context.Context, options ApplyOptions) error {
-	if err := ensureProfileNotRunning(options.ProfileDir); err != nil {
+	if err := EnsureProfileNotRunning(options.ProfileDir); err != nil {
 		return err
 	}
 	return extensionstorage.Apply(ctx, extensionstorage.ApplyOptions{
@@ -65,7 +65,7 @@ func ValidateExtensionSettingsFiles(paths []string) error {
 	return extensionstorage.ValidateFiles(paths)
 }
 
-// DecodeApplyInput reads exactly one input document and rejects unknown fields.
+// DecodeApplyInput reads exactly one input document and rejects unknown fields
 func DecodeApplyInput(reader io.Reader) (ApplyInput, error) {
 	return jsonutil.Strict.Decode[ApplyInput](reader)
 }

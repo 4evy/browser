@@ -1,0 +1,91 @@
+{
+  "audited_against": "Helium 208a56bab803ceda8202f8c79dd0e9bfcffe600a on Chromium 151.0.7922.173 (2026-08-23)",
+  "profile": {
+    "completed_onboarding": "helium.completed_onboarding",
+    "services.enabled": "helium.services.enabled",
+    "services.user_consented": "helium.services.user_consented",
+    "services.origin_override": "helium.services.origin_override",
+    "services.extension_proxy": "helium.services.ext_proxy",
+    "services.bangs": "helium.services.bangs",
+    "services.spellcheck_files": "helium.services.spellcheck_files",
+    "services.browser_updates": "helium.services.browser_updates",
+    "services.ublock_assets": "helium.services.ublock_assets",
+    "appearance.layout": "helium.browser.layout",
+    "appearance.vertical_right_aligned": "helium.browser.vertical_right_aligned",
+    "appearance.centered_location_bar": "helium.browser.centered_location_bar",
+    "appearance.minimal_location_bar": "helium.browser.minimal_location_bar",
+    "appearance.rounded_frame": "helium.browser.rounded_frame",
+    "appearance.native_frame_materials": "helium.browser.native_frame_materials",
+    "appearance.zen_mode": "helium.browser.zen_mode",
+    "appearance.zen_mode_sidebar_pinned": "helium.browser.zen_mode_sidebar_pinned",
+    "appearance.zen_mode_top_chrome_pinned": "helium.browser.zen_mode_top_chrome_pinned",
+    "behavior.new_tab_next_to_active": "helium.browser.new_tab_next_to_active",
+    "behavior.cycle_tabs_by_most_recent_use": "helium.browser.mru_tab_cycling",
+    "behavior.shift_right_click_menu": "helium.browser.shift_right_click_context_menu",
+    "behavior.copy_page_url_shortcut": "helium.settings.a11y.copy_page_url_shortcut",
+    "behavior.vertical_collapse_shortcut": "helium.settings.behavior.vertical_collapse_shortcut",
+    "privacy.global_privacy_control": "helium.global_privacy_control",
+    "privacy.noise": "helium.noise.enabled",
+    "toolbar.show_back_button": "helium.browser.show_back_button",
+    "toolbar.show_reload_button": "helium.browser.show_reload_button",
+    "toolbar.show_avatar_button": "helium.browser.show_avatar_button",
+    "toolbar.show_extensions_button": "helium.browser.show_extensions_button",
+    "toolbar.show_menu_button": "helium.browser.show_menu_button",
+    "toolbar.show_media_button": "helium.browser.show_media_button",
+    "toolbar.show_vertical_tabs_collapse_button": "helium.browser.show_vertical_tabs_collapse_button",
+    "toolbar.show_dynamic_new_tab_button": "helium.browser.show_dynamic_new_tab_button",
+    "toolbar.show_page_zoom_indicator": "helium.browser.show_zoom_indicator",
+    "theme.color_variant": "browser.theme.color_variant2",
+    "theme.grayscale": "browser.theme.is_grayscale2",
+    "theme.user_color": "browser.theme.user_color2",
+    "theme.extension_id": "extensions.theme.id"
+  },
+  "local_state": {
+    "crash_reporting": "helium.crash_reporting.mode",
+    "behavior.suppress_default_browser_prompt": "helium.browser.default_browser_infobar_rejected"
+  },
+  "choices": {
+    "appearance.layout": {
+      "options": [
+        {
+          "name": "classic",
+          "value": 0
+        },
+        {
+          "name": "compact",
+          "value": 1
+        },
+        {
+          "name": "vertical",
+          "value": 2
+        },
+        {
+          "name": "dynamic",
+          "value": 3
+        }
+      ]
+    },
+    "crash_reporting": {
+      "options": [
+        {
+          "name": "disabled",
+          "value": -1
+        },
+        {
+          "name": "ask",
+          "value": 0
+        },
+        {
+          "name": "automatic",
+          "value": 1
+        }
+      ]
+    }
+  },
+  "values": {
+    "theme.default_color_variant": 1,
+    "theme.user_color_id": "user_color_theme_id"
+  },
+  "presets": {},
+  "features": {}
+}

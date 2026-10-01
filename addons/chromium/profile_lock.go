@@ -1,4 +1,4 @@
-package browsercore
+package chromium
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ import (
 
 const chromiumSingletonLockFilename = "SingletonLock"
 
-func ensureProfileNotRunning(profileDir string) error {
+func EnsureProfileNotRunning(profileDir string) error {
 	if profileDir == "" {
 		return nil
 	}

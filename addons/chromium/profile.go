@@ -1,4 +1,4 @@
-package browsercore
+package chromium
 
 import "github.com/4evy/browser/internal/profile"
 
@@ -25,8 +25,6 @@ type (
 	CookieSetting               = profile.CookieSetting
 	ThirdPartyCookiePolicy      = profile.ThirdPartyCookiePolicy
 )
-
-type preferenceBuilder = profile.Builder
 
 type browserDataPatchSet struct {
 	applyWhenEmpty bool
@@ -63,19 +61,4 @@ func (patchSet browserDataPatchSet) run(profileDir string) error {
 		return nil
 	}
 	return patchSet.apply(profileDir, patchSet.patches)
-}
-
-func newPreferenceBuilder(catalog preferenceCatalog, capacity int) preferenceBuilder {
-	if catalog == nil {
-		return profile.NewBuilder(nil, capacity)
-	}
-	return profile.NewBuilder(catalog.path, capacity)
-}
-
-func patchNestedValues(
-	root map[string]any,
-	values []PreferenceValueConfig,
-	description string,
-) error {
-	return profile.PatchValues(root, values, description)
 }

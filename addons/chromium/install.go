@@ -1,4 +1,4 @@
-package browsercore
+package chromium
 
 import (
 	"context"
@@ -51,17 +51,7 @@ type InstallOptions struct {
 }
 
 func Configure(ctx context.Context, options ConfigureOptions) error {
-	browser, err := New(options.Config)
-	if err != nil {
-		return err
-	}
-	themeFlags := slices.Clone(options.Config.Browser.Flags)
-	if options.Mode == ModeLinux {
-		themeFlags = append(themeFlags, options.Config.Browser.Linux.WrapperFlags...)
-	}
-	themeFlags = append(themeFlags, options.Flags...)
-	browser.addHeliumThemePreferencesFromFlags(options.Config.Browser.Helium, themeFlags)
-	return browser.Install(ctx, InstallOptions{
+	return Runtime(options.Config).Run(ctx, InstallOptions{
 		Mode:               options.Mode,
 		Root:               options.Root,
 		AppDir:             options.AppDir,
@@ -75,7 +65,10 @@ func Configure(ctx context.Context, options ConfigureOptions) error {
 	})
 }
 
-func (browser Browser) Install(ctx context.Context, options InstallOptions) error {
+func (browser Browser) Install(
+	ctx context.Context,
+	options InstallOptions,
+) error {
 	switch options.Mode {
 	case ModeMacOS:
 		return browser.installMacOS(ctx, &options)
@@ -86,7 +79,10 @@ func (browser Browser) Install(ctx context.Context, options InstallOptions) erro
 	}
 }
 
-func (browser Browser) prepareInstall(options *InstallOptions, appDir string) error {
+func (browser Browser) prepareInstall(
+	options *InstallOptions,
+	appDir string,
+) error {
 	if options.Root == "" {
 		return errors.New("installation root is required")
 	}
@@ -100,10 +96,19 @@ func (browser Browser) prepareInstall(options *InstallOptions, appDir string) er
 	}
 	stat, err := os.Stat(appDir)
 	if err != nil {
-		return fmt.Errorf("find %s app directory %s: %w", browser.Config.Name, appDir, err)
+		return fmt.Errorf(
+			"find %s app directory %s: %w",
+			browser.Config.Name,
+			appDir,
+			err,
+		)
 	}
 	if !stat.IsDir() {
-		return fmt.Errorf("%s app path is not a directory: %s", browser.Config.Name, appDir)
+		return fmt.Errorf(
+			"%s app path is not a directory: %s",
+			browser.Config.Name,
+			appDir,
+		)
 	}
 	return nil
 }
@@ -116,9 +121,6 @@ func (browser Browser) configureApp(
 	if err := browser.installExtensions(ctx, options); err != nil {
 		return err
 	}
-	if err := browser.applyInstallSettings(ctx, options); err != nil {
-		return err
-	}
 	configuredFlags := slices.Clone(browser.Config.Flags)
 	if browser.Config.UserAgent != "" {
 		configuredFlags = append(
@@ -127,6 +129,12 @@ func (browser Browser) configureApp(
 		)
 	}
 	configuredFlags = append(configuredFlags, options.Flags...)
+	browser.addLaunchContributions(
+		slices.Concat(configuredFlags, options.extraLauncherFlags),
+	)
+	if err := browser.applyInstallSettings(ctx, options); err != nil {
+		return err
+	}
 	if err := launcherpkg.Write(
 		filepath.Join(options.BinDir, browser.Config.ExecutableName),
 		options.LauncherExecutable,
@@ -146,10 +154,15 @@ func (browser Browser) configureApp(
 	)
 }
 
-func (browser Browser) installExtensions(ctx context.Context, options *InstallOptions) error {
+func (browser Browser) installExtensions(
+	ctx context.Context,
+	options *InstallOptions,
+) error {
 	excludedIDs := browser.extensionInstallExclusions()
-	httpClient := browser.Extensions.Network.HTTPClient(os.Getenv(envGitHubToken))
-	chromeVersion, err := resolveChromeVersion(
+	httpClient := browser.Extensions.Network.HTTPClient(
+		os.Getenv(envGitHubToken),
+	)
+	chromeVersion, err := ResolveChromeVersion(
 		ctx,
 		browser.Extensions.Network.ChromeVersion,
 		browser.Extensions.ChromeStore,
@@ -162,8 +175,10 @@ func (browser Browser) installExtensions(ctx context.Context, options *InstallOp
 	httpClient.ChromeVersion = chromeVersion
 	gitClient := extensions.GitClient{}
 	result, err := extensions.Install(ctx, extensions.Options{
-		Root:                 options.Root,
-		ExternalDirs:         browser.Config.ExternalExtensionDirs(options.Mode),
+		Root: options.Root,
+		ExternalDirs: browser.Config.ExternalExtensionDirs(
+			options.Mode,
+		),
 		Catalog:              browser.Extensions,
 		ChromeVersion:        chromeVersion,
 		Download:             httpClient.Download,
@@ -175,16 +190,18 @@ func (browser Browser) installExtensions(ctx context.Context, options *InstallOp
 	if err != nil {
 		return err
 	}
-	loadFlags, err := loadExtensionFlags(result.LoadExtensionPaths)
+	loadFlags, err := LoadExtensionFlags(result.LoadExtensionPaths)
 	if err != nil {
 		return err
 	}
-	options.extraLauncherFlags = append(options.extraLauncherFlags, loadFlags...)
+	options.extraLauncherFlags = append(
+		options.extraLauncherFlags,
+		loadFlags...)
 	options.extensionIDAliases = result.ExtensionIDAliases
 	return nil
 }
 
-func resolveChromeVersion(
+func ResolveChromeVersion(
 	ctx context.Context,
 	configured string,
 	chromeStore []extensions.ChromeStoreExtension,
@@ -207,7 +224,10 @@ func resolveChromeVersion(
 	return "", nil
 }
 
-func (browser Browser) applyInstallSettings(ctx context.Context, options *InstallOptions) error {
+func (browser Browser) applyInstallSettings(
+	ctx context.Context,
+	options *InstallOptions,
+) error {
 	if !options.ApplySettings {
 		return nil
 	}
@@ -227,13 +247,20 @@ func (browser Browser) applyInstallSettings(ctx context.Context, options *Instal
 	})
 }
 
-func (browser Browser) installMacOS(ctx context.Context, options *InstallOptions) error {
+func (browser Browser) installMacOS(
+	ctx context.Context,
+	options *InstallOptions,
+) error {
 	appDir := options.AppDir
 	if appDir == "" {
 		appDir = expandPathTemplate(browser.Config.MacOS.AppDir)
 	}
 	if appDir == "" {
-		return fmt.Errorf("%s is missing an application directory for %s", browser.Config.Name, ModeMacOS)
+		return fmt.Errorf(
+			"%s is missing an application directory for %s",
+			browser.Config.Name,
+			ModeMacOS,
+		)
 	}
 	if err := browser.prepareInstall(options, appDir); err != nil {
 		return err
@@ -241,6 +268,9 @@ func (browser Browser) installMacOS(ctx context.Context, options *InstallOptions
 	return browser.configureApp(
 		ctx,
 		options,
-		filepath.Join(appDir, filepath.FromSlash(browser.Config.MacOS.LauncherPath)),
+		filepath.Join(
+			appDir,
+			filepath.FromSlash(browser.Config.MacOS.LauncherPath),
+		),
 	)
 }
