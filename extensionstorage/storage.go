@@ -77,11 +77,9 @@ func encodeStorageValue(document any, encoding Encoding) ([]byte, error) {
 }
 
 func validateSyncStorageState(state map[string][]byte) error {
-	itemCount := 0
 	totalBytes := 0
 	for _, key := range slices.Sorted(maps.Keys(state)) {
 		value := state[key]
-		itemCount++
 		size := len(key) + len(value)
 		if size > syncStorageQuotaBytesPerItem {
 			return fmt.Errorf(
@@ -93,10 +91,10 @@ func validateSyncStorageState(state map[string][]byte) error {
 		}
 		totalBytes += size
 	}
-	if itemCount > syncStorageMaxItems {
+	if len(state) > syncStorageMaxItems {
 		return fmt.Errorf(
 			"sync storage contains %d items, exceeding the %d-item limit",
-			itemCount,
+			len(state),
 			syncStorageMaxItems,
 		)
 	}
