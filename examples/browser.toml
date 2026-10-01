@@ -1,239 +1,170 @@
-# Copy this file and adapt it for the browser you want to configure.
+# Chromium starter and shared recipes
+#
+# Copy this file to browser.toml, then set the application and profile paths
+# Open the installed browser once; find its Profile Path at chrome://version
+# For Helium or Brave, start with helium.toml or brave.toml in this directory
+# Copy individual shared recipes from here into your chosen file
+#
+# Only the launcher and paths below are active; optional recipes are commented
+# Uncomment a recipe's TOML lines together, including its table header
+# Replace hypothetical extension IDs, URLs, checksums, and Git commits first
+# Each extension ID must be unique across all source types
+#
+# After editing, close the browser and run:
+#   browser config validate browser.toml
+#   browser apply browser.toml
+# Launch through the generated launcher to use its flags and unpacked extensions
+
+# --- 1. Browser and launcher --------------------------------------------------
 
 [browser]
-name = "Example Browser"
-executable_name = "example-browser"
-alias_name = "example"
-flags_file = "example-browser-flags.conf"
-# Cross-platform flags are stored in the generated launcher.
+name = "Chromium"
+# Name of the generated launcher, not the executable inside the browser bundle
+executable_name = "chromium-configured"
 flags = ["--no-first-run", "--no-default-browser-check"]
-# Controls page requests through Chromium's --user-agent switch. Extension
-# download identity is configured separately under [extensions.network].
-user_agent = "Mozilla/5.0 ExampleBrowser/1.0"
 
+# Optional launcher alias and extra flags file, read on every launch
+# Relative flags_file paths resolve under ${config_home}, not beside this TOML
+# alias_name = "chromium-personal"
+# flags_file = "chromium-flags.conf"
+
+# Optional page-request identity, passed through Chromium's --user-agent switch
+# Omit to keep the browser's own identity; extension downloads use section 5
+# user_agent = "Mozilla/5.0 ExampleBrowser/1.0"
+
+# --- 2. Platform paths --------------------------------------------------------
+
+# Both platforms may coexist; apply selects the current one
+# Linux: point app_dir at the installed bundle and match its executable name
+# These example bundle paths must be adapted to your installation
 [browser.linux]
-# app_dir = "${data_home}/example-browser/app"
-desktop_id = "example-browser"
-# Chromium-branded builds register this compiled-in ID with XDG Desktop Portal.
-portal_app_id = "org.chromium.Chromium"
-launcher_name = "example-browser"
-desktop_name = "example-browser.desktop"
-desktop_exec = "example-browser"
+app_dir = "/path/to/chromium"
+launcher_name = "chrome"
 
-[browser.macos]
-app_dir = "/Applications/Example Browser.app"
-launcher_path = "Contents/MacOS/Example Browser"
-
-[browser.paths.macos]
-profile_dir = "${home}/Library/Application Support/Example Browser/Default"
-external_extension_dirs = [
-  "${home}/Library/Application Support/Example Browser/External Extensions",
-]
+# Optional desktop integration: names refer to files and Exec in the bundle
+# desktop_name = "chromium.desktop"
+# desktop_exec = "chromium"
+# desktop_id = "chromium" # Wayland application ID and X11 startup WM class
+# portal_app_id = "org.chromium.Chromium" # Match the build's compiled-in ID
+# wrapper_flags = ["--ozone-platform=wayland"]
+# icon_source = "product_logo_256.png" # Relative to app_dir
+# icon_name = "chromium.png" # Installed icon name
 
 [browser.paths.linux]
-profile_dir = "${config_home}/example-browser/Default"
+# Use the profile directory containing Preferences, e.g. Default or Profile 1
+# This selects the profile to edit; it does not change the launcher's profile
+# For Profile 1, also add "--profile-directory=Profile 1" to browser.flags
+profile_dir = "${config_home}/chromium/Default"
 external_extension_dirs = [
-  "${config_home}/example-browser/External Extensions",
+  "${config_home}/chromium/External Extensions",
 ]
 
-# Ordered JSON documents that populate chrome.storage.local and
-# chrome.storage.sync. Relative paths resolve from this TOML file.
-#
-# [extension_settings]
-# files = ["settings/privacy.json", "settings/work.json"]
-#
-# Browser preference mutations are opt-in. There are no built-in product or
-# extension settings.
-#
+[browser.macos]
+app_dir = "/Applications/Chromium.app"
+launcher_path = "Contents/MacOS/Chromium" # Relative to app_dir
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Chromium/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Chromium/External Extensions",
+]
+
+# --- 3. Profile preferences ---------------------------------------------------
+
+# Cookie recipe: clear most cookies on exit, keep logins on example.com, block
+# tracker.example, and block third-party cookies
+# Each supplied exception list replaces existing exceptions of that type
+# An omitted list leaves that type alone; an empty list removes its exceptions
+# In Chromium 157, third_party = "off" still blocks them in incognito
+
 # [browser.preferences.cookies]
 # default = "session_only" # allow | block | session_only
-# third_party = "block"    # off | block | incognito_only
-# In Chromium 157, off also blocks third-party cookies in incognito
+# third_party = "block" # off | block | incognito_only
 # allow = ["[*.]example.com"]
 # block = ["[*.]tracker.example"]
 # session_only = ["[*.]temporary.example"]
-#
+
+# Arbitrary values: repeat the table for each preference you want to manage
+# Paths in values and local_state_values address nested objects with dots
+# These paths are hypothetical; use names from your browser's stored preferences
+# Product settings are applied after these shared values
+
 # [[browser.preferences.values]]
-# path = "example.preference.path"
+# path = "example.profile_preference"
 # value = true
-#
-# Helium stores its custom shortcuts at this Chromium preference path. Repeat
-# this table for each shortcut; command IDs are Chromium browser command IDs.
-# [[browser.preferences.accelerators]]
-# path = "helium.browser.custom_accelerators"
-# command_id = "34014" # IDC_NEW_TAB
-# accelerator = "Control+Shift+KeyY"
-#
-# Product-only preferences are typed separately and remain opt-in:
-#
-# [browser.helium.services]
-# enabled = true
-# user_consented = true
-# extension_proxy = true
-# bangs = true
-# spellcheck_files = true
-# browser_updates = true
-# ublock_assets = true
-#
-# [browser.helium.appearance]
-# layout = "dynamic" # classic | compact | vertical | dynamic
-# vertical_right_aligned = false
-# centered_location_bar = true
-# minimal_location_bar = false
-# rounded_frame = true
-# show_progress_bar = true
-# zen_mode = false
-#
-# [browser.helium.behavior]
-# new_tab_next_to_active = true
-# cycle_tabs_by_most_recent_use = true
-# shift_right_click_menu = true
-# copy_page_url_shortcut = true
-# vertical_collapse_shortcut = true
-# suppress_default_browser_prompt = true
-#
-# [browser.helium.privacy]
-# global_privacy_control = true
-# noise = true
-#
-# [browser.helium.toolbar]
-# show_back_button = true
-# show_extensions_button = false
-# show_vertical_tabs_collapse_button = true
-# show_dynamic_new_tab_button = true
-# show_page_zoom_indicator = true
-#
-# [browser.helium]
-# crash_reporting = "ask" # disabled | ask | automatic
-#
-# `origin` reproduces the official Brave Origin policy and UI defaults on
-# regular Brave without changing purchase or branding state. Disable only
-# Wallet, Rewards/BAT, and decentralized Web3 DNS with disable_web3
-# disable_annoyances includes that narrower preset and also
-# disables Brave ads, sponsored content, AI, VPN, News, Talk, Playlist,
-# telemetry, promotions, new-tab widgets, and the other bundled services.
-#
-# [browser.brave]
-# origin = true
-# disable_web3 = true
-# disable_annoyances = true
-#
-# [browser.brave.tabs]
-# vertical = true
-# collapsed = false
-# floating = true
-# on_right = false
-# tree = false
-# hover_mode = "card" # tooltip | card | card_with_preview
-# disable_clickable_mute_indicator = false
-# always_use_mini_accent_icon = false
-#
-# Explicit feature settings override either preset:
-#
-# [browser.brave.features]
-# news = true
-# speedreader = true
-# ads = false # Notification ads
-# sponsored_content = false # Search and new-tab sponsorship
-# new_tab_widgets = false # Rewards, Talk, and VPN widgets
-# rewards = true # Overrides new_tab_widgets for the Rewards widget
-#
-# [browser.brave.ai]
-# tab_organization_send_page_content = false # Separate Leo upload consent
-#
-# [browser.brave.vpn]
-# wireguard_allow_lan_traffic = true # Requires WireGuard support
-#
-# Arbitrary Brave profile and Local State values run last, so every upstream
-# preference remains configurable even before it receives a typed field:
-#
-# [[browser.brave.profile_values]]
-# path = "brave.some_new_profile_preference"
-# value = false
-#
-# [[browser.brave.local_state_values]]
-# path = "brave.some_new_local_state_preference"
+
+# Local State is shared by profiles and stored beside the profile directory
+# [[browser.preferences.local_state_values]]
+# path = "example.local_state_preference"
 # value = 3
-#
-# Arbitrary managed policies also run last. Use
-# `browser policy render browser.toml --output PATH` to produce the
-# policy JSON; Brave hard-disables Wallet and Rewards only when their switches
-# come from a managed policy store.
-#
-# [browser.brave.managed_policies]
-# BrowserSignin = 0
-#
-# [browser.brave.toolbar]
-# location_bar_wide = false
-# web_view_rounded_corners = true
-# subtle_app_menu_logo = false
-# show_bookmarks_button = true
-# show_side_panel_button = true
-# show_screenshot_button = false
-#
-# [browser.brave.behavior]
-# cycle_tabs_by_most_recent_use = true
-# confirm_window_close = true
-# close_window_with_last_tab = true
-# show_fullscreen_reminder = true
-# show_default_browser_prompt = false # Requires the rendered managed policy
-# wayback_machine_auto_check = false # Requires WaybackMachineAutoCheck
-#
-# [browser.brave.sidebar]
-# show = "mouseover" # always | mouseover | never
-#
-# [browser.brave.shields]
-# adblock_only_mode = false
-# custom_filters = "example.com##.sponsor"
-#
-# Extension installation is also opt-in:
-#
+
+# Variations is also shared; its paths are literal top-level keys
+# [[browser.preferences.variation_values]]
+# path = "example_variation"
+# value = "enabled"
+
+# --- 4. Extension sources -----------------------------------------------------
+
+# Choose one source per extension, then repeat that source's table as needed
+# Store/update-manifest sources follow compatible releases; CRX is always pinned
+# ZIP and Git sources can follow updates or pin exact content
+# ZIP and Git trees must already contain manifest.json; no build step is run
+# load_unpacked = true adds them to the generated launcher's --load-extension
+# external_extension_dirs above must match the browser's discovery directories
+
+# Chrome Web Store: both the update service and an entry are required
 # [extensions]
 # chrome_store_update_url = "https://clients2.google.com/service/update2/crx"
 #
-# [extensions.network]
-# Optional: omit to fetch the latest Stable Chrome version.
-# chrome_version = "152.0.7971.0"
-# user_agent = "browser-configurator/1.0"
-# timeout_seconds = 60
-# retry_max = 3
-# retry_wait_min_milliseconds = 200
-# retry_wait_max_milliseconds = 2000
-# headers = { X-Download-Token = "optional" }
-#
 # [[extensions.chrome_store]]
 # id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-# name = "Example extension"
-#
-# Chrome Web Store entries follow the newest compatible release. Pin a CRX
-# instead when reproducibility is required:
-#
-# [[extensions.crx]]
+# name = "Store extension"
+
+# Update manifest: Chromium handles downloading and updating this extension
+# [[extensions.update_url]]
 # id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+# name = "Self-hosted extension"
+# update_url = "https://example.test/extension/updates.xml"
+
+# Pinned CRX: supply its extension version and the checksum of the CRX bytes
+# Checksums accept SRI (shown here) or hexadecimal SHA-256
+# [[extensions.crx]]
+# id = "cccccccccccccccccccccccccccccccc"
 # name = "Pinned CRX"
 # version = "1.2.3"
 # url = "https://example.test/extension-1.2.3.crx"
 # sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-#
-# A GitHub ZIP may follow the latest release:
-#
+
+# Latest GitHub release ZIP: {tag} includes the release tag's v prefix, if any
+# The matching release asset must have a usable SHA-256 digest on GitHub
+# Use archive_root to select the directory containing manifest.json in the ZIP
 # [[extensions.zip]]
-# id = "cccccccccccccccccccccccccccccccc"
-# name = "Latest unpacked extension"
+# id = "dddddddddddddddddddddddddddddddd"
+# name = "Latest release ZIP"
 # update_policy = "latest"
-# repository = "owner/repository"
+# repository = "owner/extension"
 # asset_template = "extension-{tag}.zip"
 # archive_root = "extension"
 # load_unpacked = true
 
-# A ready-to-load extension can also be exported from GitHub, GitLab, Codeberg,
-# or SourceHut. Use provider = "github", "gitlab", or "codeberg" with an
-# owner/project repository; GitLab also accepts nested namespaces. SourceHut
-# uses provider = "sourcehut" and a ~owner/project repository.
-#
-# [[extensions.git]]
+# Pinned ZIP: any HTTP host, with no GitHub release lookup
+# [[extensions.zip]]
 # id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-# name = "Pinned Codeberg extension"
+# name = "Pinned ZIP"
+# update_policy = "pinned"
+# version = "1.2.3"
+# url = "https://example.test/extension-1.2.3.zip"
+# sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+# archive_root = "extension"
+# load_unpacked = true
+
+# Hosted Git: github | gitlab | codeberg | sourcehut; Git must be on PATH
+# GitLab accepts nested namespaces; SourceHut uses ~owner/extension
+# Pinned entries require a full commit ID; ref can help locate that commit
+# Use subdirectory to select the ready-to-load extension within the checkout
+# [[extensions.git]]
+# id = "ffffffffffffffffffffffffffffffff"
+# name = "Pinned Codeberg tree"
 # provider = "codeberg"
 # repository = "owner/extension"
 # update_policy = "pinned"
@@ -241,28 +172,53 @@ external_extension_dirs = [
 # commit = "0123456789abcdef0123456789abcdef01234567"
 # subdirectory = "dist/extension"
 # load_unpacked = true
-#
-# Arbitrary HTTPS, SSH, Git-protocol, file, and scp-style remotes use the
-# generic git provider. The provider may be omitted when url is set. A latest
-# entry follows ref, or the remote's default branch when ref is omitted.
-#
+
+# Generic Git: HTTPS, SSH, git://, file://, and scp-style remotes are supported
+# Omit provider with url; latest follows ref or the default branch
 # [[extensions.git]]
-# id = "ffffffffffffffffffffffffffffffff"
-# name = "Latest generic Git extension"
+# id = "gggggggggggggggggggggggggggggggg"
+# name = "Latest Git tree"
 # provider = "git"
 # url = "ssh://git@example.test/team/extension.git"
 # update_policy = "latest"
 # ref = "main"
 # load_unpacked = true
-#
-# Or it may be fully pinned without any GitHub API lookup:
-#
-# [[extensions.zip]]
-# id = "dddddddddddddddddddddddddddddddd"
-# name = "Pinned unpacked extension"
-# update_policy = "pinned"
-# version = "1.2.3"
-# url = "https://example.test/extension-1.2.3.zip"
-# sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-# archive_root = "extension"
-# load_unpacked = true
+
+# --- 5. Extension download options --------------------------------------------
+
+# Omit this table to use automatic identity detection and the retry defaults
+# Downloads query an isolated browser process with a temporary profile and no
+# startup window; the normal profile is left alone
+# Its native user agent is copied verbatim, including reduced/frozen tokens
+# Safari/537.36 is a frozen compatibility token, not a Safari release
+# The chrome_version option is the Chromium product version sent to the store,
+# not an extension version; failed detection falls back to latest Stable Chrome
+# Without a detected user agent, requests derive one from the available Chromium
+# version, or use the configurator's identity when no version is available
+# These overrides affect downloads only, independently of browser.user_agent
+
+# [extensions.network]
+# chrome_version = "152.0.7971.0" # Hypothetical override; normally omit
+# user_agent = "browser-configurator/1.0" # Optional download identity override
+# timeout_seconds = 60
+# retry_max = 3 # Set to 0 to disable retries
+# retry_wait_min_milliseconds = 200
+# retry_wait_max_milliseconds = 2000
+# headers = { X-Example-Header = "example-value" }
+
+# --- 6. Extension storage -----------------------------------------------------
+
+# JSON documents populate chrome.storage.local and chrome.storage.sync
+# Files are applied in order; relative paths resolve beside this TOML file
+# Copy extension-settings.json alongside your config and adapt its hypothetical
+# extension ID and storage keys before enabling this recipe
+# Add more files to the list when you need later overrides
+
+# [extension_settings]
+# files = ["extension-settings.json"]
+
+# Optional aliases target a built-in or otherwise installed extension variant
+# Storage uses the installed ID; the source extension is skipped during install
+# ZIP and Git installs also discover aliases automatically from the key or path
+# [browser.extension_id_aliases]
+# aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"

@@ -1,0 +1,106 @@
+# Helium starter: vertical tabs, recent-tab cycling, and privacy signals
+#
+# Copy this file to browser.toml and adapt the application and profile paths
+# Open Helium once; find its Profile Path at chrome://version
+# The active settings below are example choices, not built-in defaults
+# Omitted settings leave the corresponding preferences alone
+# Shared cookie, preference, extension, and storage recipes are in
+# examples/browser.toml; copy only the recipes you need into this file
+# The apply command accepts one configuration file
+#
+# Close Helium, then run:
+#   browser config validate browser.toml
+#   browser apply browser.toml
+# Launch through the generated helium-configured launcher to use its flags
+
+# --- 1. Browser and platform paths --------------------------------------------
+
+[browser]
+name = "Helium"
+executable_name = "helium-configured"
+flags = ["--no-first-run", "--no-default-browser-check"]
+# To set a theme color, add "--set-user-color=166,227,161" to flags above
+# Helium's addon also applies the matching profile theme values
+
+[browser.linux]
+app_dir = "/path/to/helium"
+launcher_name = "helium" # Match the executable inside your installed bundle
+# desktop_name = "helium.desktop"
+# desktop_exec = "helium"
+# desktop_id = "helium"
+
+[browser.paths.linux]
+# For a non-default profile, also add its --profile-directory to browser.flags
+profile_dir = "${config_home}/helium/Default"
+external_extension_dirs = ["${config_home}/helium/External Extensions"]
+
+[browser.macos]
+app_dir = "/Applications/Helium.app"
+launcher_path = "Contents/MacOS/Helium"
+
+[browser.paths.macos]
+# Use the same profile selection in browser.flags if this is not Default
+profile_dir = "${home}/Library/Application Support/Helium/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Helium/External Extensions",
+]
+
+# --- 2. Tabs and appearance ---------------------------------------------------
+
+[browser.helium.appearance]
+layout = "vertical" # classic | compact | vertical | dynamic
+# vertical_right_aligned = false
+# centered_location_bar = true
+# minimal_location_bar = false
+# rounded_frame = true
+# show_progress_bar = true
+# native_frame_materials = true
+# zen_mode = false
+
+[browser.helium.behavior]
+new_tab_next_to_active = true
+cycle_tabs_by_most_recent_use = true
+# shift_right_click_menu = true
+# copy_page_url_shortcut = true
+# vertical_collapse_shortcut = true
+# suppress_default_browser_prompt = true
+
+# Optional toolbar changes: uncomment the table header with the values you want
+# [browser.helium.toolbar]
+# show_back_button = true
+# show_extensions_button = false
+# show_vertical_tabs_collapse_button = true
+# show_dynamic_new_tab_button = true
+# show_page_zoom_indicator = true
+
+# --- 3. Privacy and services --------------------------------------------------
+
+[browser.helium.privacy]
+global_privacy_control = true
+noise = true
+
+# Crash reporting is separate from privacy signals
+# [browser.helium]
+# crash_reporting = "ask" # disabled | ask | automatic
+
+# Service choices remain opt-in, including consent; enable only those you want
+# A custom service origin must be HTTPS or localhost; empty restores the default
+# [browser.helium.services]
+# enabled = true
+# user_consented = true
+# extension_proxy = true
+# bangs = true
+# spellcheck_files = true
+# browser_updates = true
+# ublock_assets = true
+# origin_override = "https://helium-services.example.test"
+
+# --- 4. Custom shortcut -------------------------------------------------------
+
+# Helium keeps shortcuts at this Chromium preference path
+# Repeat the table for each shortcut; command IDs are Chromium browser commands
+# This example adds Ctrl+Shift+Y for New Tab, without removing other shortcuts
+# [[browser.preferences.accelerators]]
+# path = "helium.browser.custom_accelerators"
+# command_id = "34014" # IDC_NEW_TAB
+# accelerator = "Control+Shift+KeyY"

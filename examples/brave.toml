@@ -1,0 +1,139 @@
+# Brave starter: quieter bundled services and vertical tabs
+#
+# Copy this file to browser.toml and adapt the application and profile paths
+# Open Brave once; find its Profile Path at brave://version
+# The active settings below are example choices, not built-in defaults
+# Shared cookie, preference, extension, and storage recipes are in
+# examples/browser.toml; copy only the recipes you need into this file
+# The apply command accepts one configuration file
+#
+# Close Brave, then run:
+#   browser config validate browser.toml
+#   browser apply browser.toml
+#   browser policy render browser.toml --output browser-policy.json
+# Launch through the generated brave-configured launcher to use its flags
+# Install the rendered policy in Brave's platform managed policy store for
+# controls that require it; apply does not install managed policies
+# Wallet and Rewards require managed policy to be fully disabled
+
+# --- 1. Browser and platform paths --------------------------------------------
+
+[browser]
+name = "Brave Browser"
+executable_name = "brave-configured"
+flags = ["--no-first-run", "--no-default-browser-check"]
+
+[browser.linux]
+app_dir = "/path/to/brave"
+launcher_name = "brave" # Match the executable inside your installed bundle
+# desktop_name = "brave-browser.desktop"
+# desktop_exec = "brave-browser"
+# desktop_id = "brave-browser"
+
+[browser.paths.linux]
+# For a non-default profile, also add its --profile-directory to browser.flags
+profile_dir = "${config_home}/BraveSoftware/Brave-Browser/Default"
+external_extension_dirs = [
+  "${config_home}/BraveSoftware/Brave-Browser/External Extensions",
+]
+
+[browser.macos]
+app_dir = "/Applications/Brave Browser.app"
+launcher_path = "Contents/MacOS/Brave Browser"
+
+[browser.paths.macos]
+# Use the same profile selection in browser.flags if this is not Default
+profile_dir = "${home}/Library/Application Support/BraveSoftware/Brave-Browser/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/BraveSoftware/Brave-Browser/External Extensions",
+]
+
+# --- 2. Service preset and overrides ------------------------------------------
+
+# Choose a preset here; explicit feature choices override its defaults
+# The disable_annoyances preset includes disable_web3 and also turns off ads,
+# sponsored content, AI, VPN, News, Talk, Playlist, telemetry, and other
+# services
+# For only Wallet, Rewards/BAT, and decentralized DNS, use disable_web3 instead
+# Origin reproduces Brave Origin's policy and UI defaults without changing
+# purchase or branding state
+[browser.brave]
+disable_annoyances = true
+# Alternative presets: replace disable_annoyances above with one of these
+# disable_web3 = true
+# origin = true
+
+# Restore selected services while keeping the rest of the preset
+# Omitted feature settings keep the preset's choices
+# Explicit rewards, talk, and vpn choices also override new_tab_widgets
+# [browser.brave.features]
+# news = true
+# speedreader = true
+# ads = false # Notification ads
+# sponsored_content = false # Search and new-tab sponsorship
+# new_tab_widgets = false # Rewards, Talk, and VPN widgets
+# rewards = true # Also restores the Rewards widget
+
+# Leo page-content upload consent is separate from enabling the AI feature
+# [browser.brave.ai]
+# tab_organization_send_page_content = false
+
+# Requires WireGuard support and an enabled VPN
+# With this preset, also set vpn = true in browser.brave.features to enable it
+# [browser.brave.vpn]
+# wireguard_allow_lan_traffic = true
+
+# --- 3. Tabs, toolbar, and behavior -------------------------------------------
+
+[browser.brave.tabs]
+vertical = true
+collapsed = false
+floating = true
+# on_right = false
+# tree = false
+# hover_mode = "card" # tooltip | card | card_with_preview
+# disable_clickable_mute_indicator = false
+# always_use_mini_accent_icon = false
+
+# [browser.brave.toolbar]
+# location_bar_wide = false
+# web_view_rounded_corners = true
+# subtle_app_menu_logo = false
+# show_bookmarks_button = true
+# show_side_panel_button = true
+# show_screenshot_button = false
+
+# [browser.brave.behavior]
+# cycle_tabs_by_most_recent_use = true
+# confirm_window_close = true
+# close_window_with_last_tab = true
+# show_fullscreen_reminder = true
+# show_default_browser_prompt = false # Requires the rendered managed policy
+# wayback_machine_auto_check = false # Enable features.wayback_machine to use it
+
+# [browser.brave.sidebar]
+# show = "mouseover" # always | mouseover | never
+
+# --- 4. Shields ---------------------------------------------------------------
+
+# These values are stored in Local State and affect all profiles
+# [browser.brave.shields]
+# adblock_only_mode = false
+# custom_filters = "example.com##.sponsor"
+
+# --- 5. Advanced preferences and policies -------------------------------------
+
+# Arbitrary Brave values run after typed settings and override them
+# Repeat each table for more values; the preference paths below are hypothetical
+# [[browser.brave.profile_values]]
+# path = "brave.some_new_profile_preference"
+# value = false
+
+# [[browser.brave.local_state_values]]
+# path = "brave.some_new_local_state_preference"
+# value = 3
+
+# Explicit managed policies override the policies derived from feature choices
+# They take effect only after you install the rendered policy in a managed store
+# [browser.brave.managed_policies]
+# BrowserSignin = 0

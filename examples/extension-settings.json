@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "name": "Hypothetical extension settings",
+  "description": "Replace the example ID and keys with your extension's storage format. Set local values and a sync theme, merge nested options, and append unique sites.",
+  "local": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "enabled": true
+      }
+    }
+  ],
+  "sync": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "theme": "dark"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "options",
+      "operation": "merge",
+      "value": {
+        "showBadge": false
+      }
+    },
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "area": "local",
+      "key": "allowedSites",
+      "operation": "append",
+      "value": ["https://example.com"]
+    }
+  ]
+}
