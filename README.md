@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Make Chromium-family browsers declarative.</strong><br>
-  Launchers, flags, preferences, extensions, and storage in one config.
+  Flags, preferences, extensions, and extension settings in one config.
 </p>
 
 <p align="center">
@@ -24,223 +24,176 @@
   >
 </p>
 
-<p align="center">
-  <a href="#install">Install</a> ·
-  <a href="#use">Use</a> ·
-  <a href="#nix-modules">Nix modules</a> ·
-  <a href="#examples">Examples</a>
-</p>
+Keep your browser setup in TOML or Nix: vertical tabs, cookie rules, extensions,
+and the settings inside those extensions. Works with Chromium-family browsers on
+macOS and Linux, with dedicated settings for Helium and Brave.
 
-Keep your browser setup in a file you can edit, reuse, and bring to another
-machine. `browser` configures Chromium-family browsers, including Helium and
-Brave, and updates only the profile values you choose.
-
-Start with a few launch flags, then add preferences or extensions when you need
-them. You can write your setup in TOML or generate it with Nix.
-
-## Install
-
-With Nix and flakes enabled:
-
-```sh
-nix profile add github:4evy/browser
-```
-
-Or build from source with Git and Go 1.27.1 or newer:
-
-```sh
-git clone https://github.com/4evy/browser.git
-cd browser
-go install ./cmd/browser
-export PATH="$(go env GOPATH)/bin:$PATH"
-```
-
-The last line makes the command available in your current shell with Go's
-default settings. If you set `GOBIN`, add that directory to `PATH` instead. Git
-is also required at runtime if you configure Git extension sources.
-
-## Use
-
-### 1. Get your browser ready
-
-Use your existing Chromium-family browser, or install
-[Helium](https://helium.computer/) or [Brave](https://brave.com/download/) using
-their installation instructions. On Linux, install Chromium through your
-distribution's package manager; for Nix, see the [module example](#nix-modules)
-below. `browser` configures that installation; it does not install the browser
-itself.
-
-Open it once to create a profile. Visit `chrome://version` and note the
-[**Profile Path**](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/user_data_dir.md#Current-Location)
-(use `brave://version` in Brave), then quit the browser completely. The profile
-path ends in something like `Default` or `Profile 1`; use that folder, rather
-than its parent.
-
-### 2. Write a small config
-
-Start from [the Helium config](examples/helium.toml),
-[the Brave config](examples/brave.toml), or the generic Chromium example below.
-Copy your chosen config to `browser.toml` and change the application and profile
-paths to match your installation. The Linux application path below is a
-placeholder, not an installation location:
+For example, the settings portion of a Helium config can look like this:
 
 ```toml
-[browser]
-name = "Chromium"
-executable_name = "chromium-configured"
-flags = ["--no-first-run", "--no-default-browser-check"]
+[browser.helium.appearance]
+layout = "vertical"
 
-[browser.macos]
-app_dir = "/Applications/Chromium.app"
-launcher_path = "Contents/MacOS/Chromium"
+[browser.helium.behavior]
+cycle_tabs_by_most_recent_use = true
 
-[browser.paths.macos]
-profile_dir = "${home}/Library/Application Support/Chromium/Default"
-external_extension_dirs = [
-  "${home}/Library/Application Support/Chromium/External Extensions",
-]
-
-[browser.linux]
-app_dir = "/path/to/directory/containing/chromium"
-launcher_name = "chromium"
-
-[browser.paths.linux]
-profile_dir = "${config_home}/chromium/Default"
-external_extension_dirs = ["${config_home}/chromium/External Extensions"]
-```
-
-Only the section for your current platform is used. `app_dir` is the directory
-containing the installed browser, and `launcher_path` or `launcher_name` points
-to its executable inside that directory. `executable_name` names the launcher
-this tool creates; here, `chromium-configured` keeps it easy to distinguish from
-the original browser command.
-
-For Helium or Brave, start with the [browser-specific examples](#examples) and
-adapt their paths. `${home}`, `${config_home}`, and `${data_home}` expand to
-your user directories. The shared example has more settings when you're ready
-for them.
-
-### 3. Apply it and open the browser
-
-```sh
-browser config validate browser.toml
-browser apply browser.toml
-```
-
-Validation checks your config without changing anything. `apply` installs any
-configured extensions, updates profile settings, and prints the launcher path.
-It does not open a browser window. With the default launcher directory, open
-your configured browser with:
-
-```sh
-~/.local/bin/chromium-configured
-```
-
-Use the printed path if you changed the launcher directory. If `~/.local/bin` is
-on your `PATH`, you can just run `chromium-configured`. Opening the original
-application directly skips the launcher's flags.
-
-The example uses the browser's default profile. `profile_dir` selects which
-profile to edit; it does not make the launcher switch profiles. If you use
-`Profile 1`, also add `"--profile-directory=Profile 1"` to `browser.flags` so
-the launcher opens that profile.
-
-### 4. Make it yours
-
-For example, append this to `browser.toml` to block third-party cookies:
-
-```toml
 [browser.preferences.cookies]
 third_party = "block"
-```
 
-Or add [Dark Reader](https://darkreader.org/) from the Chrome Web Store:
-
-```toml
 [extensions]
 chrome_store_update_url = "https://clients2.google.com/service/update2/crx"
 
 [[extensions.chrome_store]]
 id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"
 name = "Dark Reader"
+
+[extension_settings]
+files = ["extension-settings.json"]
 ```
 
-The extension ID is the last part of its Chrome Web Store URL. The
-`external_extension_dirs` in the starting config let the browser discover
-installed extensions; these directories must match your browser's locations.
-Your browser may ask you to enable an externally installed extension.
+`browser apply` installs the extensions, writes your chosen settings, and
+creates a launcher with your flags. Omitted preferences stay as they are.
 
-After changing your config, quit the browser, run `browser apply browser.toml`
-again, and reopen it through the launcher. Flags take effect when you launch;
-profile settings are written when you apply.
+## Install
 
-<details>
-<summary><strong>Config discovery and focused commands</strong></summary>
-
-Without a config argument, commands check `BROWSER_CONFIG`, `./browser.toml`,
-then the user and system configuration directories. You can also override paths
-for one apply:
+With Nix:
 
 ```sh
-browser apply browser.toml --app-dir /path/to/browser/app \
-  --profile-dir /path/to/browser/profile
+nix profile add github:4evy/browser
 ```
+
+Or build with Go 1.27.1 or newer:
 
 ```sh
-browser profile apply browser.toml
-browser storage apply browser.toml
-browser policy render browser.toml --output browser-policy.json
-browser completion zsh
+git clone https://github.com/4evy/browser.git
+cd browser
+go install ./cmd/browser
 ```
 
-`profile apply` updates profile and extension settings; `storage apply` updates
-only extension storage. `policy render` writes JSON for a managed policy store;
-you must install it in the browser's policy directory. Use
-`browser <command> --help` for options.
+Add Go's install directory (`$(go env GOPATH)/bin`, or your `GOBIN`) to `PATH`.
 
-</details>
+## Get started
 
-### Examples
+Install your browser and open it once to create a profile. Then:
 
-Copy one TOML starter as `browser.toml`, for example
-`cp examples/helium.toml browser.toml`, then adapt its paths and settings:
+1. Copy a starter to `browser.toml`: [Helium](examples/helium.toml),
+   [Brave](examples/brave.toml), or [Chromium](examples/browser.toml).
+2. Set its application and profile paths. Find **Profile Path** at
+   `chrome://version` (`brave://version` in Brave); use the folder ending in
+   `Default` or `Profile 1`. Each starter has macOS and Linux sections; only
+   your current platform is used.
+3. Quit the browser completely, then validate and apply:
 
-| Example                                               | What it shows                                                                                                  |
-| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| [Chromium and shared recipes](examples/browser.toml)  | Launcher setup, cookies, arbitrary preferences, all five extension source types, download options, and storage |
-| [Helium](examples/helium.toml)                        | Vertical tabs, recent-tab cycling, privacy signals, optional services, and custom shortcuts                    |
-| [Brave](examples/brave.toml)                          | A service preset, vertical tabs, feature overrides, Shields, and managed policies                              |
-| [Extension storage](examples/extension-settings.json) | Hypothetical `storage.local` and `storage.sync` values, object merges, and unique array appends                |
+   ```sh
+   browser config validate browser.toml
+   browser apply browser.toml
+   ```
 
-Each TOML file is a standalone configuration with macOS and Linux paths. The
-Chromium starter enables only launcher setup; Helium and Brave also enable the
-settings described at the top of their files. Copy shared recipes into your
-chosen config; `apply` accepts one file. Extension source IDs, URLs, checksums,
-and commits are placeholders to replace before use.
+Open the launcher at the printed path, normally `~/.local/bin/helium-configured`
+for the Helium starter. Use that launcher to include your flags and unpacked
+extensions. After changing your config, quit, apply, and reopen through the
+launcher.
 
-For storage settings, copy the JSON example beside your config, adapt its ID and
-keys to your extension, and enable the `[extension_settings]` recipe. Relative
-settings paths resolve from the TOML file. The
-[JSON schema](schema/extension-settings.schema.json) describes the full mutation
-format. Brave's example also requires installing the rendered managed policy to
-fully disable Wallet and Rewards.
+The starters are complete configs. The snippets here show settings to add or
+change in them; edit an existing table instead of declaring it twice.
+
+## Configure your browser
+
+Helium's [starter](examples/helium.toml) shows layouts, tab behavior, toolbar
+buttons, privacy signals, services, and custom shortcuts.
+
+For Brave, you can disable bundled services and enable vertical tabs:
+
+```toml
+[browser.brave]
+disable_annoyances = true
+
+[browser.brave.tabs]
+vertical = true
+```
+
+The [Brave starter](examples/brave.toml) also shows feature overrides, Shields,
+and managed policies. Fully disabling Wallet and Rewards requires installing the
+JSON produced by `browser policy render` in Brave's managed policy store.
+
+The [shared recipes](examples/browser.toml) cover cookie exceptions, arbitrary
+Preferences and Local State values, and extension sources:
+
+- **Chrome Web Store** and **update URLs** for store or self-hosted extensions
+- **CRX** for a version pinned by SHA-256
+- **ZIP** for a pinned archive or the latest GitHub release
+- **Git** for a pinned commit or a followed branch, including private SSH
+  remotes
+
+ZIP and Git sources must contain a ready-to-load `manifest.json`; no build step
+runs. Git sources require Git on `PATH`. Store and CRX installs use the
+starter's `external_extension_dirs`; these must match your browser's discovery
+locations. The browser may ask you to enable an externally installed extension.
+
+## Configure extensions too
+
+Save this as `extension-settings.json` beside `browser.toml` and add the
+`[extension_settings]` table shown above. This is a real Dark Reader example: it
+enables the extension, uses local settings, and sets dark mode with 90%
+brightness and 110% contrast.
+
+```json
+{
+  "schema_version": 1,
+  "local": [
+    {
+      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
+      "values": {
+        "enabled": true,
+        "syncSettings": false
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
+      "area": "local",
+      "key": "theme",
+      "operation": "merge",
+      "value": {
+        "mode": 1,
+        "brightness": 90,
+        "contrast": 110
+      }
+    }
+  ]
+}
+```
+
+`local` sets the listed storage keys. `merge` changes those theme fields while
+keeping the rest of the theme. `"syncSettings": false` makes Dark Reader read
+these local values, following its
+[storage logic](https://github.com/darkreader/darkreader/blob/main/src/background/user-storage.ts)
+and
+[theme format](https://github.com/darkreader/darkreader/blob/main/src/defaults.ts).
+The same JSON is available as a
+[copyable example](examples/extension-settings.json).
+
+Other extensions need their own IDs and storage keys. You can also append unique
+array values, remove keys, and edit nested or compressed JSON; see the
+[storage schema](schema/extension-settings.schema.json) for the full format.
+`sync` writes update the local cache of `chrome.storage.sync`; existing cloud
+state can overwrite them when the browser starts.
 
 ## Nix modules
 
-Add this input to your flake:
+Add the flake input:
 
 ```nix
 inputs.browser.url = "github:4evy/browser";
 ```
 
-If you manage your Linux setup with Home Manager, install Chromium from Nixpkgs
-and point the configurator at its packaged launcher:
+For Home Manager on Linux:
 
 ```nix
 { inputs, pkgs, ... }:
 {
   imports = [ inputs.browser.homeModules.default ];
-
   home.packages = [ pkgs.chromium ];
 
   programs.browser = {
@@ -249,52 +202,57 @@ and point the configurator at its packaged launcher:
       name = "Chromium";
       executable_name = "chromium-configured";
       flags = [ "--no-first-run" "--no-default-browser-check" ];
-
       linux = {
         app_dir = "${pkgs.chromium}/bin";
         launcher_name = "chromium";
       };
-
       paths.linux.profile_dir = "\${config_home}/chromium/Default";
+      preferences.cookies.third_party = "block";
     };
   };
 }
 ```
 
-Pass `inputs` through Home Manager's `extraSpecialArgs` if it is not already
-available to your modules. For macOS, use `macos` and `paths.macos` with the
-application bundle, launcher, and profile paths from your chosen TOML example.
+Pass `inputs` through Home Manager's `extraSpecialArgs`. Settings use the same
+keys as TOML, including `browser.helium`, `browser.brave`, `extensions`, and
+`extension_settings`. They support normal Nix module merging and overrides.
 
-| Configuration | Import                                 | Config location                         |
-| ------------- | -------------------------------------- | --------------------------------------- |
-| Home Manager  | `inputs.browser.homeModules.default`   | `$XDG_CONFIG_HOME/browser/browser.toml` |
-| NixOS         | `inputs.browser.nixosModules.default`  | `/etc/browser/browser.toml`             |
-| nix-darwin    | `inputs.browser.darwinModules.default` | `/etc/browser/browser.toml`             |
+| Setup        | Import                                 |
+| ------------ | -------------------------------------- |
+| Home Manager | `inputs.browser.homeModules.default`   |
+| NixOS        | `inputs.browser.nixosModules.default`  |
+| nix-darwin   | `inputs.browser.darwinModules.default` |
 
-All three modules use `programs.browser`. They install the CLI and generate
-configuration files. After rebuilding or activating, close the browser and run:
+The modules install the CLI and generate `browser.toml` in your user config
+directory (Home Manager) or `/etc/browser` (system modules). For macOS, replace
+`linux` and `paths.linux` with the `macos` paths from your browser's starter.
+After activation, quit the browser and run `browser apply`, then open the
+configured launcher. Use `programs.browser.configurations.<name>` for additional
+configs and apply their generated `<name>.toml` explicitly.
+
+<details>
+<summary><strong>More commands and path options</strong></summary>
+
+Without a config argument, commands check `BROWSER_CONFIG`, `./browser.toml`,
+then user and system config directories. `${home}`, `${config_home}`, and
+`${data_home}` in TOML expand to your user directories.
+
+`profile_dir` selects the profile to edit. To launch a non-default profile too,
+add its flag to `browser.flags`, for example `"--profile-directory=Profile 1"`.
 
 ```sh
-browser apply
-~/.local/bin/chromium-configured
+browser profile apply browser.toml
+browser storage apply browser.toml
+browser policy render browser.toml --output browser-policy.json
+browser apply browser.toml --app-dir /path/to/browser \
+  --profile-dir /path/to/profile
+browser completion zsh
 ```
 
-The first command reads the generated config and creates your launcher; the
-second opens Chromium with your flags. To add the cookie setting from above, use
-`programs.browser.settings.browser.preferences.cookies.third_party = "block";`
-in your module.
+`profile apply` writes browser and extension settings; `storage apply` writes
+only extension storage. `policy render` produces JSON to install in a managed
+policy store. Use `browser <command> --help` for options.
 
-Keys inside `settings` match TOML, including snake_case names such as
-`executable_name`; module controls such as `checkConfig` use lowerCamelCase.
-Settings merge through the Nix module system and support `lib.mkDefault`,
-`lib.mkForce`, and list ordering. Use `programs.browser.configurations.<name>`
-for additional configs, then apply the generated `<name>.toml` explicitly.
+</details>
 
-<p align="center">
-  <a href="LICENSE">
-    <img
-      src="https://img.shields.io/badge/License-MIT-A6E3A1?style=flat-square"
-      alt="MIT License"
-    >
-  </a>
-</p>
+[MIT license](LICENSE)

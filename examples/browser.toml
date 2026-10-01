@@ -210,8 +210,8 @@ external_extension_dirs = [
 
 # JSON documents populate chrome.storage.local and chrome.storage.sync
 # Files are applied in order; relative paths resolve beside this TOML file
-# Copy extension-settings.json alongside your config and adapt its hypothetical
-# extension ID and storage keys before enabling this recipe
+# Copy extension-settings.json alongside your config for Dark Reader settings
+# Other extensions need their own IDs and storage keys
 # Add more files to the list when you need later overrides
 
 # [extension_settings]
