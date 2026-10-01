@@ -10,6 +10,8 @@ in
 {
   _class = "homeManager";
 
+  meta.maintainers = [ lib.maintainers._4evy ];
+
   imports = [ ./options.nix ] ++ (import ../providers { inherit lib; }).homeManagerModules;
 
   config = lib.mkIf cfg.enable {
