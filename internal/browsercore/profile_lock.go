@@ -49,18 +49,18 @@ func profileLockDirectories(profileDir string) []string {
 }
 
 func chromiumSingletonLockActive(target string) (bool, error) {
-	separator := strings.LastIndexByte(target, '-')
-	if separator <= 0 || separator == len(target)-1 {
+	lockHost, processID, found := strings.CutLast(target, "-")
+	if !found || lockHost == "" || processID == "" {
 		return false, fmt.Errorf("invalid Chromium singleton target %q", target)
 	}
 	hostname, err := os.Hostname()
 	if err != nil {
 		return false, err
 	}
-	if target[:separator] != hostname {
+	if lockHost != hostname {
 		return true, nil
 	}
-	pid, err := strconv.Atoi(target[separator+1:])
+	pid, err := strconv.Atoi(processID)
 	if err != nil || pid <= 0 {
 		return false, fmt.Errorf("invalid Chromium singleton target %q", target)
 	}
