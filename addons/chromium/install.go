@@ -118,7 +118,7 @@ func (browser Browser) configureApp(
 	options *InstallOptions,
 	launcher string,
 ) error {
-	if err := browser.installExtensions(ctx, options); err != nil {
+	if err := browser.installExtensions(ctx, options, launcher); err != nil {
 		return err
 	}
 	configuredFlags := slices.Clone(browser.Config.Flags)
@@ -157,14 +157,16 @@ func (browser Browser) configureApp(
 func (browser Browser) installExtensions(
 	ctx context.Context,
 	options *InstallOptions,
+	launcher string,
 ) error {
 	excludedIDs := browser.extensionInstallExclusions()
-	httpClient := browser.Extensions.Network.HTTPClient(
-		os.Getenv(envGitHubToken),
-	)
+	httpClient, err := browser.extensionHTTPClient(ctx, launcher, excludedIDs)
+	if err != nil {
+		return err
+	}
 	chromeVersion, err := ResolveChromeVersion(
 		ctx,
-		browser.Extensions.Network.ChromeVersion,
+		httpClient.ChromeVersion,
 		browser.Extensions.ChromeStore,
 		excludedIDs,
 		httpClient.ResolveLatestChromeVersion,

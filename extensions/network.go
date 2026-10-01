@@ -24,8 +24,9 @@ const (
 	latestChromeVersionURL  = "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE"
 	defaultUserAgent        = "github.com/4evy/browser"
 	userAgentPrefix         = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
-	userAgentSuffix         = " Safari/537.36"
-	githubAPIURL            = "https://api.github.com/"
+	// Safari/537.36 is Chromium's frozen compatibility token, not Safari's version
+	userAgentSuffix = " Safari/537.36"
+	githubAPIURL    = "https://api.github.com/"
 )
 
 func requireSuccessfulHTTPStatus(response *http.Response) error {

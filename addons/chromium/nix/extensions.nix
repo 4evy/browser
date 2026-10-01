@@ -123,9 +123,15 @@ let
   networkSettings = freeformSubmodule {
     chrome_version = optional (types.strMatching "[0-9]+(\\.[0-9]+)*") ''
       Chrome product version sent to the Chrome Web Store update service. If
-      omitted, the latest Stable Chrome version is fetched at install time.
+      omitted, use the installed browser's Chromium version, falling back to
+      the latest Stable Chrome version when the browser cannot be queried.
     '';
-    user_agent = optionalNonEmptyString "User agent used for extension HTTP and GitHub requests.";
+    user_agent = optionalNonEmptyString ''
+      User agent used for extension HTTP and GitHub requests. If omitted, read
+      the installed browser's native user agent verbatim. If the browser cannot
+      be queried, derive it from chrome_version when available, or use the
+      configurator's own identity.
+    '';
     headers = optional (types.attrsOf types.str) "Additional HTTP request headers.";
     timeout_seconds = optionalUnsigned "HTTP request timeout in seconds.";
     retry_max = optionalUnsigned "Maximum transient HTTP retries; zero disables retries.";
