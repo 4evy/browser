@@ -1,6 +1,7 @@
 package browsercore
 
 import (
+	"iter"
 	"maps"
 	"slices"
 )
@@ -38,11 +39,6 @@ type BraveFeaturesConfig struct {
 }
 
 type braveFeatureToggles map[string]*bool
-
-type configuredBraveFeature struct {
-	name    string
-	enabled bool
-}
 
 func (config BraveFeaturesConfig) toggles() braveFeatureToggles {
 	return braveFeatureToggles{
@@ -98,30 +94,28 @@ func (features braveFeatureToggles) setDefaults(names []string, value bool) {
 	}
 }
 
-func (features braveFeatureToggles) configured() []configuredBraveFeature {
-	configured := make([]configuredBraveFeature, 0, len(features))
-	for _, name := range slices.Sorted(maps.Keys(features)) {
-		if enabled := features[name]; enabled != nil {
-			configured = append(configured, configuredBraveFeature{
-				name: name, enabled: *enabled,
-			})
+func (features braveFeatureToggles) configured() iter.Seq2[string, bool] {
+	return func(yield func(string, bool) bool) {
+		for _, name := range slices.Sorted(maps.Keys(features)) {
+			if enabled := features[name]; enabled != nil && !yield(name, *enabled) {
+				return
+			}
 		}
 	}
-	return configured
 }
 
 func (config BraveConfig) featureProfilePreferenceValues() []PreferenceValueConfig {
 	values := newPreferenceBuilder(nil, 48)
-	for _, feature := range config.effectiveFeatures().configured() {
-		browserMetadata.Brave.feature(feature.name).AppendProfile(&values, feature.enabled)
+	for name, enabled := range config.effectiveFeatures().configured() {
+		browserMetadata.Brave.feature(name).AppendProfile(&values, enabled)
 	}
 	return values.Values()
 }
 
 func (config BraveConfig) featureLocalStatePreferenceValues() []PreferenceValueConfig {
 	values := newPreferenceBuilder(nil, 20)
-	for _, feature := range config.effectiveFeatures().configured() {
-		browserMetadata.Brave.feature(feature.name).AppendLocalState(&values, feature.enabled)
+	for name, enabled := range config.effectiveFeatures().configured() {
+		browserMetadata.Brave.feature(name).AppendLocalState(&values, enabled)
 	}
 	if (config.DisableAnnoyances || config.Origin) &&
 		config.Behavior.ShowDefaultBrowserPrompt == nil {
@@ -138,8 +132,8 @@ func (config BraveConfig) featureLocalStatePreferenceValues() []PreferenceValueC
 // hatch. A fresh map is returned on every call.
 func (config BraveConfig) ManagedPolicyValues() map[string]any {
 	policies := map[string]any{}
-	for _, feature := range config.effectiveFeatures().configured() {
-		browserMetadata.Brave.feature(feature.name).AddPolicies(policies, feature.enabled)
+	for name, enabled := range config.effectiveFeatures().configured() {
+		browserMetadata.Brave.feature(name).AddPolicies(policies, enabled)
 	}
 	maps.Copy(policies, config.ManagedPolicies)
 	return policies
