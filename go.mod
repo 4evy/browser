@@ -6,7 +6,7 @@ require (
 	github.com/Jeffail/gabs/v2 v2.7.0
 	github.com/adrg/xdg v0.5.3
 	github.com/buildkite/shellwords v1.0.1
-	github.com/carlmjohnson/requests v0.26.1
+	github.com/carlmjohnson/requests v0.26.2
 	github.com/daku10/go-lz-string v0.0.7
 	github.com/google/go-cmp v0.7.0
 	github.com/google/go-github/v92 v92.0.0
