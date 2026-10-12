@@ -1,0 +1,36 @@
+[firefox]
+variant = "zen"
+
+[firefox.paths.linux]
+profile_dir = "${home}/.zen/your-profile"
+
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/zen/Profiles/your-profile"
+
+[firefox.zen.preferences]
+"zen.view.compact.enable-at-startup" = true
+"zen.view.compact.hide-toolbar" = true
+"zen.workspaces.force-container-workspace" = true
+"zen.workspaces.separate-essentials" = true
+"zen.theme.dark-mode-bias" = 0.3
+"zen.mods.auto-update" = false
+
+# Open Zen once before using its native shortcut and workspace files
+# These shortcuts require the version 21 format shipped by Zen 1.23.1b
+[firefox.zen.shortcuts."zen-compact-mode-toggle"]
+key = "c"
+modifiers = { accel = true, alt = true, shift = false }
+
+# Enable an official store Mod, pinning its manifest and store-hosted assets
+# Unlisted Mods survive; enabled = false disables an installed Mod
+[firefox.zen.mods."03a8e7ef-cf00-4f41-bf24-a90deeafc9db"]
+enabled = true
+revision = "7173dba5d060417fd65764b706856ae609496e31"
+preferences = { "nova.color.picker-gradient-new" = true }
+
+# Choose a stable UUID for a new workspace, or use an existing UUID to edit it
+# The rest of zen-sessions.jsonlz4, including tabs and folders, survives
+[firefox.zen.workspaces."d5a75edc-628e-4d4b-a3a1-c52ca44a7e82"]
+name = "Work"
+containerTabId = 0
+theme = { opacity = 0.5, texture = 0.0 }

@@ -13,12 +13,13 @@ import (
 	"github.com/4evy/tweezle/addons/ungoogled"
 	"github.com/4evy/tweezle/addons/vivaldi"
 	"github.com/4evy/tweezle/addons/waterfox"
+	"github.com/4evy/tweezle/addons/zen"
 )
 
 // The binary composes public engine and product addons as a library consumer
 func bundledAddons() []tweezle.Addon {
 	return []tweezle.Addon{
 		chromium.Addon(helium.Addon(), brave.Addon(), vivaldi.Addon(), ungoogled.Addon(), chrome.Addon(), edge.Addon()),
-		firefox.Addon(librewolf.Addon(), waterfox.Addon(), floorp.Addon()),
+		firefox.Addon(librewolf.Addon(), waterfox.Addon(), zen.Addon(), floorp.Addon()),
 	}
 }
