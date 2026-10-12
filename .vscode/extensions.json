@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode",
+    "biomejs.biome",
     "golang.go",
     "jnoortheen.nix-ide",
     "tamasfe.even-better-toml"

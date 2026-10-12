@@ -1,11 +1,12 @@
 {
-  "name": "browser-development-tools",
+  "name": "tweezle-development-tools",
   "private": true,
+  "packageManager": "bun@1.4.3",
   "scripts": {
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "bun --bun biome format --write .",
+    "format:check": "bun --bun biome format ."
   },
   "devDependencies": {
-    "prettier": "3.9.9"
+    "@biomejs/biome": "2.5.15"
   }
 }
