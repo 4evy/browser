@@ -3,17 +3,25 @@ package brave
 import (
 	"errors"
 
-	"github.com/4evy/browser/addons/chromium"
+	"github.com/4evy/tweezle/addons/chromium"
 )
 
 // Config exposes preferences implemented by Brave rather than upstream
 // Chromium. Every field is opt-in; an omitted value leaves the profile alone
 type Config struct {
+	// Edition identifies an installed Origin edition rather than emulating it
+	// Auto detects standalone paths and an activated upgrade's Local State
+	Edition        Edition `toml:"edition"`
+	originDefaults map[string]bool
 	// Origin reproduces Brave Origin's policy defaults and branded UI defaults
 	// on an ordinary Brave installation without changing purchase or SKU state
 	Origin bool `toml:"origin"`
 	// DisableWeb3 turns off Wallet, Rewards, and decentralized-domain resolution
 	DisableWeb3 bool `toml:"disable_web3"`
+	// These presets affect only their named category, leaving other services alone
+	DisableAI         bool `toml:"disable_ai"`
+	DisableTelemetry  bool `toml:"disable_telemetry"`
+	DisablePromotions bool `toml:"disable_promotions"`
 	// DisableAnnoyances additionally turns off Brave's bundled promotions,
 	// sponsored content, telemetry, AI, VPN, News, Talk, and similar services
 	DisableAnnoyances bool `toml:"disable_annoyances"`
@@ -143,6 +151,8 @@ func (config Config) HasLocalStatePreferences() bool {
 
 func (config Config) Validate() error {
 	return errors.Join(
+		config.Edition.Validate(),
+		config.validateOriginFeatures(),
 		metadata.ValidateChoices(config),
 		config.validateManagedPolicies(),
 	)
@@ -204,7 +214,9 @@ func (mode SidebarShowMode) PreferenceValue() (int, bool) {
 
 // Contributions supplies this browser's additions to the shared Chromium engine
 func (config Config) Contributions() chromium.Contribution {
+	supportsManifestV2 := true
 	contribution := chromium.PreferenceContributions(config)
+	contribution.SupportsManifestV2 = &supportsManifestV2
 	contribution.ManagedPolicies = config.ManagedPolicyValues()
 	return contribution
 }

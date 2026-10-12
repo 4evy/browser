@@ -1,0 +1,15 @@
+[browser]
+name = "Chromium"
+executable_name = "chromium-configured"
+
+[browser.linux.flatpak]
+app_id = "org.chromium.Chromium"
+branch = "stable"
+installation = "user"
+
+[browser.paths.linux]
+# Use the host profile path; the launcher selects this data dir and profile
+profile_dir = "${home}/.var/app/org.chromium.Chromium/config/chromium/Default"
+
+[browser.preferences]
+values = [{ path = "browser.check_default_browser", value = false }]

@@ -1,0 +1,36 @@
+# Copy this recipe into a browser configuration and put the JSON beside it
+# Use uBlock Origin's Settings > Back up to file export, or origin.json here
+# Close the browser before applying settings
+
+[ublock.origin]
+settings_file = "origin.json"
+
+# Helium uses its bundled uBlock Origin when browser.helium is configured
+# No install switch, extension download, directory, or component ID is needed
+# Helium's services.ublock_assets independently controls proxied list updates
+
+# Other browsers install the official Chromium ZIP by default and require MV2
+# Brave declares support; generic forks retaining MV2 can explicitly declare:
+# [browser]
+# supports_manifest_v2 = true
+
+# For an existing unpacked Origin in another browser, add:
+# install = false
+# extension_dir = "/path/to/existing/uBlock0.chromium"
+
+# For a bundled Origin in another browser, add:
+# install = false
+# builtin = true
+# id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+# For Manifest V3, replace ublock.origin above with this Lite recipe
+# Lite installs from the Chrome Web Store and uses external_extension_dirs
+# [ublock.lite]
+# settings_file = "lite.json"
+
+# Optional upstream policy keys retain their original spelling
+# Render with tweezle policy render and install in the browser's policy store
+# [ublock.lite.managed]
+# defaultFiltering = "basic"
+# disableFirstRunPage = true
+# rulesets = ["+default", "+annoyances-cookies"]

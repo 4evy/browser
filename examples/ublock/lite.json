@@ -1,0 +1,13 @@
+{
+  "rulesets": ["default", "annoyances-cookies"],
+  "show_blocked_count": true,
+  "strict_block_mode": true,
+  "popup_block_mode": true,
+  "auto_reload": false,
+  "filtering_modes": {
+    "none": ["example.org"],
+    "basic": ["all-urls"],
+    "optimal": [],
+    "complete": []
+  }
+}

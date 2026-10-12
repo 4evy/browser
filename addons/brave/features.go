@@ -6,13 +6,13 @@ import (
 	"maps"
 	"slices"
 
-	"github.com/4evy/browser/addons/chromium"
-	addonmetadata "github.com/4evy/browser/addons/metadata"
+	"github.com/4evy/tweezle/addons/chromium"
+	addonmetadata "github.com/4evy/tweezle/addons/foundation/chrome/metadata"
 )
 
 // FeaturesConfig controls Brave's optional, bundled services. A nil
-// field leaves that service alone. disable_web3 and disable_annoyances supply
-// false defaults, and an explicit field here takes precedence over a preset
+// field leaves that service alone. Category presets supply false defaults,
+// and an explicit field here takes precedence over a preset
 type FeaturesConfig struct {
 	Wallet               *bool `toml:"wallet"`
 	Rewards              *bool `toml:"rewards"`
@@ -28,6 +28,7 @@ type FeaturesConfig struct {
 	WebDiscovery         *bool `toml:"web_discovery"`
 	P3A                  *bool `toml:"p3a"`
 	Stats                *bool `toml:"stats"`
+	CrashReporting       *bool `toml:"crash_reporting"`
 	EmailAliases         *bool `toml:"email_aliases"`
 	SearchPromotions     *bool `toml:"search_promotions"`
 	NewTabWidgets        *bool `toml:"new_tab_widgets"`
@@ -46,14 +47,35 @@ func (config FeaturesConfig) Toggles() braveFeatureToggles {
 
 func (config Config) effectiveFeatures() braveFeatureToggles {
 	features := config.Features.Toggles()
+	explicit := maps.Clone(features)
 	if config.DisableWeb3 {
 		features.setDefaults(metadata.Preset("disable_web3"), false)
+	}
+	if config.DisableAI {
+		features.setDefaults(metadata.Preset("disable_ai"), false)
+	}
+	if config.DisableTelemetry {
+		features.setDefaults(metadata.Preset("disable_telemetry"), false)
+	}
+	if config.DisablePromotions {
+		features.setDefaults(metadata.Preset("disable_promotions"), false)
 	}
 	if config.DisableAnnoyances {
 		features.setDefaults(metadata.Preset("disable_annoyances"), false)
 	}
 	if config.Origin {
 		features.setDefaults(metadata.Preset("origin"), false)
+	}
+	for name := range config.originDefaults {
+		if enabled := features[name]; enabled != nil && !*enabled &&
+			explicit[name] == nil {
+			delete(features, name)
+		}
+	}
+	if config.Edition == EditionOrigin {
+		for _, name := range metadata.Editions[string(EditionOrigin)].Features {
+			delete(features, name)
+		}
 	}
 	return features
 }
@@ -90,6 +112,9 @@ func (config Config) featureProfilePreferenceValues() []chromium.PreferenceValue
 		}
 	}
 	for _, name := range []string{"rewards", "talk", "vpn"} {
+		if config.Edition == EditionOrigin {
+			continue
+		}
 		// Explicit service choices take precedence over the widget group,
 		// which in turn takes precedence over preset service defaults
 		enabled := cmp.Or(explicit[name], features["new_tab_widgets"], features[name])

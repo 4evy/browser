@@ -1,0 +1,51 @@
+[browser]
+executable_name = "helium"
+
+[browser.helium]
+completed_onboarding = true
+crash_reporting = "disabled"
+
+[browser.helium.services]
+enabled = false
+user_consented = true
+origin_override = "https://helium-services.example.test/base/"
+extension_proxy = false
+bangs = true
+spellcheck_files = false
+browser_updates = true
+ublock_assets = false
+
+[browser.helium.appearance]
+layout = "dynamic"
+vertical_right_aligned = true
+centered_location_bar = true
+minimal_location_bar = false
+rounded_frame = true
+show_progress_bar = false
+native_frame_materials = false
+zen_mode = true
+zen_mode_sidebar_pinned = false
+zen_mode_top_chrome_pinned = true
+
+[browser.helium.behavior]
+new_tab_next_to_active = true
+cycle_tabs_by_most_recent_use = true
+shift_right_click_menu = false
+copy_page_url_shortcut = true
+vertical_collapse_shortcut = false
+suppress_default_browser_prompt = true
+
+[browser.helium.privacy]
+global_privacy_control = true
+noise = false
+
+[browser.helium.toolbar]
+show_back_button = false
+show_reload_button = true
+show_avatar_button = false
+show_extensions_button = true
+show_menu_button = false
+show_media_button = true
+show_vertical_tabs_collapse_button = false
+show_dynamic_new_tab_button = true
+show_page_zoom_indicator = false

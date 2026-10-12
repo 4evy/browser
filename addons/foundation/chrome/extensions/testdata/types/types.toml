@@ -1,0 +1,20 @@
+[[chrome_store]]
+id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+name = "Store"
+
+[[update_url]]
+id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+name = "Updater"
+update_url = "https://example.test/update"
+
+[[crx]]
+id = "cccccccccccccccccccccccccccccccc"
+name = "CRX"
+
+[[zip]]
+id = "dddddddddddddddddddddddddddddddd"
+name = "ZIP"
+
+[[git]]
+id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+name = "Git"

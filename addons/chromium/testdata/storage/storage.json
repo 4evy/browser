@@ -1,0 +1,10 @@
+{
+  "local": [
+    {
+      "id": "@extensionID@",
+      "values": {
+        "value": "@value@"
+      }
+    }
+  ]
+}

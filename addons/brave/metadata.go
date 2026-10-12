@@ -3,7 +3,7 @@ package brave
 import (
 	_ "embed"
 
-	addonmetadata "github.com/4evy/browser/addons/metadata"
+	addonmetadata "github.com/4evy/tweezle/addons/foundation/chrome/metadata"
 )
 
 //go:embed metadata.json

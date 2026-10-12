@@ -1,0 +1,19 @@
+{
+  "local": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "would-write": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "name": "must-be-array",
+      "area": "local",
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "key": "items",
+      "operation": "append"
+    }
+  ]
+}

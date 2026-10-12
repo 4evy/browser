@@ -7,72 +7,18 @@ import (
 	"strings"
 	"testing"
 
-	browser "github.com/4evy/browser"
-	"github.com/4evy/browser/chromium"
-
-	"github.com/4evy/browser/internal/profile"
+	"github.com/4evy/tweezle/addons/chromium"
+	"github.com/4evy/tweezle/addons/chromium/profile"
 )
 
 func TestHeliumConfigAppliesProductPreferences(t *testing.T) {
 	root := t.TempDir()
 	configPath := filepath.Join(root, "helium.toml")
-	if err := os.WriteFile(configPath, []byte(`
-[browser]
-executable_name = "helium"
-
-[browser.helium]
-completed_onboarding = true
-crash_reporting = "disabled"
-
-[browser.helium.services]
-enabled = false
-user_consented = true
-origin_override = "https://helium-services.example.test/base/"
-extension_proxy = false
-bangs = true
-spellcheck_files = false
-browser_updates = true
-ublock_assets = false
-
-[browser.helium.appearance]
-layout = "dynamic"
-vertical_right_aligned = true
-centered_location_bar = true
-minimal_location_bar = false
-rounded_frame = true
-show_progress_bar = false
-native_frame_materials = false
-zen_mode = true
-zen_mode_sidebar_pinned = false
-zen_mode_top_chrome_pinned = true
-
-[browser.helium.behavior]
-new_tab_next_to_active = true
-cycle_tabs_by_most_recent_use = true
-shift_right_click_menu = false
-copy_page_url_shortcut = true
-vertical_collapse_shortcut = false
-suppress_default_browser_prompt = true
-
-[browser.helium.privacy]
-global_privacy_control = true
-noise = false
-
-[browser.helium.toolbar]
-show_back_button = false
-show_reload_button = true
-show_avatar_button = false
-show_extensions_button = true
-show_menu_button = false
-show_media_button = true
-show_vertical_tabs_collapse_button = false
-show_dynamic_new_tab_button = true
-show_page_zoom_indicator = false
-`), 0o600); err != nil {
+	if err := os.WriteFile(configPath, readFixture(t, "helium/helium.toml"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 
-	config, err := browser.LoadConfig(configPath, Addon())
+	config, err := chromium.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,14 +30,14 @@ show_page_zoom_indicator = false
 		)
 	}
 
-	instance, err := browser.New(config)
+	instance, err := chromium.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		browser.ApplyOptions{ProfileDir: profileDir},
+		chromium.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -291,7 +237,7 @@ show_page_zoom_indicator = false
 
 func TestHeliumConfigRejectsInvalidProductValues(t *testing.T) {
 	origin := "http://remote.example.test"
-	config := browser.Config{Browser: browser.BrowserConfig{
+	config := chromium.Config{Browser: chromium.BrowserConfig{
 		ExecutableName: "helium",
 	}, Providers: []chromium.Provider{Config{
 		Services:       ServicesConfig{OriginOverride: &origin},
@@ -397,21 +343,21 @@ func TestConfigurePersistsHeliumUserColorFlag(t *testing.T) {
 	}
 	profileDir := filepath.Join(root, "Default")
 	completed := true
-	config := browser.Config{Browser: browser.BrowserConfig{
+	config := chromium.Config{Browser: chromium.BrowserConfig{
 		Name:           "Helium",
 		ExecutableName: "helium-browser",
 		Flags:          []string{"--set-user-color=244,184,228"},
-		MacOS: browser.MacOSConfig{
+		MacOS: chromium.MacOSConfig{
 			AppDir:       appDir,
 			LauncherPath: "Contents/MacOS/Helium",
 		},
-		Paths: map[string]browser.ModePaths{
-			string(browser.ModeMacOS): {ProfileDir: profileDir},
+		Paths: map[string]chromium.ModePaths{
+			string(chromium.ModeMacOS): {ProfileDir: profileDir},
 		},
 	}, Providers: []chromium.Provider{Config{CompletedOnboarding: &completed}}}
-	if err := browser.Configure(t.Context(), browser.ConfigureOptions{
+	if err := chromium.Configure(t.Context(), chromium.ConfigureOptions{
 		Config:             config,
-		Mode:               browser.ModeMacOS,
+		Mode:               chromium.ModeMacOS,
 		Root:               filepath.Join(root, "install"),
 		BinDir:             filepath.Join(root, "bin"),
 		ApplySettings:      true,

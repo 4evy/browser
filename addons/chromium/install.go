@@ -8,9 +8,10 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/4evy/browser/extensions"
-	"github.com/4evy/browser/internal/fileutil"
-	launcherpkg "github.com/4evy/browser/internal/launcher"
+	"github.com/4evy/tweezle/addons/foundation/chrome/extensions"
+	"github.com/4evy/tweezle/addons/foundation/chrome/ublock"
+	fileutil "github.com/4evy/tweezle/internal/file"
+	launcherpkg "github.com/4evy/tweezle/launcher"
 	"github.com/google/renameio/v2"
 )
 
@@ -47,7 +48,9 @@ type InstallOptions struct {
 	LauncherExecutable string
 
 	extraLauncherFlags []string
+	launcherCommand    []string
 	extensionIDAliases map[string]string
+	liteManifestPath   string
 }
 
 func Configure(ctx context.Context, options ConfigureOptions) error {
@@ -69,6 +72,10 @@ func (browser Browser) Install(
 	ctx context.Context,
 	options InstallOptions,
 ) error {
+	if browser.supportsLoadExtension != nil && !*browser.supportsLoadExtension &&
+		hasLoadExtensionFlag(slices.Concat(browser.Config.Flags, options.Flags)) {
+		return errors.New("this browser does not support --load-extension; use store or CRX installation, or load unpacked extensions manually in the browser")
+	}
 	switch options.Mode {
 	case ModeMacOS:
 		return browser.installMacOS(ctx, &options)
@@ -132,13 +139,17 @@ func (browser Browser) configureApp(
 	browser.addLaunchContributions(
 		slices.Concat(configuredFlags, options.extraLauncherFlags),
 	)
-	if err := browser.applyInstallSettings(ctx, options); err != nil {
+	if err := browser.applyInstallSettings(ctx, options, launcher); err != nil {
 		return err
 	}
-	if err := launcherpkg.Write(
+	command := options.launcherCommand
+	if len(command) == 0 {
+		command = []string{launcher}
+	}
+	if err := launcherpkg.WriteCommand(
 		filepath.Join(options.BinDir, browser.Config.ExecutableName),
 		options.LauncherExecutable,
-		launcher,
+		command,
 		browser.Config.FlagsFile,
 		configuredFlags,
 		options.extraLauncherFlags,
@@ -159,6 +170,12 @@ func (browser Browser) installExtensions(
 	options *InstallOptions,
 	launcher string,
 ) error {
+	if err := browser.checkUBlockCapability(ctx, launcher); err != nil {
+		return err
+	}
+	if browser.UBlock.Lite != nil && browser.UBlock.Lite.ShouldInstall() && len(browser.Config.ExternalExtensionDirs(options.Mode)) == 0 {
+		return errors.New("ublock.lite installation requires browser.paths.<platform>.external_extension_dirs; alternatively install the rendered managed policy")
+	}
 	excludedIDs := browser.extensionInstallExclusions()
 	httpClient, err := browser.extensionHTTPClient(ctx, launcher, excludedIDs)
 	if err != nil {
@@ -200,6 +217,7 @@ func (browser Browser) installExtensions(
 		options.extraLauncherFlags,
 		loadFlags...)
 	options.extensionIDAliases = result.ExtensionIDAliases
+	options.liteManifestPath = result.CRXPaths[ublock.LiteID]
 	return nil
 }
 
@@ -229,6 +247,7 @@ func ResolveChromeVersion(
 func (browser Browser) applyInstallSettings(
 	ctx context.Context,
 	options *InstallOptions,
+	launcher string,
 ) error {
 	if !options.ApplySettings {
 		return nil
@@ -241,6 +260,9 @@ func (browser Browser) applyInstallSettings(
 		return nil
 	}
 	return browser.ApplyProfileSettings(ctx, ApplyOptions{
+		BrowserExecutable:  launcher,
+		ExtensionRoot:      options.Root,
+		liteManifestPath:   options.liteManifestPath,
 		ProfileDir:         profile,
 		Settings:           options.Settings,
 		SettingsSource:     options.SettingsSource,

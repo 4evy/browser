@@ -8,37 +8,29 @@ import (
 	"strings"
 	"testing"
 
-	browser "github.com/4evy/browser"
-	"github.com/4evy/browser/chromium"
-
-	"github.com/4evy/browser/internal/profile"
+	"github.com/4evy/tweezle/addons/chromium"
+	"github.com/4evy/tweezle/addons/chromium/profile"
 )
 
 func TestBraveDisableAnnoyancesAppliesCompletePreset(t *testing.T) {
 	root := t.TempDir()
 	configPath := filepath.Join(root, "brave.toml")
-	if err := os.WriteFile(configPath, []byte(`
-[browser]
-executable_name = "brave"
-
-[browser.brave]
-disable_annoyances = true
-`), 0o600); err != nil {
+	if err := os.WriteFile(configPath, readFixture(t, "brave/annoyances.toml"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 
-	config, err := browser.LoadConfig(configPath, Addon())
+	config, err := chromium.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
-	instance, err := browser.New(config)
+	instance, err := chromium.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		browser.ApplyOptions{ProfileDir: profileDir},
+		chromium.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -143,16 +135,10 @@ disable_annoyances = true
 
 func TestBraveOriginPresetCoversUpstreamDefaults(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "brave-origin.toml")
-	if err := os.WriteFile(configPath, []byte(`
-[browser]
-executable_name = "brave"
-
-[browser.brave]
-origin = true
-`), 0o600); err != nil {
+	if err := os.WriteFile(configPath, readFixture(t, "brave/origin.toml"), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	loaded, err := browser.LoadConfig(configPath, Addon())
+	loaded, err := chromium.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -265,10 +251,10 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 			Wallet: &enabled,
 			News:   &enabled,
 		},
-		ProfileValues: []browser.PreferenceValueConfig{
+		ProfileValues: []chromium.PreferenceValueConfig{
 			{Path: "brave.brave_ads.sponsored.enabled", Value: true},
 		},
-		LocalStateValues: []browser.PreferenceValueConfig{
+		LocalStateValues: []chromium.PreferenceValueConfig{
 			{Path: "brave.ens.resolve_method", Value: 3},
 		},
 		ManagedPolicies: map[string]any{
@@ -324,69 +310,11 @@ func TestBraveFeatureAndRawValuesOverridePreset(t *testing.T) {
 func TestBraveConfigAppliesProductPreferences(t *testing.T) {
 	root := t.TempDir()
 	configPath := filepath.Join(root, "brave.toml")
-	if err := os.WriteFile(configPath, []byte(`
-[browser]
-executable_name = "brave"
-
-[browser.brave.tabs]
-hover_mode = "card_with_preview"
-vertical = true
-collapsed = false
-expanded_state_per_window = true
-show_window_title = false
-hide_completely_when_collapsed = true
-floating = false
-show_toggle_button = true
-expanded_width = 280
-on_right = true
-show_scrollbar = true
-tree = true
-shared_pinned = true
-always_hide_close_button = true
-middle_click_close = false
-disable_clickable_mute_indicator = true
-min_width = "full"
-scrollable_horizontal = true
-show_horizontal_scroll_buttons = true
-always_use_mini_accent_icon = true
-compact_horizontal = true
-
-[browser.brave.toolbar]
-location_bar_wide = true
-web_view_rounded_corners = false
-subtle_app_menu_logo = true
-show_bookmarks_button = false
-show_side_panel_button = true
-show_screenshot_button = true
-
-[browser.brave.behavior]
-cycle_tabs_by_most_recent_use = true
-confirm_window_close = false
-close_window_with_last_tab = true
-show_fullscreen_reminder = false
-show_default_browser_prompt = false
-wayback_machine_auto_check = true
-
-[browser.brave.ai]
-tab_organization_send_page_content = false
-
-[browser.brave.vpn]
-wireguard_allow_lan_traffic = false
-
-[browser.brave.sidebar]
-show = "never"
-
-[browser.brave.shields]
-adblock_only_mode = true
-custom_filters = "example.test##.sponsor"
-facebook_embeds = false
-twitter_embeds = true
-linkedin_embeds = false
-`), 0o600); err != nil {
+	if err := os.WriteFile(configPath, readFixture(t, "brave/brave.toml"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 
-	config, err := browser.LoadConfig(configPath, Addon())
+	config, err := chromium.LoadConfig(configPath, Addon())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -398,14 +326,14 @@ linkedin_embeds = false
 		)
 	}
 
-	instance, err := browser.New(config)
+	instance, err := chromium.New(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 	profileDir := filepath.Join(root, "Default")
 	if err := instance.ApplyProfileSettings(
 		t.Context(),
-		browser.ApplyOptions{ProfileDir: profileDir},
+		chromium.ApplyOptions{ProfileDir: profileDir},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -607,7 +535,7 @@ linkedin_embeds = false
 }
 
 func TestBraveConfigRejectsInvalidProductValues(t *testing.T) {
-	config := browser.Config{Browser: browser.BrowserConfig{
+	config := chromium.Config{Browser: chromium.BrowserConfig{
 		ExecutableName: "brave",
 	}, Providers: []chromium.Provider{Config{
 		Tabs: TabsConfig{

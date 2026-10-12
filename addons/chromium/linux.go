@@ -10,9 +10,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/4evy/browser/internal/desktopentry"
-	"github.com/4evy/browser/internal/fileutil"
-	"github.com/4evy/browser/internal/xdgdirs"
+	desktopentry "github.com/4evy/tweezle/desktop"
+	fileutil "github.com/4evy/tweezle/internal/file"
+	xdgdirs "github.com/4evy/tweezle/internal/xdg"
 )
 
 const (
@@ -28,6 +28,9 @@ const (
 )
 
 func (browser Browser) installLinux(ctx context.Context, options *InstallOptions) error {
+	if browser.Config.Linux.Flatpak.AppID != "" {
+		return browser.installFlatpak(ctx, options)
+	}
 	appDir := browser.linuxAppDir(options)
 	dataHome := xdgdirs.Current().DataHome
 	if err := ensureDirectories(
@@ -37,9 +40,6 @@ func (browser Browser) installLinux(ctx context.Context, options *InstallOptions
 		return err
 	}
 	if err := browser.prepareInstall(options, appDir); err != nil {
-		return err
-	}
-	if err := RemoveLinuxQtShim(appDir); err != nil {
 		return err
 	}
 	browser.addLinuxLauncherFlags(options)
@@ -108,7 +108,7 @@ func (browser Browser) installLinuxDesktopEntries(
 	appDir,
 	dataHome string,
 ) error {
-	desktopData, err := os.ReadFile(filepath.Join(appDir, browser.Config.Linux.DesktopName))
+	desktopData, err := os.ReadFile(linuxAppFile(appDir, browser.Config.Linux.DesktopName))
 	if errors.Is(err, os.ErrNotExist) {
 		return nil
 	}
@@ -154,7 +154,7 @@ func (browser Browser) installLinuxDesktopEntries(
 }
 
 func (browser Browser) installLinuxIcon(appDir, dataHome string) error {
-	iconSource := filepath.Join(appDir, browser.Config.Linux.IconSource)
+	iconSource := linuxAppFile(appDir, browser.Config.Linux.IconSource)
 	if _, err := os.Stat(iconSource); errors.Is(err, os.ErrNotExist) {
 		return nil
 	} else if err != nil {
@@ -164,6 +164,15 @@ func (browser Browser) installLinuxIcon(appDir, dataHome string) error {
 		iconSource,
 		filepath.Join(dataHome, linuxApplicationIconsDir, browser.Config.Linux.IconName),
 	)
+}
+
+// Distribution packages can keep desktop files and icons outside the bundle
+func linuxAppFile(appDir, path string) string {
+	path = expandPathTemplate(path)
+	if filepath.IsAbs(path) {
+		return path
+	}
+	return filepath.Join(appDir, path)
 }
 
 func LinuxDesktopEntry(text, executable, sourceExec, startupWMClass string) (string, error) {

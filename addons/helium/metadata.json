@@ -1,5 +1,5 @@
 {
-  "audited_against": "Helium 0.18.2 (76141e139aa079aa24977d861e67bdb64923c3e8) on Chromium 154.0.8037.92",
+  "audited_against": "Helium 0.19.2 (9aa23f3cd9e5e6bcb91c8c8029b738e8da2de493) on Chromium 155.0.8059.39",
   "profile": {
     "completed_onboarding": "helium.completed_onboarding",
     "services.enabled": "helium.services.enabled",

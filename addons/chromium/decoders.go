@@ -1,13 +1,12 @@
 package chromium
 
 import (
-	"bytes"
-	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
-	"strings"
 
+	"github.com/4evy/tweezle"
+	"github.com/4evy/tweezle/internal/reflectutil"
 	"github.com/pelletier/go-toml/v2"
 )
 
@@ -53,7 +52,7 @@ func decodeConfig(data []byte, addons []ProviderAddon) (Config, error) {
 		if err != nil {
 			return Config{}, fmt.Errorf("browser.%s: %w", addon.Name, err)
 		}
-		if provider == nil {
+		if reflectutil.IsNil(provider) {
 			return Config{}, fmt.Errorf(
 				"browser.%s addon returned no provider",
 				addon.Name,
@@ -75,13 +74,7 @@ func decodeConfig(data []byte, addons []ProviderAddon) (Config, error) {
 }
 
 func decodeChromiumConfig(data []byte) (Config, error) {
-	var config Config
-	decoder := toml.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&config); err != nil {
-		return Config{}, err
-	}
-	return config, nil
+	return tweezle.DecodeTOML[Config](data)
 }
 
 func validateAddons(addons []ProviderAddon) error {
@@ -112,16 +105,4 @@ func validateAddons(addons []ProviderAddon) error {
 		seen[addon.Name] = true
 	}
 	return nil
-}
-
-// Normalized TOML has different locations, so report unknown keys explicitly
-func decodeError(err error) error {
-	if missing, ok := errors.AsType[*toml.StrictMissingError](err); ok {
-		keys := make([]string, len(missing.Errors))
-		for index := range missing.Errors {
-			keys[index] = strings.Join(missing.Errors[index].Key(), ".")
-		}
-		return fmt.Errorf("%w\nunknown fields: %s", err, strings.Join(keys, ", "))
-	}
-	return err
 }

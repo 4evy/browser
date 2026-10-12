@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "local": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "values": {
+        "enabled": true
+      }
+    }
+  ]
+}

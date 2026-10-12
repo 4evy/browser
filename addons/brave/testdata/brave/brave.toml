@@ -1,0 +1,57 @@
+[browser]
+executable_name = "brave"
+
+[browser.brave.tabs]
+hover_mode = "card_with_preview"
+vertical = true
+collapsed = false
+expanded_state_per_window = true
+show_window_title = false
+hide_completely_when_collapsed = true
+floating = false
+show_toggle_button = true
+expanded_width = 280
+on_right = true
+show_scrollbar = true
+tree = true
+shared_pinned = true
+always_hide_close_button = true
+middle_click_close = false
+disable_clickable_mute_indicator = true
+min_width = "full"
+scrollable_horizontal = true
+show_horizontal_scroll_buttons = true
+always_use_mini_accent_icon = true
+compact_horizontal = true
+
+[browser.brave.toolbar]
+location_bar_wide = true
+web_view_rounded_corners = false
+subtle_app_menu_logo = true
+show_bookmarks_button = false
+show_side_panel_button = true
+show_screenshot_button = true
+
+[browser.brave.behavior]
+cycle_tabs_by_most_recent_use = true
+confirm_window_close = false
+close_window_with_last_tab = true
+show_fullscreen_reminder = false
+show_default_browser_prompt = false
+wayback_machine_auto_check = true
+
+[browser.brave.ai]
+tab_organization_send_page_content = false
+
+[browser.brave.vpn]
+wireguard_allow_lan_traffic = false
+
+[browser.brave.sidebar]
+show = "never"
+
+[browser.brave.shields]
+adblock_only_mode = true
+custom_filters = "example.test##.sponsor"
+facebook_embeds = false
+twitter_embeds = true
+linkedin_embeds = false

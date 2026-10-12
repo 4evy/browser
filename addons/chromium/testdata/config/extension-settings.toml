@@ -1,0 +1,5 @@
+[browser]
+executable_name = "configured-browser"
+
+[extension_settings]
+files = ["settings/extension.json"]

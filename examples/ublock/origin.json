@@ -1,0 +1,13 @@
+{
+  "user_settings": {
+    "advancedUserEnabled": true,
+    "contextMenuEnabled": false
+  },
+  "hidden_settings": {
+    "disableWebAssembly": true
+  },
+  "filter_lists": ["user-filters", "easylist", "easyprivacy"],
+  "trusted_sites": ["about-scheme", "chrome-scheme", "example.org"],
+  "user_filters": "||ads.example.test^\n",
+  "rules": "* * 3p block"
+}

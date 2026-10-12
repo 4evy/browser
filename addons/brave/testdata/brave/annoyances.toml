@@ -1,0 +1,5 @@
+[browser]
+executable_name = "brave"
+
+[browser.brave]
+disable_annoyances = true

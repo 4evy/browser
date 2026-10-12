@@ -1,16 +1,16 @@
 # Brave starter: quieter bundled services and vertical tabs
 #
-# Copy this file to browser.toml and adapt the application and profile paths
+# Copy this file to tweezle.toml and adapt the application and profile paths
 # Open Brave once; find its Profile Path at brave://version
 # The active settings below are example choices, not built-in defaults
 # Shared cookie, preference, extension, and storage recipes are in
-# examples/browser.toml; copy only the recipes you need into this file
+# examples/tweezle.toml; copy only the recipes you need into this file
 # The apply command accepts one configuration file
 #
 # Close Brave, then run:
-#   browser config validate browser.toml
-#   browser apply browser.toml
-#   browser policy render browser.toml --output browser-policy.json
+#   tweezle config validate tweezle.toml
+#   tweezle apply tweezle.toml
+#   tweezle policy render tweezle.toml --output tweezle-policy.json
 # Launch through the generated brave-configured launcher to use its flags
 # Install the rendered policy in Brave's platform managed policy store for
 # controls that require it; apply does not install managed policies
@@ -50,7 +50,11 @@ external_extension_dirs = [
 
 # --- 2. Service preset and overrides ------------------------------------------
 
-# Choose a preset here; explicit feature choices override its defaults
+# Combine category presets; each affects only its named services
+# For crypto only, use disable_web3 and leave the other presets omitted
+# disable_ai covers Leo and local AI; disable_telemetry covers data collection
+# and crash-report prompts; disable_promotions covers ads and search promotions
+# Explicit feature choices override preset defaults
 # The disable_annoyances preset includes disable_web3 and also turns off ads,
 # sponsored content, AI, VPN, News, Talk, Playlist, telemetry, and other
 # services
@@ -58,19 +62,35 @@ external_extension_dirs = [
 # Origin reproduces Brave Origin's policy and UI defaults without changing
 # purchase or branding state
 [browser.brave]
-disable_annoyances = true
-# Alternative presets: replace disable_annoyances above with one of these
-# disable_web3 = true
+disable_web3 = true
+# disable_ai = true
+# disable_telemetry = true
+# disable_promotions = true
+# To disable all bundled services instead:
+# disable_annoyances = true
 # origin = true
+
+# Installed edition: auto detects standalone Origin from application paths,
+# or an activated Origin upgrade from the configured profile's Local State
+# Already-disabled Origin services are skipped when expanding presets
+# Set the edition explicitly when generating configs away from the target
+# edition = "origin" # auto | standard | origin | origin_upgrade
+# origin = true above emulates Origin on regular Brave; it does not identify it
 
 # Restore selected services while keeping the rest of the preset
 # Omitted feature settings keep the preset's choices
 # Explicit rewards, talk, and vpn choices also override new_tab_widgets
 # [browser.brave.features]
+# ai_chat = true
+# local_ai = true
+# wallet = false
+# decentralized_dns = false
 # news = true
 # speedreader = true
 # ads = false # Notification ads
 # sponsored_content = false # Search and new-tab sponsorship
+# stats = false # Anonymous usage pings
+# crash_reporting = false # Separate from usage pings and crash-report prompts
 # new_tab_widgets = false # Rewards, Talk, and VPN widgets
 # rewards = true # Also restores the Rewards widget
 
@@ -79,7 +99,7 @@ disable_annoyances = true
 # tab_organization_send_page_content = false
 
 # Requires WireGuard support and an enabled VPN
-# With this preset, also set vpn = true in browser.brave.features to enable it
+# When disabling all services, also set features.vpn = true to enable it
 # [browser.brave.vpn]
 # wireguard_allow_lan_traffic = true
 

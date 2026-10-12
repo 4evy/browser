@@ -111,31 +111,42 @@
       "features": ["wallet", "rewards", "decentralized_dns"]
     },
     "disable_annoyances": {
-      "extends": ["disable_web3"],
+      "extends": [
+        "disable_web3",
+        "disable_ai",
+        "disable_telemetry",
+        "disable_promotions"
+      ],
       "features": [
-        "ads",
-        "sponsored_content",
-        "ai_chat",
-        "local_ai",
         "vpn",
         "news",
         "talk",
         "playlist",
-        "web_discovery",
-        "p3a",
-        "stats",
         "email_aliases",
-        "search_promotions",
         "new_tab_widgets",
         "speedreader",
         "wayback_machine",
-        "psst",
-        "crash_reporting_prompt"
+        "psst"
       ]
     },
     "origin": {
       "extends": ["disable_annoyances"],
       "features": ["tor"]
+    },
+    "disable_ai": {
+      "features": ["ai_chat", "local_ai"]
+    },
+    "disable_telemetry": {
+      "features": [
+        "web_discovery",
+        "p3a",
+        "stats",
+        "crash_reporting",
+        "crash_reporting_prompt"
+      ]
+    },
+    "disable_promotions": {
+      "features": ["ads", "sponsored_content", "search_promotions"]
     }
   },
   "features": {
@@ -450,19 +461,11 @@
         {
           "path": "brave.stats.reporting_enabled",
           "mode": "identity"
-        },
-        {
-          "path": "metrics.reporting_enabled",
-          "mode": "identity"
         }
       ],
       "policies": [
         {
           "name": "BraveStatsPingEnabled",
-          "mode": "identity"
-        },
-        {
-          "name": "MetricsReportingEnabled",
           "mode": "identity"
         }
       ]
@@ -588,6 +591,69 @@
         }
       ],
       "policies": []
+    },
+    "crash_reporting": {
+      "profile": [],
+      "local_state": [
+        {
+          "path": "metrics.reporting_enabled",
+          "mode": "identity"
+        }
+      ],
+      "policies": [
+        {
+          "name": "MetricsReportingEnabled",
+          "mode": "identity"
+        }
+      ]
+    }
+  },
+  "editions": {
+    "origin": {
+      "features": [
+        "wallet",
+        "rewards",
+        "ai_chat",
+        "local_ai",
+        "vpn",
+        "news",
+        "talk",
+        "playlist",
+        "web_discovery",
+        "p3a",
+        "stats",
+        "email_aliases",
+        "speedreader",
+        "wayback_machine",
+        "psst",
+        "tor",
+        "decentralized_dns",
+        "ads",
+        "new_tab_widgets",
+        "crash_reporting_prompt",
+        "crash_reporting"
+      ]
+    },
+    "origin_upgrade": {
+      "features": [
+        "wallet",
+        "rewards",
+        "ai_chat",
+        "local_ai",
+        "vpn",
+        "news",
+        "talk",
+        "playlist",
+        "web_discovery",
+        "p3a",
+        "stats",
+        "email_aliases",
+        "speedreader",
+        "wayback_machine",
+        "psst",
+        "tor"
+      ],
+      "browser_features": ["local_ai", "p3a", "stats", "tor"]
     }
   }
 }

@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=Test Browser
+Exec=bundle %U
+Icon=bundle

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/4evy/browser/addons/chromium"
+	"github.com/4evy/tweezle/addons/chromium"
 )
 
 const (
@@ -244,7 +244,13 @@ func UserColorFromFlags(flags []string) (int64, bool) {
 
 // Contributions supplies this browser's additions to the shared Chromium engine
 func (config Config) Contributions() chromium.Contribution {
-	return chromium.PreferenceContributions(config)
+	supportsManifestV2 := true
+	contribution := chromium.PreferenceContributions(config)
+	contribution.SupportsManifestV2 = &supportsManifestV2
+	// Helium loads its own uBlock Origin component in every regular profile
+	// Source: patches/helium/core/ublock-install-as-component.patch
+	contribution.BundledUBlockOriginID = "blockjmkbacgjkknlgpkjjiijinjdanf"
+	return contribution
 }
 
 var _ chromium.Provider = Config{}

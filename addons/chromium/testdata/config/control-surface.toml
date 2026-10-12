@@ -1,0 +1,43 @@
+[browser]
+executable_name = "controlled-browser"
+flags = ["--no-first-run"]
+user_agent = "Controlled Browser/1.0"
+
+[browser.linux]
+desktop_id = "controlled-browser"
+portal_app_id = "org.chromium.Chromium"
+
+[browser.preferences.cookies]
+default = "session_only"
+third_party = "block"
+allow = ["[*.]example.test"]
+block = ["[*.]tracker.test"]
+session_only = ["[*.]temporary.test"]
+
+[extensions.network]
+chrome_version = "152.0.7971.0"
+user_agent = "Controlled Downloader/1.0"
+timeout_seconds = 12
+retry_max = 0
+retry_wait_min_milliseconds = 10
+retry_wait_max_milliseconds = 20
+headers = { X-Test = "configured" }
+
+[[extensions.zip]]
+id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+name = "Pinned"
+update_policy = "pinned"
+version = "1.2.3"
+url = "https://example.test/pinned-1.2.3.zip"
+sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+[[extensions.git]]
+id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+name = "SourceHut extension"
+provider = "sourcehut"
+repository = "~owner/extension"
+update_policy = "pinned"
+ref = "v2.3.4"
+commit = "0123456789abcdef0123456789abcdef01234567"
+subdirectory = "dist/extension"
+load_unpacked = true

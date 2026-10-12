@@ -1,0 +1,32 @@
+{
+  "inputs": [
+    {
+      "name": "whole",
+      "area": "local",
+      "id": "@extensionID@",
+      "key": "whole"
+    },
+    {
+      "name": "merge",
+      "area": "local",
+      "id": "@extensionID@",
+      "key": "options",
+      "path": "nested",
+      "operation": "merge"
+    },
+    {
+      "name": "append",
+      "area": "local",
+      "id": "@extensionID@",
+      "key": "options",
+      "path": "items",
+      "operation": "append"
+    },
+    {
+      "name": "empty",
+      "area": "local",
+      "id": "@extensionID@",
+      "key": "empty"
+    }
+  ]
+}

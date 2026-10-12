@@ -1,0 +1,6 @@
+[browser]
+name = "Test Browser"
+executable_name = "test-browser"
+
+[browser.paths.linux]
+profile_dir = "${config_home}/test-browser/Default"

@@ -3,7 +3,7 @@ package brave
 import (
 	"fmt"
 
-	"github.com/4evy/browser/addons/chromium"
+	"github.com/4evy/tweezle/addons/chromium"
 	"github.com/Jeffail/gabs/v2"
 )
 

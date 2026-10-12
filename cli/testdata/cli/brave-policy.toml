@@ -1,0 +1,6 @@
+[browser]
+executable_name = "brave"
+
+[browser.brave]
+disable_web3 = true
+managed_policies = { BrowserSignin = 0 }

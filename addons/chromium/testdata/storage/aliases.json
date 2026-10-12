@@ -1,0 +1,19 @@
+{
+  "local": [
+    {
+      "id": "@sourceID@",
+      "values": {
+        "items": ["base"]
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "@sourceID@",
+      "area": "local",
+      "key": "items",
+      "operation": "append",
+      "value": ["extra"]
+    }
+  ]
+}

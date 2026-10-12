@@ -1,0 +1,9 @@
+[browser]
+executable_name = "test-browser"
+
+[browser.linux]
+app_dir = "@appDir@"
+
+[[browser.preferences.values]]
+path = "browser.test_value"
+value = true

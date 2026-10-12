@@ -1,0 +1,20 @@
+{
+  "local": [
+    {
+      "id": "@extensionID@",
+      "values": {
+        "first": true,
+        "collision": "scalar"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "@extensionID@",
+      "area": "local",
+      "key": "collision",
+      "path": "nested.value",
+      "value": true
+    }
+  ]
+}

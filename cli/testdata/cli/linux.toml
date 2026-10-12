@@ -1,0 +1,5 @@
+[browser]
+executable_name = "test-browser"
+
+[browser.linux]
+app_dir = "@appDir@"

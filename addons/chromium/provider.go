@@ -1,6 +1,6 @@
 package chromium
 
-import "github.com/4evy/browser/internal/profile"
+import "github.com/4evy/tweezle/addons/foundation/chrome/profile"
 
 // Provider supplies opt-in browser behavior without controlling installation.
 // Contributions run after shared Chromium settings, in provider order.
@@ -13,17 +13,39 @@ type Provider interface {
 	Contributions() Contribution
 }
 
+// PolicyNamespaceProvider identifies a product's distinct managed policy store
+// The JSON syntax can be shared while policy meanings and destinations differ
+type PolicyNamespaceProvider interface {
+	PolicyNamespace() string
+}
+
+// BrowserContextProvider resolves contributions using configured installation
+// and profile paths without making the shared engine identify browser products
+type BrowserContextProvider interface {
+	ContributionsForBrowser(BrowserConfig) (Contribution, error)
+}
+
+func providerContribution(provider Provider, config BrowserConfig) (Contribution, error) {
+	if contextual, ok := provider.(BrowserContextProvider); ok {
+		return contextual.ContributionsForBrowser(config)
+	}
+	return provider.Contributions(), nil
+}
+
 // Contribution describes browser-specific additions to Chromium's shared paths.
 // Preference patches use the same maps and error handling as shared settings.
 // Flag additions follow configured flags and precede invocation overrides.
 // Extension ID aliases and policies override earlier provider values
 type Contribution struct {
-	PreferencePatches  []PreferencePatch
-	LocalStatePatches  []PreferencePatch
-	VariationPatches   []PreferencePatch
-	Flags              []string
-	ExtensionIDAliases map[string]string
-	ManagedPolicies    map[string]any
+	BundledUBlockOriginID string
+	SupportsManifestV2    *bool
+	SupportsLoadExtension *bool
+	PreferencePatches     []PreferencePatch
+	LocalStatePatches     []PreferencePatch
+	VariationPatches      []PreferencePatch
+	Flags                 []string
+	ExtensionIDAliases    map[string]string
+	ManagedPolicies       map[string]any
 }
 
 // LaunchProvider contributes preference patches using the effective static

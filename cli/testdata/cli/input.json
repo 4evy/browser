@@ -1,0 +1,10 @@
+{
+  "extension_values": {
+    "object": {
+      "enabled": true
+    },
+    "array": [null, false],
+    "large": 9007199254740993,
+    "empty": ""
+  }
+}

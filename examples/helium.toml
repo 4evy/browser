@@ -1,16 +1,16 @@
 # Helium starter: vertical tabs, recent-tab cycling, and privacy signals
 #
-# Copy this file to browser.toml and adapt the application and profile paths
+# Copy this file to tweezle.toml and adapt the application and profile paths
 # Open Helium once; find its Profile Path at chrome://version
 # The active settings below are example choices, not built-in defaults
 # Omitted settings leave the corresponding preferences alone
 # Shared cookie, preference, extension, and storage recipes are in
-# examples/browser.toml; copy only the recipes you need into this file
+# examples/tweezle.toml; copy only the recipes you need into this file
 # The apply command accepts one configuration file
 #
 # Close Helium, then run:
-#   browser config validate browser.toml
-#   browser apply browser.toml
+#   tweezle config validate tweezle.toml
+#   tweezle apply tweezle.toml
 # Launch through the generated helium-configured launcher to use its flags
 
 # --- 1. Browser and platform paths --------------------------------------------
@@ -94,6 +94,12 @@ noise = true
 # browser_updates = true
 # ublock_assets = true
 # origin_override = "https://helium-services.example.test"
+
+# Configure Helium's bundled uBlock Origin using its Settings > Back up to file
+# JSON export. The path resolves beside this TOML file
+# No extension download, installation choice, or component ID is needed
+# [ublock.origin]
+# settings_file = "my-ublock-backup.json"
 
 # --- 4. Custom shortcut -------------------------------------------------------
 

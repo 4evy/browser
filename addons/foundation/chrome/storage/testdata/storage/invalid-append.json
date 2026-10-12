@@ -1,0 +1,13 @@
+{
+  "operations": [
+    {
+      "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "area": "local",
+      "key": "options",
+      "operation": "append",
+      "value": {
+        "not": "an array"
+      }
+    }
+  ]
+}

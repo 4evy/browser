@@ -6,27 +6,32 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
-	"github.com/4evy/browser/core"
-	"github.com/4evy/browser/extensions"
-	"github.com/4evy/browser/internal/xdgdirs"
+	"github.com/4evy/tweezle"
+	"github.com/4evy/tweezle/addons/foundation/chrome/extensions"
+	"github.com/4evy/tweezle/addons/foundation/chrome/ublock"
+	"github.com/4evy/tweezle/internal/flatpak"
+	xdgdirs "github.com/4evy/tweezle/internal/xdg"
 	"golang.org/x/net/http/httpguts"
 )
 
-type Mode string
+type Mode = tweezle.Mode
 
 const (
-	ModeMacOS Mode = "macos"
-	ModeLinux Mode = "linux"
+	ModeMacOS = tweezle.ModeMacOS
+	ModeLinux = tweezle.ModeLinux
 
-	defaultBrowserName        = "Chromium"
-	defaultBrowserIconSource  = "product_logo_256.png"
-	minDBusApplicationIDParts = 2
-	maxDBusApplicationIDLen   = 255
+	defaultBrowserName       = "Chromium"
+	defaultBrowserIconSource = "product_logo_256.png"
+	maxDBusApplicationIDLen  = 255
 )
 
+var dbusApplicationIDPattern = regexp.MustCompile(`^[A-Za-z_-][A-Za-z0-9_-]*(\.[A-Za-z_-][A-Za-z0-9_-]*)+$`)
+
 type Config struct {
+	UBlock ublock.Config `toml:"ublock"`
 	// Providers add browser-specific behavior for programmatic callers.
 	// TOML providers are decoded by explicitly registered addons
 	Providers         []Provider              `toml:"-"`
@@ -35,14 +40,15 @@ type Config struct {
 	ExtensionSettings ExtensionSettingsConfig `toml:"extension_settings"`
 }
 
-// ExtensionSettingsConfig names JSON documents that configure chrome.storage
-// for installed extensions. Relative paths are resolved from the TOML
-// configuration file that declares them
+// ExtensionSettingsConfig combines direct storage mutations with scripts run
+// in extension pages. Paths resolve relative to the declaring TOML file
 type ExtensionSettingsConfig struct {
-	Files []string `toml:"files"`
+	Files   []string                 `toml:"files"`
+	Runtime []ExtensionRuntimeConfig `toml:"runtime"`
 }
 
 type BrowserConfig struct {
+	SupportsManifestV2 *bool                    `toml:"supports_manifest_v2"`
 	Name               string                   `toml:"name"`
 	LogPrefix          string                   `toml:"log_prefix"`
 	ExecutableName     string                   `toml:"executable_name"`
@@ -57,16 +63,19 @@ type BrowserConfig struct {
 	ExtensionIDAliases map[string]string        `toml:"extension_id_aliases"`
 }
 
+type FlatpakConfig = flatpak.Config
+
 type LinuxConfig struct {
-	AppDir       string   `toml:"app_dir"`
-	DesktopID    string   `toml:"desktop_id"`
-	PortalAppID  string   `toml:"portal_app_id"`
-	WrapperFlags []string `toml:"wrapper_flags"`
-	LauncherName string   `toml:"launcher_name"`
-	DesktopName  string   `toml:"desktop_name"`
-	DesktopExec  string   `toml:"desktop_exec"`
-	IconName     string   `toml:"icon_name"`
-	IconSource   string   `toml:"icon_source"`
+	Flatpak      flatpak.Config `toml:"flatpak"`
+	AppDir       string         `toml:"app_dir"`
+	DesktopID    string         `toml:"desktop_id"`
+	PortalAppID  string         `toml:"portal_app_id"`
+	WrapperFlags []string       `toml:"wrapper_flags"`
+	LauncherName string         `toml:"launcher_name"`
+	DesktopName  string         `toml:"desktop_name"`
+	DesktopExec  string         `toml:"desktop_exec"`
+	IconName     string         `toml:"icon_name"`
+	IconSource   string         `toml:"icon_source"`
 }
 
 type MacOSConfig struct {
@@ -75,13 +84,14 @@ type MacOSConfig struct {
 }
 
 type ModePaths struct {
+	PoliciesFile          string   `toml:"policies_file"`
 	ProfileDir            string   `toml:"profile_dir"`
 	ExternalExtensionDirs []string `toml:"external_extension_dirs"`
 }
 
 // LoadConfig preserves the Chromium configuration API through the addon loader
 func LoadConfig(path string, providers ...ProviderAddon) (Config, error) {
-	loaded, err := core.LoadConfig(path, Addon(providers...))
+	loaded, err := tweezle.LoadConfig(path, Addon(providers...))
 	if err != nil {
 		return Config{}, err
 	}
@@ -92,16 +102,25 @@ func LoadConfig(path string, providers ...ProviderAddon) (Config, error) {
 }
 
 func (config Config) Validate() error {
+	var err error
+	config, err = config.useBundledUBlock()
+	if err != nil {
+		return err
+	}
 	return errors.Join(
 		config.Browser.validate(),
 		config.validateProviders(),
+		config.UBlock.Validate(),
+		config.validateUBlockCapability(),
+		config.validateExtensionLoading(),
 		config.Browser.Preferences.Cookies.Validate(),
 		extensions.ValidateIDAliases(config.Browser.ExtensionIDAliases),
 		validateUniquePaths(
 			"extension_settings.files",
 			config.ExtensionSettings.Files,
 		),
-		extensions.ValidateCatalog(config.Extensions),
+		validateExtensionRuntime(config.ExtensionSettings.Runtime),
+		extensions.ValidateCatalog(config.UBlock.AddExtensions(config.Extensions)),
 	)
 }
 
@@ -157,6 +176,10 @@ func validFileName(value string) bool {
 
 func (config LinuxConfig) validate() error {
 	var errs []error
+	errs = append(errs, config.Flatpak.Validate())
+	if config.Flatpak.AppID != "" && config.AppDir != "" {
+		errs = append(errs, errors.New("browser.linux.app_dir and flatpak.app_id select different installation types; configure one"))
+	}
 	if config.DesktopID != "" && !validDesktopFileID(config.DesktopID) {
 		errs = append(errs, fmt.Errorf(
 			"browser.linux.desktop_id is not a valid desktop file ID: %q",
@@ -202,17 +225,20 @@ func validateUniquePaths(name string, paths []string) error {
 func resolveConfigPaths(baseDir string, paths []string) []string {
 	resolved := make([]string, 0, len(paths))
 	for _, path := range paths {
-		path = expandPathTemplate(path)
-		if path == "" {
-			resolved = append(resolved, "")
-			continue
-		}
-		if !filepath.IsAbs(path) {
-			path = filepath.Join(baseDir, path)
-		}
-		resolved = append(resolved, filepath.Clean(path))
+		resolved = append(resolved, resolveConfigPath(baseDir, path))
 	}
 	return resolved
+}
+
+func resolveConfigPath(baseDir, path string) string {
+	path = expandPathTemplate(path)
+	if path == "" {
+		return ""
+	}
+	if !filepath.IsAbs(path) {
+		path = filepath.Join(baseDir, path)
+	}
+	return filepath.Clean(path)
 }
 
 func validDesktopFileID(value string) bool {
@@ -223,43 +249,8 @@ func validDesktopFileID(value string) bool {
 }
 
 func validDBusApplicationID(value string) bool {
-	if !validDesktopFileID(value) || len(value) > maxDBusApplicationIDLen {
-		return false
-	}
-	components := strings.Split(value, ".")
-	if len(components) < minDBusApplicationIDParts {
-		return false
-	}
-	for _, component := range components {
-		if !validDBusApplicationIDComponent(component) {
-			return false
-		}
-	}
-	return true
-}
-
-func validDBusApplicationIDComponent(component string) bool {
-	if component == "" || isASCIIDigit(rune(component[0])) {
-		return false
-	}
-	for _, character := range component {
-		if !isASCIIAlpha(character) &&
-			!isASCIIDigit(character) &&
-			character != '_' &&
-			character != '-' {
-			return false
-		}
-	}
-	return true
-}
-
-func isASCIIAlpha(character rune) bool {
-	return character >= 'a' && character <= 'z' ||
-		character >= 'A' && character <= 'Z'
-}
-
-func isASCIIDigit(character rune) bool {
-	return character >= '0' && character <= '9'
+	return validDesktopFileID(value) && len(value) <= maxDBusApplicationIDLen &&
+		dbusApplicationIDPattern.MatchString(value)
 }
 
 func (config BrowserConfig) normalized() BrowserConfig {
