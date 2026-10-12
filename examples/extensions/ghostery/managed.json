@@ -1,0 +1,14 @@
+{
+  "3rdparty": {
+    "extensions": {
+      "mlomiejdfkolichcflejclcbmpeaniij": {
+        "disableOnboarding": false,
+        "disableUserControl": false,
+        "disableUserAccount": true,
+        "disableTrackersPreview": false,
+        "trustedDomains": ["example.org"],
+        "customFilters": ["! Hypothetical managed filter", "||ads.example.org^"]
+      }
+    }
+  }
+}

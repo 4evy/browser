@@ -1,0 +1,116 @@
+[
+  {
+    "id": "sample-0",
+    "name": "Sample create",
+    "behavior": "create",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-0",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  },
+  {
+    "id": "sample-1",
+    "name": "Sample append-specific",
+    "behavior": "append-specific",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-1",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  },
+  {
+    "id": "sample-2",
+    "name": "Sample append-daily",
+    "behavior": "append-daily",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-2",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  },
+  {
+    "id": "sample-3",
+    "name": "Sample prepend-specific",
+    "behavior": "prepend-specific",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-3",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  },
+  {
+    "id": "sample-4",
+    "name": "Sample prepend-daily",
+    "behavior": "prepend-daily",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-4",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  },
+  {
+    "id": "sample-5",
+    "name": "Sample overwrite",
+    "behavior": "overwrite",
+    "noteNameFormat": "{{title}}",
+    "path": "Clippings",
+    "vault": "Sample vault",
+    "context": "{{content}}",
+    "noteContentFormat": "# {{title}}\n\n{{content}}\n",
+    "properties": [
+      {
+        "id": "property-5",
+        "name": "source",
+        "value": "{{url}}",
+        "type": "text"
+      }
+    ],
+    "triggers": ["https://example.com/"]
+  }
+]

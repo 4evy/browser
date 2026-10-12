@@ -1,0 +1,121 @@
+[
+  {
+    "enabled": false,
+    "id": 1,
+    "name": "Hypothetical sectioned style",
+    "customName": "Sample sectioned style",
+    "_id": "b9cde177-0d1e-4cd3-8b7a-5fe25be934e8",
+    "_rev": 1,
+    "author": "Sample author",
+    "preferScheme": "dark",
+    "overridden": false,
+    "exclusions": ["*://example.com/private/*"],
+    "inclusions": ["*://example.net/sample/*"],
+    "updatable": false,
+    "url": "https://example.com/style",
+    "installationUrl": "https://example.com/style",
+    "updateUrl": "https://example.com/style.css",
+    "md5Url": "https://example.com/style.md5",
+    "installDate": 1,
+    "updateDate": 1,
+    "originalDigest": "",
+    "originalMd5": "",
+    "sections": [
+      {
+        "code": "body { --sample-color: #663399; }\n",
+        "domains": ["example.com"],
+        "urls": ["https://example.org/sample"],
+        "urlPrefixes": ["https://example.net/sample/"],
+        "regexps": ["https://example\\.com/.*"]
+      }
+    ]
+  },
+  {
+    "enabled": false,
+    "id": 2,
+    "name": "Hypothetical UserCSS style",
+    "_id": "3856fbe8-b4cb-4709-a8ac-b29c8855b79c",
+    "_rev": 1,
+    "updatable": false,
+    "sections": [],
+    "sourceCode": "/* ==UserStyle==\n@name Hypothetical UserCSS style\n@namespace https://example.org/sample\n@version 1.0.0\n==/UserStyle== */\n@-moz-document domain(\"example.org\") { body { color: var(--accent); padding: var(--spacing); opacity: var(--opacity); } }\n",
+    "usercssData": {
+      "name": "Hypothetical UserCSS style",
+      "namespace": "https://example.org/sample",
+      "version": "1.0.0",
+      "author": "Sample author",
+      "description": "Hypothetical disabled style",
+      "homepageURL": "https://example.org/sample",
+      "license": "CC0-1.0",
+      "preprocessor": "default",
+      "supportURL": "https://example.org/support",
+      "updateURL": "https://example.org/sample.user.css",
+      "vars": {
+        "accent": {
+          "type": "color",
+          "label": "Accent",
+          "name": "accent",
+          "value": "#663399",
+          "default": "#663399"
+        },
+        "spacing": {
+          "type": "range",
+          "label": "Spacing",
+          "name": "spacing",
+          "value": 12,
+          "default": 8,
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "units": "px"
+        },
+        "opacity": {
+          "type": "select",
+          "label": "Opacity",
+          "name": "opacity",
+          "value": "soft",
+          "default": "soft",
+          "options": [
+            {
+              "name": "soft",
+              "label": "Soft",
+              "value": "0.8",
+              "isDefault": true
+            },
+            {
+              "name": "full",
+              "label": "Full",
+              "value": "1",
+              "isDefault": false
+            }
+          ]
+        },
+        "label": {
+          "type": "text",
+          "label": "Label",
+          "name": "label",
+          "value": "Sample",
+          "default": "Sample"
+        },
+        "enabled": {
+          "type": "checkbox",
+          "label": "Enable extra",
+          "name": "enabled",
+          "value": "0",
+          "default": "0"
+        },
+        "count": {
+          "type": "number",
+          "label": "Count",
+          "name": "count",
+          "value": 3,
+          "default": 3,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "units": ""
+        }
+      }
+    }
+  }
+]

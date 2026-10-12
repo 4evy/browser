@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "name": "darkreader: all source-declared defaults with representative custom values",
+  "description": "Offline profile sample; close the browser and use a disposable profile",
+  "local": [
+    {
+      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
+      "values": {
+        "schemeVersion": 2,
+        "enabled": true,
+        "fetchNews": true,
+        "theme": {
+          "mode": 1,
+          "brightness": 100,
+          "contrast": 100,
+          "grayscale": 0,
+          "sepia": 0,
+          "useFont": false,
+          "fontFamily": "Helvetica Neue",
+          "textStroke": 0,
+          "engine": "dynamicTheme",
+          "stylesheet": "a[href*=\"example\"] { text-decoration: underline; }\n",
+          "darkSchemeBackgroundColor": "#181a1b",
+          "darkSchemeTextColor": "#e8e6e3",
+          "lightSchemeBackgroundColor": "#dcdad7",
+          "lightSchemeTextColor": "#181a1b",
+          "scrollbarColor": "",
+          "selectionColor": "auto",
+          "styleSystemControls": false,
+          "lightColorScheme": "Default",
+          "darkColorScheme": "Default",
+          "immediateModify": false
+        },
+        "presets": [
+          {
+            "id": "sample-preset",
+            "name": "Sofia evening",
+            "urls": ["example.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "dynamicTheme",
+              "stylesheet": "a[href*=\"example\"] { text-decoration: underline; }\n",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            }
+          }
+        ],
+        "customThemes": [
+          {
+            "url": ["*.officeapps.live.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["*.sharepoint.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["docs.google.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["onedrive.live.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["example.org"],
+            "theme": {
+              "mode": 1,
+              "brightness": 95,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "dynamicTheme",
+              "stylesheet": "a[href*=\"example\"] { text-decoration: underline; }\n",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": false
+          }
+        ],
+        "enabledByDefault": true,
+        "enabledFor": ["example.com"],
+        "disabledFor": ["mail.example.org"],
+        "changeBrowserTheme": false,
+        "syncSettings": true,
+        "syncSitesFixes": false,
+        "automation": {
+          "enabled": true,
+          "mode": "time",
+          "behavior": "OnOff"
+        },
+        "time": {
+          "activation": "18:30",
+          "deactivation": "07:15"
+        },
+        "location": {
+          "latitude": 42.6977,
+          "longitude": 23.3219
+        },
+        "previewNewDesign": false,
+        "previewNewestDesign": false,
+        "enableForPDF": true,
+        "enableForProtectedPages": false,
+        "enableContextMenus": false,
+        "detectDarkTheme": true,
+        "dev_dynamic_theme_fixes": "example.com\n\nINVERT\n.sample\n\nCSS\n.sample { color: #eeeeee !important; }\n\nIGNORE INLINE STYLE\n.sample\n\nIGNORE IMAGE ANALYSIS\n.sample\n\nIGNORE CSS URL\n.sample\n",
+        "dev_inversion_fixes": "example.com\n\nINVERT\n.sample\n\nNO INVERT\n.sample\n\nREMOVE BG\n.sample\n\nCSS\n.sample { color: #eeeeee !important; }\n",
+        "dev_static_themes": "example.com\n\nNO COMMON\n\n\nNEUTRAL BG\n.sample\n\nNEUTRAL BG ACTIVE\n.sample\n\nNEUTRAL TEXT\n.sample\n\nNEUTRAL TEXT ACTIVE\n.sample\n\nNEUTRAL BORDER\n.sample\n\nRED BG\n.sample\n\nRED BG ACTIVE\n.sample\n\nRED TEXT\n.sample\n\nRED TEXT ACTIVE\n.sample\n\nRED BORDER\n.sample\n\nGREEN BG\n.sample\n\nGREEN BG ACTIVE\n.sample\n\nGREEN TEXT\n.sample\n\nGREEN TEXT ACTIVE\n.sample\n\nGREEN BORDER\n.sample\n\nBLUE BG\n.sample\n\nBLUE BG ACTIVE\n.sample\n\nBLUE TEXT\n.sample\n\nBLUE TEXT ACTIVE\n.sample\n\nBLUE BORDER\n.sample\n\nFADE BG\n.sample\n\nFADE TEXT\n.sample\n\nTRANSPARENT BG\n.sample\n\nNO IMAGE\n.sample\n\nINVERT\n.sample\n",
+        "dev_detector_hints": "example.com\n\nTARGET\n.sample\n\nMATCH\n.sample\n\nNO DARK THEME\n\n\nSYSTEM THEME\n\n\nIFRAME\n.sample\n"
+      }
+    }
+  ],
+  "sync": [
+    {
+      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
+      "values": {
+        "schemeVersion": 2,
+        "enabled": true,
+        "fetchNews": true,
+        "theme": {
+          "__meta_split_count": 2
+        },
+        "presets": [
+          {
+            "id": "sample-preset",
+            "name": "Sofia evening",
+            "urls": ["example.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "dynamicTheme",
+              "stylesheet": "a[href*=\"example\"] { text-decoration: underline; }\n",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            }
+          }
+        ],
+        "customThemes": [
+          {
+            "url": ["*.officeapps.live.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["*.sharepoint.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["docs.google.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["onedrive.live.com"],
+            "theme": {
+              "mode": 1,
+              "brightness": 100,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "cssFilter",
+              "stylesheet": "",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": true
+          },
+          {
+            "url": ["example.org"],
+            "theme": {
+              "mode": 1,
+              "brightness": 95,
+              "contrast": 100,
+              "grayscale": 0,
+              "sepia": 0,
+              "useFont": false,
+              "fontFamily": "Helvetica Neue",
+              "textStroke": 0,
+              "engine": "dynamicTheme",
+              "stylesheet": "a[href*=\"example\"] { text-decoration: underline; }\n",
+              "darkSchemeBackgroundColor": "#181a1b",
+              "darkSchemeTextColor": "#e8e6e3",
+              "lightSchemeBackgroundColor": "#dcdad7",
+              "lightSchemeTextColor": "#181a1b",
+              "scrollbarColor": "",
+              "selectionColor": "auto",
+              "styleSystemControls": false,
+              "lightColorScheme": "Default",
+              "darkColorScheme": "Default",
+              "immediateModify": false
+            },
+            "builtIn": false
+          }
+        ],
+        "enabledByDefault": true,
+        "enabledFor": ["example.com"],
+        "disabledFor": ["mail.example.org"],
+        "changeBrowserTheme": false,
+        "syncSettings": true,
+        "syncSitesFixes": false,
+        "automation": {
+          "enabled": true,
+          "mode": "time",
+          "behavior": "OnOff"
+        },
+        "time": {
+          "activation": "18:30",
+          "deactivation": "07:15"
+        },
+        "location": {
+          "latitude": 42.6977,
+          "longitude": 23.3219
+        },
+        "previewNewDesign": false,
+        "previewNewestDesign": false,
+        "enableForPDF": true,
+        "enableForProtectedPages": false,
+        "enableContextMenus": false,
+        "detectDarkTheme": true,
+        "theme_0": "{\"mode\":1,\"brightness\":100,\"contrast\":100,\"grayscale\":0,\"sepia\":0,\"useFont\":false,\"fontFamily\":\"Helvetica Neue\",\"textStroke\":0,\"engine\":\"dynamicTheme\",\"stylesheet\":\"/* sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sam",
+        "theme_1": "ple sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample  */\",\"darkSchemeBackgroundColor\":\"#181a1b\",\"darkSchemeTextColor\":\"#e8e6e3\",\"lightSchemeBackgroundColor\":\"#dcdad7\",\"lightSchemeTextColor\":\"#181a1b\",\"scrollbarColor\":\"\",\"selectionColor\":\"auto\",\"styleSystemControls\":false,\"lightColorScheme\":\"Default\",\"darkColorScheme\":\"Default\",\"immediateModify\":false}"
+      }
+    }
+  ]
+}

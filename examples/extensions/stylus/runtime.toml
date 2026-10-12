@@ -1,0 +1,15 @@
+# Set extension_dir to a matching unpacked Stylus package before applying
+# These disabled styles use the extension API to populate IndexedDB
+[browser]
+executable_name = "stylus-runtime-sample"
+
+[extension_settings]
+files = ["stylus.json"]
+
+[[extension_settings.runtime]]
+id = "clngdbkpkpeebahjckkjfobafhncgmne"
+page = "manage.html"
+script = "stylus.js"
+timeout_seconds = 120
+[extension_settings.runtime.files]
+styles = "styles.json"

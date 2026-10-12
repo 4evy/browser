@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "name": "obsidian-clipper: all source-declared defaults with representative custom values",
+  "description": "Offline profile sample; close the browser and use a disposable profile",
+  "sync": [
+    {
+      "id": "cnjifjpddelmedmihgijeibhnjfabmlf",
+      "values": {
+        "vaults": ["Sample vault"],
+        "general_settings": {
+          "showMoreActionsButton": false,
+          "betaFeatures": false,
+          "legacyMode": false,
+          "silentOpen": false,
+          "openBehavior": "popup",
+          "saveBehavior": "addToObsidian"
+        },
+        "highlighter_settings": {
+          "highlighterEnabled": true,
+          "alwaysShowHighlights": true,
+          "highlightBehavior": "highlight-inline"
+        },
+        "interpreter_settings": {
+          "interpreterModel": "sample-model",
+          "models": [
+            {
+              "id": "sample-model",
+              "providerId": "sample-provider",
+              "providerModelId": "sample-model",
+              "name": "Sample model",
+              "enabled": false
+            }
+          ],
+          "providers": [
+            {
+              "id": "sample-provider",
+              "name": "Sample local provider",
+              "baseUrl": "http://127.0.0.1:11434",
+              "apiKey": "",
+              "apiKeyRequired": false,
+              "presetId": "ollama"
+            }
+          ],
+          "interpreterEnabled": false,
+          "interpreterAutoRun": false,
+          "defaultPromptContext": "{{content}}"
+        },
+        "property_types": [
+          {
+            "name": "source",
+            "type": "text",
+            "defaultValue": "{{url}}"
+          }
+        ],
+        "reader_settings": {
+          "fontSize": 16,
+          "lineHeight": 1.6,
+          "maxWidth": 38,
+          "lightTheme": "default",
+          "darkTheme": "same",
+          "appearance": "auto",
+          "fonts": ["Georgia", "system-ui"],
+          "defaultFont": "Georgia",
+          "blendImages": true,
+          "colorLinks": false,
+          "followLinks": true,
+          "pinPlayer": true,
+          "autoScroll": true,
+          "highlightActiveLine": true,
+          "customCss": ".reader-content { hyphens: auto; }\n"
+        },
+        "stats": {
+          "addToObsidian": 0,
+          "saveFile": 0,
+          "copyToClipboard": 0,
+          "share": 0,
+          "readerMode": 0
+        },
+        "migrationVersion": 1,
+        "template_list": [
+          "sample-0",
+          "sample-1",
+          "sample-2",
+          "sample-3",
+          "sample-4",
+          "sample-5"
+        ],
+        "template_sample-0": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫‣С傠໹ِ䀹Ⳛఠာ〩憢|昰ࣣ6У㦠ߔ㝄拽䃑ᄖ删扂䣻䬦ֆ૳O䝴䩖ἄƤ棠僃ɀງ՟䄠⮺⮒⫉ᦊ᳛㱏⑄➀嶁模€ၾ䩨䍁䅔ߑʵొグQᚽ⧍僣栠璨┱攈歑⢠棤ᅠ扒㑑盰⡄Ქݰ檈ʚ焃┄㡁Ꮓả䈨獢㦳䎠ᎈ壢⭟⇜䈶燰̉圸恖᭦死␧䫪慣䍠Ȉ眸愊☠ຠᒧ㤥洉  "
+        ],
+        "template_sample-1": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫⁃С傠໹ِ䀹Ⳛఠ၂䔬䑥乆̹䀬昧ɠĸ〠塀Γ/〤着擥䷇ཞŤ删屐Ǫ䠣૪⁩幸ᡆ塭䰡㹖ɰ䲯ာ፦࣬ࢠ㦼đР⮺ᓶժ䓥倧ͭм⥂㚠ϴሮ㞬❒㔍橺షʖ児捌㕨̲槭ᛶ౛.䢱庸⫨㔰ᲄ剬ᥫؿ娠්ҧჁ㪛ᨠ佼㫉ᲮՈর熲ࠢ梡㉸㧒洧ᡭ᪇ፆ䲌Ú䎹ᡗ寣̀᰹ª㕔⢐栠㵇挩ᵩ䀡樂⑇戧᲌† "
+        ],
+        "template_sample-2": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫″С傠໹ِ䀹Ⳛఠ၂䔬䑥䈤懀Ꮰ䠡౐xဣ㦠ߐʗႄ拭䏗⽂焠⸸ą␡䓅၅⽌వⱊ映弫幈ܧ䠦ৃ҆Ѡᳮឨ䈠坔䍸ᕊጶ䐏瑔ဣ෤䔊/⁨ᣦ᜼敲孉呐໑畘滄彩ာ◆᪻䱐嘠ᵂᵪ⽝᭴⇔䮩᥅☸⾈V吲๢䞌盉㦑䫄牘㣏剪ᙨ∓⌙䦁䜓㑬慘榼䂸バ̊睄愎眬Ⓩ⿄ࡊ啱⇣‡瓏ಘ畆.䌴䖘䃧֨  "
+        ],
+        "template_sample-3": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫⁓С傠໹ِ䀹ⳚఠჀৣਹࢫ᱌ٓ9䱎ɀ¬ᠠⰰǙ䀧塗ᒌ櫽厦ྞ䆤䒄Ø〣䪰̳䩠䏜塐໐ᶸƝ皤去ཀె䘥Ըᄠ獘Ⴤ䄠ଆ䃕䅲兑㑁炫ℷ٨䟀Ĕ䒡ⶳ⧌ᵧზ佽抷啩ᡑ䵒ä婋ල䌱怣剅㞆䬒ⵤ朦ಫƦ憤ຠΊ䅀ઝƽG地婮⎡䪤ᣘ撤ე⡹ᘪ曖䁌ᇬ姩椶笠⺩憬ဏ烠ギ䙠扚ᴴ᱔>䐑䍫⢸.䲲₞ဵ澂  "
+        ],
+        "template_sample-4": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫‫С傠໹ِ䀹ⳚఠჀৣਹࢫЩ䍠➡အ౐xဣ㦠ߐ㝈泵巇㝞䉥ሠ屐Ǫ䠣୪⁮幸ᡚ墕䰡㹷籱༯ာ፦ʥఱᲞㄨÎ㒃ⰵᔳ୯爮ᨰƭቤ䴠ި␴漸䶇⣻磵ᩮӭ⊞䆰檰م劻䵌ᡖ=ᅃ㵐喰橃塒⑸ആ౿㐠᭴फጉ矈禑㧄牘⒠↶ᙨ⠓‥䦁⚫㐼慄於䲼㋐̋瘸恾⼬̠炄౎坱⇣‡甏ౄ畆.伲⇾၉斂  "
+        ],
+        "template_sample-5": [
+          "ᯡࡅ䁬⁼ႇĬאǠᬢ䰫⁋С傠໹ِ䀹Ⳛఠု〭憠✡湍䀥暁¬ᠠⰲᦧ冎⓵䏗⾂穜ą␡䗥၂睌ఫ密Ƣ၉ᬧ䠦ৃŢ䘨䁙丩挤Î㑻ナ劅厔禊ࠡ䜔∾'寤φࢨ恥౬䐪౫㡯ɍ⋡冨̲梔穼䌣.䢲圹䱪焺⩬⡌稴⬾䌥洠۵ɣ䦻⸍o⸪㒼䜯➑ゥ擼椎㉸ຬ洹ᡥ昻㞱⋔ؠ嵭权凵䗽椤঑㡰烰Ϧቚ䦠σՀṠܦ† "
+        ]
+      }
+    }
+  ],
+  "local": [
+    {
+      "id": "cnjifjpddelmedmihgijeibhnjfabmlf",
+      "values": {
+        "history": [],
+        "ratings": [],
+        "language": "en",
+        "propertiesCollapsed": false,
+        "lastSelectedVault": "Sample vault",
+        "clipperIframeWidth": 480,
+        "clipperIframeHeight": 700,
+        "debugMode": false,
+        "isHighlighterMode": false,
+        "highlights": {},
+        "domains": {},
+        "provider_presets": {
+          "version": "sample"
+        }
+      }
+    }
+  ]
+}

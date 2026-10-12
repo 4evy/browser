@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "name": "ghostery: all source-declared defaults with representative custom values",
+  "description": "Offline profile sample; close the browser and use a disposable profile",
+  "local": [
+    {
+      "id": "mlomiejdfkolichcflejclcbmpeaniij",
+      "values": {
+        "options": {
+          "mode": "default",
+          "blockAds": true,
+          "blockTrackers": true,
+          "blockAnnoyances": true,
+          "regionalFilters": {
+            "enabled": true,
+            "regions": ["bg", "de"]
+          },
+          "customFilters": {
+            "enabled": true,
+            "trustedScriptlets": false,
+            "filterLists": {
+              "https://example.com/filters.txt": {
+                "enabled": false,
+                "trustedScriptlets": false
+              }
+            }
+          },
+          "distractions": {
+            "browserPrompts": false,
+            "notifications": false,
+            "shorts": false,
+            "signInWithGoogle": false,
+            "socialWidgets": false
+          },
+          "autoconsent": {
+            "autoAction": "optOut",
+            "gpc": true
+          },
+          "fixesFilters": true,
+          "serpTrackingPrevention": true,
+          "redirectProtection": {
+            "enabled": true,
+            "exceptions": {
+              "example.com": true
+            }
+          },
+          "wtmSerpReport": true,
+          "trackerWheel": false,
+          "trackerCount": true,
+          "pauseAssistant": true,
+          "terms": true,
+          "feedback": true,
+          "onboarding": false,
+          "panel": {
+            "statsType": "list",
+            "notifications": true
+          },
+          "contextMenu": true,
+          "theme": "dark",
+          "exceptions": {
+            "sample-tracker-id": {
+              "global": false,
+              "domains": ["example.com"]
+            }
+          },
+          "paused": {
+            "example.org": {
+              "revokeAt": 0,
+              "assist": false,
+              "managed": false
+            }
+          },
+          "zapped": {
+            "example.net": false
+          },
+          "sync": true,
+          "revision": 0,
+          "filtersUpdatedAt": 0,
+          "whatsNew": {
+            "version": "",
+            "popup": false,
+            "shown": true
+          }
+        },
+        "optionsVersion": 6,
+        "customFilters": {
+          "text": "! Hypothetical sample filters\n||ads.example.com^\nexample.com##.sample-ad\n",
+          "filterLists": {
+            "https://example.com/filters.txt": {
+              "text": "",
+              "name": "Disabled sample list",
+              "lastUpdatedAt": 0,
+              "expires": 0,
+              "error": "",
+              "errors": []
+            }
+          },
+          "networkFilters": 0,
+          "cosmeticFilters": 0,
+          "dnrRules": 0,
+          "errors": []
+        },
+        "elementPickerSelectors": {
+          "hostnames": {
+            "example.com": [".sample-banner", "#sample-popup"]
+          }
+        },
+        "disabledFilters": {
+          "ids": {
+            "sample-filter-id": false
+          }
+        }
+      }
+    }
+  ],
+  "sync": [
+    {
+      "id": "mlomiejdfkolichcflejclcbmpeaniij",
+      "values": {
+        "options": {
+          "mode": "default",
+          "blockAds": true,
+          "blockTrackers": true,
+          "blockAnnoyances": true,
+          "regionalFilters": {
+            "enabled": true,
+            "regions": ["bg", "de"]
+          },
+          "customFilters": {
+            "enabled": true,
+            "trustedScriptlets": false,
+            "filterLists": {
+              "https://example.com/filters.txt": {
+                "enabled": false,
+                "trustedScriptlets": false
+              }
+            }
+          },
+          "distractions": {
+            "browserPrompts": false,
+            "notifications": false,
+            "shorts": false,
+            "signInWithGoogle": false,
+            "socialWidgets": false
+          },
+          "autoconsent": {
+            "autoAction": "optOut",
+            "gpc": true
+          },
+          "serpTrackingPrevention": true,
+          "redirectProtection": {
+            "enabled": true,
+            "exceptions": {
+              "example.com": true
+            }
+          },
+          "wtmSerpReport": true,
+          "trackerWheel": false,
+          "trackerCount": true,
+          "pauseAssistant": true,
+          "contextMenu": true,
+          "theme": "dark",
+          "exceptions": {
+            "sample-tracker-id": {
+              "global": false,
+              "domains": ["example.com"]
+            }
+          },
+          "paused": {
+            "example.org": {
+              "revokeAt": 0,
+              "assist": false,
+              "managed": false
+            }
+          },
+          "zapped": {
+            "example.net": false
+          },
+          "revision": 0
+        }
+      }
+    }
+  ]
+}

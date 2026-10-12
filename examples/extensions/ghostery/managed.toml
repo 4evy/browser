@@ -1,0 +1,12 @@
+# Render with tweezle policy render examples/extensions/ghostery/managed.toml
+# Install the rendered policy through the browser's managed policy mechanism
+[browser]
+executable_name = "ghostery-policy-sample"
+
+[browser.chrome.managed_policies."3rdparty".extensions.mlomiejdfkolichcflejclcbmpeaniij]
+disableOnboarding = false
+disableUserControl = false
+disableUserAccount = true
+disableTrackersPreview = false
+trustedDomains = ["example.org"]
+customFilters = ["! Hypothetical managed filter","||ads.example.org^"]

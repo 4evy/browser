@@ -1,0 +1,2393 @@
+{
+  "schema_version": 1,
+  "name": "res: all source-declared defaults with representative custom values",
+  "description": "Offline profile sample; close the browser and use a disposable profile",
+  "local": [
+    {
+      "id": "kbmfpngjjgdllneeigpgjifpgocmfgmb",
+      "values": {
+        "RES.modulePrefs": {
+          "RESTips": true,
+          "about": true,
+          "accountSwitcher": true,
+          "announcements": true,
+          "autoHide": true,
+          "backupAndRestore": true,
+          "betteReddit": true,
+          "commandLine": true,
+          "commentDepth": false,
+          "commentHidePersistor": true,
+          "commentNavigator": true,
+          "commentPreview": true,
+          "commentQuickCollapse": true,
+          "commentSortBy": true,
+          "commentStyle": true,
+          "commentTools": true,
+          "context": true,
+          "contribute": true,
+          "customToggles": true,
+          "dashboard": true,
+          "disableChat": false,
+          "easterEgg": true,
+          "filteReddit": true,
+          "hideChildComments": true,
+          "hover": true,
+          "keyboardNav": true,
+          "localDate": true,
+          "logoLink": true,
+          "RESMenu": true,
+          "messageMenu": true,
+          "modHelper": true,
+          "multiredditNavbar": true,
+          "neverEndingComments": true,
+          "neverEndingReddit": true,
+          "newCommentCount": true,
+          "nightMode": true,
+          "noParticipation": true,
+          "notifications": true,
+          "onboarding": true,
+          "orangered": true,
+          "pageNavigator": true,
+          "penaltyBox": true,
+          "presets": true,
+          "profileNavigator": true,
+          "profileRedirect": true,
+          "quarantineHide": true,
+          "quickMessage": true,
+          "readComments": true,
+          "redditUserInfo": true,
+          "requestPermissions": false,
+          "saveComments": true,
+          "search": true,
+          "searchHelper": true,
+          "selectedEntry": true,
+          "settingsNavigation": true,
+          "showImages": true,
+          "showKarma": true,
+          "showParent": true,
+          "singleClick": true,
+          "sourceSnudown": true,
+          "spamButton": false,
+          "spoilerTags": true,
+          "styleTweaks": true,
+          "stylesheet": true,
+          "submitHelper": true,
+          "submitIssue": true,
+          "subredditInfo": true,
+          "subredditManager": true,
+          "subredditStyleToggle": true,
+          "subRedditTagger": true,
+          "tableTools": true,
+          "temporaryDropdownLinks": true,
+          "troubleshooter": true,
+          "userHighlight": true,
+          "userInfo": true,
+          "userTagger": true,
+          "userbarHider": false,
+          "usernameHider": false,
+          "version": true,
+          "voteEnhancements": true,
+          "wheelBrowse": true,
+          "xPostLinks": true
+        },
+        "RESoptions.RESTips": {
+          "menuItem": {
+            "value": true
+          },
+          "dailyTip": {
+            "value": true
+          },
+          "newFeatureTips": {
+            "value": true
+          }
+        },
+        "RESoptions.about": {},
+        "RESoptions.accountSwitcher": {
+          "keepLoggedIn": {
+            "value": false
+          },
+          "accounts": {
+            "value": [["sample-user", "", false]]
+          },
+          "updateOtherTabs": {
+            "value": true
+          },
+          "reloadOtherTabs": {
+            "value": false
+          },
+          "showCurrentUserName": {
+            "value": false
+          },
+          "dropDownStyle": {
+            "value": "alien"
+          },
+          "showUserDetails": {
+            "value": true
+          },
+          "showKarma": {
+            "value": true
+          },
+          "showGold": {
+            "value": true
+          }
+        },
+        "RESoptions.autoHide": {
+          "mustBeVisibleDuration": {
+            "value": "2000"
+          },
+          "types": {
+            "value": "comment"
+          }
+        },
+        "RESoptions.backupAndRestore": {
+          "reloadWarning": {
+            "value": "warn"
+          },
+          "automaticBackups": {
+            "value": "none"
+          },
+          "syncFrequency": {
+            "value": "0.25"
+          },
+          "automaticRestore": {
+            "value": true
+          },
+          "warnBeforeAutomaticRestore": {
+            "value": true
+          },
+          "googleAccount": {
+            "value": ""
+          }
+        },
+        "RESoptions.betteReddit": {
+          "commentsLinksNewTabs": {
+            "value": false
+          },
+          "fixHideLinks": {
+            "value": true
+          },
+          "hideLinkInstant": {
+            "value": false
+          },
+          "hideLinkFadeDelay": {
+            "value": "5000"
+          },
+          "videoTimes": {
+            "value": true
+          },
+          "videoUploaded": {
+            "value": false
+          },
+          "videoViewed": {
+            "value": false
+          },
+          "pinHeader": {
+            "value": "none"
+          },
+          "permanentVerticalScrollbar": {
+            "value": true
+          },
+          "showLastEditedTimestamp": {
+            "value": true
+          },
+          "scoreHiddenTimeLeft": {
+            "value": true
+          },
+          "showTimestampPosts": {
+            "value": false
+          },
+          "showTimestampComments": {
+            "value": false
+          },
+          "showTimestampSidebar": {
+            "value": false
+          },
+          "showTimestampWiki": {
+            "value": false
+          },
+          "showTimestampModerationLog": {
+            "value": false
+          },
+          "restoreSavedTab": {
+            "value": false
+          },
+          "doNoCtrlF": {
+            "value": false
+          },
+          "showHiddenSortOptions": {
+            "value": false
+          },
+          "truncateLongLinks": {
+            "value": false
+          },
+          "commentCollapseInInbox": {
+            "value": false
+          },
+          "blankPageUntilMeaningfulContent": {
+            "value": false
+          },
+          "restrictScrollEvents": {
+            "value": false
+          }
+        },
+        "RESoptions.commandLine": {
+          "menuItem": {
+            "value": false
+          }
+        },
+        "RESoptions.commentDepth": {
+          "defaultCommentDepth": {
+            "value": "4"
+          },
+          "defaultMinimumComments": {
+            "value": "50"
+          },
+          "commentPermalinks": {
+            "value": false
+          },
+          "commentPermalinksContext": {
+            "value": false
+          },
+          "subredditCommentDepths": {
+            "value": [["testing", "4", "50"]]
+          }
+        },
+        "RESoptions.commentNavigator": {
+          "showByDefault": {
+            "value": false
+          },
+          "showOnKeyboardMove": {
+            "value": false
+          },
+          "skipReadComments": {
+            "value": false
+          },
+          "openOnHighlightUser": {
+            "value": true
+          },
+          "popularConditions": {
+            "value": "{\"type\":\"commentLength\",\"op\":\">\",\"kind\":\"words\",\"val\":0}"
+          }
+        },
+        "RESoptions.commentPreview": {
+          "enableBigEditor": {
+            "value": true
+          },
+          "swapBigEditorLayout": {
+            "value": false
+          },
+          "openBigEditor": {
+            "value": [69, false, true, false, false]
+          },
+          "draftStyle": {
+            "value": true
+          },
+          "enableForComments": {
+            "value": true
+          },
+          "enableForPosts": {
+            "value": true
+          },
+          "enableForWiki": {
+            "value": true
+          },
+          "enableForSubredditConfig": {
+            "value": true
+          },
+          "enableForBanMessages": {
+            "value": true
+          },
+          "sidebarPreview": {
+            "value": true
+          }
+        },
+        "RESoptions.commentQuickCollapse": {
+          "hideCommentsOnHeaderDoubleClick": {
+            "value": true
+          },
+          "toggleCommentsOnClickLeftEdge": {
+            "value": false
+          },
+          "leftEdgeColor": {
+            "value": "#d1d1d1"
+          },
+          "leftEdgeHoverColor": {
+            "value": "#b1b1b1"
+          },
+          "leftEdgeCollapsedColor": {
+            "value": "#b1b1b1"
+          },
+          "leftEdgeWidth": {
+            "value": "50"
+          },
+          "hideCollapseButton": {
+            "value": false
+          },
+          "scrollOnCollapse": {
+            "value": false
+          }
+        },
+        "RESoptions.commentStyle": {
+          "commentBoxes": {
+            "value": true
+          },
+          "commentRounded": {
+            "value": true
+          },
+          "commentHoverBorder": {
+            "value": false
+          },
+          "commentIndent": {
+            "value": "10"
+          },
+          "continuity": {
+            "value": false
+          }
+        },
+        "RESoptions.commentTools": {
+          "userAutocomplete": {
+            "value": true
+          },
+          "subredditAutocomplete": {
+            "value": true
+          },
+          "wikiAutocomplete": {
+            "value": true
+          },
+          "formattingToolButtons": {
+            "value": true
+          },
+          "keyboardShortcuts": {
+            "value": true
+          },
+          "boldKey": {
+            "value": [66, false, true, false, false]
+          },
+          "italicKey": {
+            "value": [73, false, true, false, false]
+          },
+          "strikeKey": {
+            "value": [83, false, true, false, false]
+          },
+          "superKey": {
+            "value": [187, false, true, true, false]
+          },
+          "linkKey": {
+            "value": [75, false, true, false, false]
+          },
+          "quoteKey": {
+            "value": [190, false, true, true, false]
+          },
+          "ctrlEnterSubmitsComments": {
+            "value": true
+          },
+          "ctrlEnterSavesLiveThreads": {
+            "value": true
+          },
+          "ctrlEnterSubmitsPosts": {
+            "value": true
+          },
+          "commentingAs": {
+            "value": true
+          },
+          "highlightIfAltAccount": {
+            "value": true
+          },
+          "showInputLength": {
+            "value": true
+          },
+          "macroButtons": {
+            "value": true
+          },
+          "macros": {
+            "value": [
+              [
+                "reddiquette",
+                "[reddiquette](https://support.reddithelp.com/hc/articles/205926439-Reddiquette) ",
+                null,
+                null
+              ],
+              [
+                "Promote RES",
+                "[Reddit Enhancement Suite](https://redditenhancementsuite.com \"also /r/Enhancement\") ",
+                null,
+                null
+              ],
+              ["Current timestamp", "{{now}} ", null, null],
+              [
+                "Sample macro",
+                "Line one\nLine two: café",
+                "sample",
+                [77, true, false, false, false]
+              ]
+            ]
+          },
+          "keepMacroListOpen": {
+            "value": false
+          },
+          "macroPlaceholders": {
+            "value": true
+          },
+          "enabledOnBanMessages": {
+            "value": true
+          }
+        },
+        "RESoptions.context": {
+          "viewFullContext": {
+            "value": true
+          },
+          "defaultContext": {
+            "value": "3"
+          }
+        },
+        "RESoptions.customToggles": {
+          "toggle": {
+            "value": [["sample-toggle", false, "Sample toggle"]]
+          }
+        },
+        "RESoptions.dashboard": {
+          "menuItem": {
+            "value": true
+          },
+          "defaultPosts": {
+            "value": "3"
+          },
+          "defaultSort": {
+            "value": "hot"
+          },
+          "defaultSortSearch": {
+            "value": "relevance"
+          },
+          "dashboardShortcut": {
+            "value": true
+          }
+        },
+        "RESoptions.filteReddit": {
+          "hideUntilProcessed": {
+            "value": true
+          },
+          "NSFWfilter": {
+            "value": false
+          },
+          "allowNSFW": {
+            "value": [["testing", "everywhere"]]
+          },
+          "NSFWQuickToggle": {
+            "value": true
+          },
+          "showFilterline": {
+            "value": false
+          },
+          "excludeOwnPosts": {
+            "value": true
+          },
+          "excludeModqueue": {
+            "value": true
+          },
+          "excludeUserPages": {
+            "value": false
+          },
+          "keywords": {
+            "value": [["sample phrase", "include", "testing", "exception"]]
+          },
+          "subreddits": {
+            "value": [["sample_subreddit"]]
+          },
+          "filterSubredditsFrom": {
+            "value": "everywhere-except-subreddit"
+          },
+          "useRedditFilters": {
+            "value": false
+          },
+          "comments": {
+            "value": [["sample phrase", "include", "testing"]]
+          },
+          "commentsHideReplies": {
+            "value": false
+          },
+          "users": {
+            "value": [["sample-user"]]
+          },
+          "usersMatchAction": {
+            "value": "hide"
+          },
+          "usersMatchRepliesAction": {
+            "value": "collapse"
+          },
+          "domains": {
+            "value": [["example.com", "include", "testing"]]
+          },
+          "flair": {
+            "value": [["sample flair", "include", "testing"]]
+          },
+          "customFiltersP": {
+            "value": [
+              {
+                "note": "Hypothetical nested filter",
+                "ver": 3,
+                "body": {
+                  "type": "group",
+                  "op": "all",
+                  "of": [
+                    {
+                      "type": "group",
+                      "op": "any",
+                      "of": [
+                        {
+                          "type": "commentCount",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "newCommentCount",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "commentsOpened"
+                        },
+                        {
+                          "type": "domain",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "hasExpando",
+                          "types": ["image", "video"]
+                        },
+                        {
+                          "type": "isLocked"
+                        },
+                        {
+                          "type": "isNSFW"
+                        },
+                        {
+                          "type": "isSpoiler"
+                        },
+                        {
+                          "type": "isVisited"
+                        },
+                        {
+                          "type": "linkFlair",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "postAfter",
+                          "patt": "2026-01-01T00:00:00.000Z"
+                        },
+                        {
+                          "type": "postAge",
+                          "op": "<=",
+                          "age": 14400000
+                        },
+                        {
+                          "type": "postTitle",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "postType",
+                          "kind": "link"
+                        },
+                        {
+                          "type": "score",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "selector",
+                          "patt": "sample"
+                        },
+                        {
+                          "type": "subreddit",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userAttr",
+                          "attr": "friend"
+                        },
+                        {
+                          "type": "userFlair",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userTag",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userVoteWeight",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "username",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "voteType",
+                          "kind": "unvoted"
+                        },
+                        {
+                          "type": "browsingFrontPage"
+                        },
+                        {
+                          "type": "currentLocation",
+                          "patt": "/r/testing"
+                        },
+                        {
+                          "type": "currentMulti",
+                          "user": "sample-user",
+                          "name": "sample-multi"
+                        },
+                        {
+                          "type": "currentUserProfile",
+                          "patt": "sample"
+                        },
+                        {
+                          "type": "currentSub",
+                          "patt": "testing"
+                        },
+                        {
+                          "type": "date",
+                          "op": "<",
+                          "date": "2020-12-30"
+                        },
+                        {
+                          "type": "dow",
+                          "days": ["Mon", "Fri"]
+                        },
+                        {
+                          "type": "loggedInAs",
+                          "loggedInAs": "sample-user"
+                        },
+                        {
+                          "type": "toggle",
+                          "toggleName": "sample-toggle"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "id": "customFilter-sample-P",
+                "opts": {
+                  "ondemand": true,
+                  "name": "Sample P"
+                }
+              }
+            ]
+          },
+          "customFiltersC": {
+            "value": [
+              {
+                "note": "Hypothetical nested filter",
+                "ver": 3,
+                "body": {
+                  "type": "group",
+                  "op": "all",
+                  "of": [
+                    {
+                      "type": "group",
+                      "op": "any",
+                      "of": [
+                        {
+                          "type": "commentContent",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "commentLength",
+                          "op": ">",
+                          "kind": "words",
+                          "val": 0
+                        },
+                        {
+                          "type": "depth",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "hasExpando",
+                          "types": ["image", "video"]
+                        },
+                        {
+                          "type": "isDeleted"
+                        },
+                        {
+                          "type": "isRead"
+                        },
+                        {
+                          "type": "postAfter",
+                          "patt": "2026-01-01T00:00:00.000Z"
+                        },
+                        {
+                          "type": "postAge",
+                          "op": "<=",
+                          "age": 14400000
+                        },
+                        {
+                          "type": "score",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "selector",
+                          "patt": "sample"
+                        },
+                        {
+                          "type": "subreddit",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userAttr",
+                          "attr": "friend"
+                        },
+                        {
+                          "type": "userFlair",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userVoteWeight",
+                          "op": ">",
+                          "val": 0
+                        },
+                        {
+                          "type": "username",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "userTag",
+                          "patt": "sample",
+                          "fullMatch": false
+                        },
+                        {
+                          "type": "voteType",
+                          "kind": "unvoted"
+                        },
+                        {
+                          "type": "browsingFrontPage"
+                        },
+                        {
+                          "type": "currentLocation",
+                          "patt": "/r/testing"
+                        },
+                        {
+                          "type": "currentMulti",
+                          "user": "sample-user",
+                          "name": "sample-multi"
+                        },
+                        {
+                          "type": "currentUserProfile",
+                          "patt": "sample"
+                        },
+                        {
+                          "type": "currentSub",
+                          "patt": "testing"
+                        },
+                        {
+                          "type": "date",
+                          "op": "<",
+                          "date": "2020-12-30"
+                        },
+                        {
+                          "type": "dow",
+                          "days": ["Mon", "Fri"]
+                        },
+                        {
+                          "type": "loggedInAs",
+                          "loggedInAs": "sample-user"
+                        },
+                        {
+                          "type": "toggle",
+                          "toggleName": "sample-toggle"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "id": "customFilter-sample-C",
+                "opts": {
+                  "ondemand": true,
+                  "name": "Sample C",
+                  "propagate": false
+                }
+              }
+            ]
+          }
+        },
+        "RESoptions.hideChildComments": {
+          "automatic": {
+            "value": false
+          },
+          "nested": {
+            "value": true
+          },
+          "hideNested": {
+            "value": false
+          }
+        },
+        "RESoptions.hover": {
+          "instances": {
+            "value": [["sample-hover", false]]
+          },
+          "openDelay": {
+            "value": "500"
+          },
+          "fadeDelay": {
+            "value": "500"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          },
+          "width": {
+            "value": "512"
+          },
+          "closeOnMouseOut": {
+            "value": true
+          }
+        },
+        "RESoptions.keyboardNav": {
+          "linearScrollStyle": {
+            "value": "directional"
+          },
+          "nonLinearScrollStyle": {
+            "value": "legacy"
+          },
+          "linkNumbers": {
+            "value": true
+          },
+          "linkNumberPosition": {
+            "value": "right"
+          },
+          "linkToggleExpando": {
+            "value": true
+          },
+          "linkNumberAltModeModifier": {
+            "value": "alt"
+          },
+          "linkNewTab": {
+            "value": true
+          },
+          "onHideMoveDown": {
+            "value": true
+          },
+          "onVoteMoveDown": {
+            "value": false
+          },
+          "onVoteCommentMoveDown": {
+            "value": false
+          },
+          "followLinkNewTabFocus": {
+            "value": true
+          },
+          "toggleHelp": {
+            "value": [191, false, false, true, false]
+          },
+          "toggleCmdLine": {
+            "value": [190, false, false, false, false]
+          },
+          "enterFilterCommandLine": {
+            "value": [70, false, false, false, false]
+          },
+          "hide": {
+            "value": [72, false, false, false, false]
+          },
+          "moveUp": {
+            "value": [75, false, false, false, false]
+          },
+          "moveDown": {
+            "value": [74, false, false, false, false]
+          },
+          "moveUpComment": {
+            "value": [75, false, false, false, false]
+          },
+          "moveDownComment": {
+            "value": [74, false, false, false, false]
+          },
+          "moveTop": {
+            "value": [75, false, false, true, false]
+          },
+          "moveBottom": {
+            "value": [74, false, false, true, false]
+          },
+          "moveUpSibling": {
+            "value": [75, false, false, true, false]
+          },
+          "moveDownSibling": {
+            "value": [74, false, false, true, false]
+          },
+          "moveDownParentSibling": {
+            "value": [74, true, false, false, false]
+          },
+          "moveUpThread": {
+            "value": [75, true, false, true, false]
+          },
+          "moveDownThread": {
+            "value": [74, true, false, true, false]
+          },
+          "moveToTopComment": {
+            "value": [84, false, false, false, false]
+          },
+          "moveToParent": {
+            "value": [80, false, false, false, false]
+          },
+          "undoMove": {
+            "value": [90, false, true, false, false]
+          },
+          "showParents": {
+            "value": [80, false, false, true, false]
+          },
+          "followLink": {
+            "value": [13, false, false, false, false]
+          },
+          "followLinkNewTab": {
+            "value": [13, false, false, true, false]
+          },
+          "toggleExpando": {
+            "value": [88, false, false, false, false]
+          },
+          "scrollOnExpando": {
+            "value": true
+          },
+          "imageSizeUp": {
+            "value": [187, false, false, false, false]
+          },
+          "imageSizeDown": {
+            "value": [189, false, false, false, false]
+          },
+          "imageSizeUpFine": {
+            "value": [187, false, false, true, false]
+          },
+          "imageSizeDownFine": {
+            "value": [189, false, false, true, false]
+          },
+          "imageSizeAnyHeight": {
+            "value": [39, false, false, true, false]
+          },
+          "imageMoveUp": {
+            "value": [38, false, true, false, false]
+          },
+          "imageMoveDown": {
+            "value": [40, false, true, false, false]
+          },
+          "imageMoveLeft": {
+            "value": [37, false, true, false, false]
+          },
+          "imageMoveRight": {
+            "value": [39, false, true, false, false]
+          },
+          "previousGalleryImage": {
+            "value": [219, false, false, false, false]
+          },
+          "nextGalleryImage": {
+            "value": [221, false, false, false, false]
+          },
+          "scrollOnGalleryNavigate": {
+            "value": true
+          },
+          "toggleViewImages": {
+            "value": [88, false, false, true, false]
+          },
+          "toggleMuteVideo": {
+            "value": [77, false, false, false, false]
+          },
+          "toggleChildren": {
+            "value": [13, false, false, false, false]
+          },
+          "followComments": {
+            "value": [67, false, false, false, false]
+          },
+          "followCommentsNewTab": {
+            "value": [67, false, false, true, false]
+          },
+          "followLinkAndCommentsNewTab": {
+            "value": [76, false, false, false, false]
+          },
+          "followLinkAndCommentsNewTabBG": {
+            "value": [76, false, false, true, false]
+          },
+          "upVote": {
+            "value": [65, false, false, false, false]
+          },
+          "downVote": {
+            "value": [90, false, false, false, false]
+          },
+          "upVoteWithoutToggling": {
+            "value": [65, false, false, true, false]
+          },
+          "downVoteWithoutToggling": {
+            "value": [90, false, false, true, false]
+          },
+          "savePost": {
+            "value": [83, false, false, false, false]
+          },
+          "saveComment": {
+            "value": [83, false, false, true, false]
+          },
+          "saveRES": {
+            "value": [83, false, false, false, false]
+          },
+          "reply": {
+            "value": [82, false, false, false, false]
+          },
+          "edit": {
+            "value": [69, false, false, false, false]
+          },
+          "showChildComments": {
+            "value": [67, false, false, false, false]
+          },
+          "showAllChildComments": {
+            "value": [67, false, false, true, false]
+          },
+          "followPermalink": {
+            "value": [89, false, false, false, false]
+          },
+          "followPermalinkNewTab": {
+            "value": [89, false, false, true, false]
+          },
+          "followSubreddit": {
+            "value": [82, false, false, false, false]
+          },
+          "followSubredditNewTab": {
+            "value": [82, false, false, true, false]
+          },
+          "followProfile": {
+            "value": [85, false, false, false, false]
+          },
+          "followProfileNewTab": {
+            "value": [85, false, false, true, false]
+          },
+          "toggleCommentNavigator": {
+            "value": [78, false, false, false, false]
+          },
+          "commentNavigatorMoveUp": {
+            "value": [38, false, false, true, false]
+          },
+          "commentNavigatorMoveDown": {
+            "value": [40, false, false, true, false]
+          },
+          "focusOnSearchBox": {
+            "value": [191, true, false, false, false]
+          },
+          "useGoMode": {
+            "value": true
+          },
+          "goMode": {
+            "value": [71, false, false, false, false]
+          },
+          "inbox": {
+            "value": [73, false, false, false, false]
+          },
+          "inboxNewTab": {
+            "value": [73, false, false, true, false]
+          },
+          "modmail": {
+            "value": [77, false, false, false, false]
+          },
+          "modmailNewTab": {
+            "value": [77, false, false, true, false]
+          },
+          "profile": {
+            "value": [85, false, false, false, false]
+          },
+          "profileNewTab": {
+            "value": [85, false, false, true, false]
+          },
+          "frontPage": {
+            "value": [70, false, false, false, false]
+          },
+          "slashAll": {
+            "value": [65, true, false, false, false]
+          },
+          "subredditFrontPage": {
+            "value": [70, false, false, true, false]
+          },
+          "random": {
+            "value": [89, true, false, false, false]
+          },
+          "nextPage": {
+            "value": [78, false, false, false, false]
+          },
+          "prevPage": {
+            "value": [80, false, false, false, false]
+          },
+          "overviewLegacy": {
+            "value": [79, false, false, true, false]
+          },
+          "profileView": {
+            "value": [80, false, false, true, false]
+          }
+        },
+        "RESoptions.logoLink": {
+          "redditLogoDestination": {
+            "value": "frontpage"
+          },
+          "customDestination": {
+            "value": "/"
+          }
+        },
+        "RESoptions.RESMenu": {
+          "gearIconClickAction": {
+            "value": "toggleMenuNoHover"
+          }
+        },
+        "RESoptions.messageMenu": {
+          "links": {
+            "value": [
+              ["compose", "/message/compose"],
+              ["all", "/message/inbox"],
+              ["unread", "/message/unread"],
+              ["messages", "/message/messages"],
+              ["comment replies", "/message/comments"],
+              ["post replies", "/message/selfreply"],
+              ["/u/ mentions", "/message/mentions"],
+              ["Sample", "https://example.com/"]
+            ]
+          },
+          "useQuickMessage": {
+            "value": true
+          },
+          "hoverDelay": {
+            "value": "1000"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          }
+        },
+        "RESoptions.multiredditNavbar": {
+          "sectionMenu": {
+            "value": true
+          },
+          "sectionLinks": {
+            "value": [
+              ["new", "./new"],
+              ["rising", "./rising"],
+              ["controversial", "./controversial"],
+              ["top", "./top"],
+              ["top this month", "./top?t=month"],
+              ["gilded", "./gilded"],
+              ["promoted", "./ads"],
+              ["Sample", "https://example.com/"]
+            ]
+          },
+          "hoverDelay": {
+            "value": "1000"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          }
+        },
+        "RESoptions.neverEndingComments": {
+          "loadChildComments": {
+            "value": false
+          }
+        },
+        "RESoptions.neverEndingReddit": {
+          "returnToPrevPage": {
+            "value": true
+          },
+          "autoLoad": {
+            "value": true
+          },
+          "pauseAfterEvery": {
+            "value": "0"
+          },
+          "showPauseButton": {
+            "value": true
+          },
+          "reversePauseIcon": {
+            "value": false
+          },
+          "showServerInfo": {
+            "value": false
+          }
+        },
+        "RESoptions.newCommentCount": {
+          "hideWhenUnchanged": {
+            "value": true
+          },
+          "cleanComments": {
+            "value": "30"
+          },
+          "subscriptionLength": {
+            "value": "2"
+          },
+          "showSubscribeButton": {
+            "value": true
+          },
+          "notifyEditedPosts": {
+            "value": false
+          },
+          "monitorPostsVisited": {
+            "value": true
+          },
+          "monitorPostsVisitedIncognito": {
+            "value": false
+          }
+        },
+        "RESoptions.nightMode": {
+          "nightModeOn": {
+            "value": false
+          },
+          "nightSwitch": {
+            "value": true
+          },
+          "automaticNightMode": {
+            "value": "none"
+          },
+          "nightModeStart": {
+            "value": "20:00"
+          },
+          "nightModeEnd": {
+            "value": "6:00"
+          },
+          "nightModeOverrideHours": {
+            "value": "8"
+          },
+          "useSubredditStyles": {
+            "value": false
+          },
+          "subredditStylesWhitelist": {
+            "value": ""
+          },
+          "coloredLinks": {
+            "value": false
+          }
+        },
+        "RESoptions.noParticipation": {
+          "disableVoteButtons": {
+            "value": false
+          },
+          "disableCommentTextarea": {
+            "value": false
+          },
+          "evenIfSubscriber": {
+            "value": false
+          },
+          "escapeNP": {
+            "value": true
+          }
+        },
+        "RESoptions.notifications": {
+          "sticky": {
+            "value": "notificationType"
+          },
+          "closeDelay": {
+            "value": "3000"
+          },
+          "fadeOutLength": {
+            "value": "3000"
+          },
+          "notificationTypes": {
+            "value": [["sample-notification", false, false]]
+          }
+        },
+        "RESoptions.onboarding": {
+          "updateNotification": {
+            "value": "notification"
+          },
+          "patchUpdateNotification": {
+            "value": "notification"
+          },
+          "betaUpdateNotification": {
+            "value": "releaseNotes"
+          }
+        },
+        "RESoptions.orangered": {
+          "openMailInNewTab": {
+            "value": false
+          },
+          "updateCurrentTab": {
+            "value": true
+          },
+          "updateOtherTabs": {
+            "value": true
+          },
+          "showFloatingEnvelope": {
+            "value": true
+          },
+          "retroUnreadCount": {
+            "value": false
+          },
+          "showUnreadCountInTitle": {
+            "value": false
+          },
+          "faviconUseLegacy": {
+            "value": false
+          },
+          "showUnreadCountInFavicon": {
+            "value": true
+          },
+          "faviconNotificationBGColor": {
+            "value": "#5f99cf"
+          },
+          "faviconNotificationTextColor": {
+            "value": "#ffffff"
+          },
+          "resetFaviconOnLeave": {
+            "value": true
+          },
+          "unreadLinksToInbox": {
+            "value": false
+          },
+          "hideEmptyMail": {
+            "value": false
+          },
+          "hideModMail": {
+            "value": false
+          },
+          "hideEmptyModMail": {
+            "value": false
+          },
+          "hideNewModMail": {
+            "value": false
+          },
+          "hideEmptyNewModMail": {
+            "value": false
+          }
+        },
+        "RESoptions.pageNavigator": {
+          "toTop": {
+            "value": true
+          },
+          "toComment": {
+            "value": true
+          },
+          "showLink": {
+            "value": true
+          },
+          "showLinkNewTab": {
+            "value": true
+          }
+        },
+        "RESoptions.penaltyBox": {
+          "delayFeatures": {
+            "value": true
+          },
+          "suspendFeatures": {
+            "value": false
+          },
+          "features": {
+            "value": [["showImages", "showViewImagesTab", false, "0"]]
+          }
+        },
+        "RESoptions.presets": {},
+        "RESoptions.profileNavigator": {
+          "sectionMenu": {
+            "value": true
+          },
+          "sectionLinks": {
+            "value": [
+              ["saved", "./saved"],
+              ["comments", "./comments"],
+              ["submitted", "./submitted"],
+              ["gilded", "./gilded"],
+              ["upvoted", "./upvoted"],
+              ["downvoted", "./downvoted"],
+              ["Sample", "https://example.com/"]
+            ]
+          },
+          "hoverDelay": {
+            "value": "1000"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          }
+        },
+        "RESoptions.profileRedirect": {
+          "fromLandingPage": {
+            "value": "none"
+          },
+          "customFromLandingPage": {
+            "value": ""
+          }
+        },
+        "RESoptions.quarantineHide": {
+          "hideFlair": {
+            "value": false
+          },
+          "hideQuarantinedInSub": {
+            "value": false
+          }
+        },
+        "RESoptions.quickMessage": {
+          "openQuickMessage": {
+            "value": [77, false, true, false, false]
+          },
+          "defaultSubject": {
+            "value": ""
+          },
+          "sendAs": {
+            "value": "user"
+          },
+          "handleContentLinks": {
+            "value": true
+          },
+          "handleSideLinks": {
+            "value": true
+          },
+          "linkToCurrentPage": {
+            "value": true
+          }
+        },
+        "RESoptions.readComments": {
+          "cleanComments": {
+            "value": "30"
+          },
+          "monitorSelected": {
+            "value": true
+          },
+          "monitorWhenIncognito": {
+            "value": false
+          }
+        },
+        "RESoptions.redditUserInfo": {
+          "hideAuthorTooltip": {
+            "value": false
+          }
+        },
+        "RESoptions.searchHelper": {
+          "addSearchOptions": {
+            "value": true
+          },
+          "defaultSortOption": {
+            "value": "none"
+          },
+          "defaultTimeOption": {
+            "value": "none"
+          },
+          "legacySearch": {
+            "value": false
+          },
+          "toggleSearchOptions": {
+            "value": true
+          },
+          "hideSearchOptions": {
+            "value": false
+          },
+          "userFilterBySubreddit": {
+            "value": false
+          },
+          "searchByFlair": {
+            "value": true
+          },
+          "searchPageTabs": {
+            "value": true
+          },
+          "defaultSearchTab": {
+            "value": "subreddits"
+          },
+          "transitionSearchTabs": {
+            "value": true
+          },
+          "searchBySubreddit": {
+            "value": "default"
+          }
+        },
+        "RESoptions.selectedEntry": {
+          "autoSelectOnScroll": {
+            "value": false
+          },
+          "scrollToSelectedThingOnLoad": {
+            "value": false
+          },
+          "addLine": {
+            "value": false
+          },
+          "setColors": {
+            "value": true
+          },
+          "backgroundColor": {
+            "value": "#f0f3fc"
+          },
+          "backgroundColorNight": {
+            "value": "#373737"
+          },
+          "textColorNight": {
+            "value": "#dddddd"
+          },
+          "outlineStyle": {
+            "value": ""
+          },
+          "outlineStyleNight": {
+            "value": ""
+          }
+        },
+        "RESoptions.settingsNavigation": {
+          "showAllOptions": {
+            "value": true
+          }
+        },
+        "RESoptions.showImages": {
+          "mediaBrowse": {
+            "value": true
+          },
+          "browsePreloadCount": {
+            "value": "1"
+          },
+          "galleryPreloadCount": {
+            "value": "2"
+          },
+          "collapseInlineMedia": {
+            "value": false
+          },
+          "conserveMemory": {
+            "value": true
+          },
+          "maxWidth": {
+            "value": "100%"
+          },
+          "maxHeight": {
+            "value": "80%"
+          },
+          "displayOriginalResolution": {
+            "value": false
+          },
+          "selfTextMaxHeight": {
+            "value": "0"
+          },
+          "commentMaxHeight": {
+            "value": "0"
+          },
+          "autoMaxHeight": {
+            "value": false
+          },
+          "openInNewWindow": {
+            "value": true
+          },
+          "hideNSFW": {
+            "value": false
+          },
+          "highlightNSFWButton": {
+            "value": true
+          },
+          "highlightSpoilerButton": {
+            "value": true
+          },
+          "imageZoom": {
+            "value": true
+          },
+          "imageMove": {
+            "value": true
+          },
+          "mediaControls": {
+            "value": true
+          },
+          "mediaControlsPosition": {
+            "value": "top-left"
+          },
+          "clippy": {
+            "value": true
+          },
+          "crossposts": {
+            "value": "withMetadata"
+          },
+          "displayImageCaptions": {
+            "value": true
+          },
+          "captionsPosition": {
+            "value": "titleAbove"
+          },
+          "markVisited": {
+            "value": true
+          },
+          "markSelftextVisited": {
+            "value": false
+          },
+          "sfwHistory": {
+            "value": "add"
+          },
+          "galleryRememberWidth": {
+            "value": true
+          },
+          "galleryAsFilmstrip": {
+            "value": false
+          },
+          "filmstripLoadIncrement": {
+            "value": "30"
+          },
+          "useSlideshowWhenLargerThan": {
+            "value": "0"
+          },
+          "showViewImagesTab": {
+            "value": true
+          },
+          "autoExpandTypes": {
+            "value": "any"
+          },
+          "autoExpandSelfText": {
+            "value": true
+          },
+          "autoExpandSelfTextFirstVisibleNonMuted": {
+            "value": true
+          },
+          "autoExpandSelfTextNSFW": {
+            "value": false
+          },
+          "showSiteAttribution": {
+            "value": true
+          },
+          "expandoCommentRedirects": {
+            "value": "expando"
+          },
+          "startVideosMuted": {
+            "value": false
+          },
+          "maxSimultaneousPlaying": {
+            "value": "0"
+          },
+          "autoplayVideo": {
+            "value": true
+          },
+          "hidePinnedRedditVideos": {
+            "value": false
+          },
+          "display_aarli": {
+            "value": true
+          },
+          "display_adultswim": {
+            "value": true
+          },
+          "display_archilogic": {
+            "value": true
+          },
+          "display_archive.is": {
+            "value": true
+          },
+          "display_bime": {
+            "value": true
+          },
+          "display_bluesky": {
+            "value": true
+          },
+          "forceReplaceNativeExpando": {
+            "value": false
+          },
+          "display_clyp": {
+            "value": true
+          },
+          "display_codepen": {
+            "value": true
+          },
+          "display_coub": {
+            "value": true
+          },
+          "display_dailymotion": {
+            "value": true
+          },
+          "display_derpibooru": {
+            "value": true
+          },
+          "display_deviantart": {
+            "value": true
+          },
+          "display_dropbox": {
+            "value": true
+          },
+          "display_facebookvideo": {
+            "value": true
+          },
+          "display_fiveHundredPx": {
+            "value": true
+          },
+          "display_flickr": {
+            "value": true
+          },
+          "display_gamerdvr": {
+            "value": true
+          },
+          "display_getyarn": {
+            "value": true
+          },
+          "display_gfycat": {
+            "value": true
+          },
+          "useMobileGfycat": {
+            "value": false
+          },
+          "display_gifs": {
+            "value": true
+          },
+          "display_giphy": {
+            "value": true
+          },
+          "display_github": {
+            "value": true
+          },
+          "display_googlemaps": {
+            "value": true
+          },
+          "display_gyazo": {
+            "value": true
+          },
+          "display_hastebin": {
+            "value": true
+          },
+          "display_iloopit": {
+            "value": true
+          },
+          "display_imgflip": {
+            "value": true
+          },
+          "display_imgur": {
+            "value": true
+          },
+          "preferResAlbums": {
+            "value": true
+          },
+          "preferredImgurLink": {
+            "value": "share"
+          },
+          "imgurImageResolution": {
+            "value": ""
+          },
+          "display_instagram": {
+            "value": true
+          },
+          "display_ireddit": {
+            "value": true
+          },
+          "display_jsfiddle": {
+            "value": true
+          },
+          "display_liveleak": {
+            "value": true
+          },
+          "display_livememe": {
+            "value": true
+          },
+          "display_makeameme": {
+            "value": true
+          },
+          "display_memecrunch": {
+            "value": true
+          },
+          "display_memedad": {
+            "value": true
+          },
+          "display_Naver": {
+            "value": true
+          },
+          "display_onedrive": {
+            "value": true
+          },
+          "display_pastebin": {
+            "value": true
+          },
+          "display_peertube": {
+            "value": true
+          },
+          "display_photobucket": {
+            "value": true
+          },
+          "display_pixiv": {
+            "value": true
+          },
+          "display_poly": {
+            "value": true
+          },
+          "display_pornhub": {
+            "value": true
+          },
+          "display_ppy.sh": {
+            "value": true
+          },
+          "display_redditbooru": {
+            "value": true
+          },
+          "display_redditgallery": {
+            "value": true
+          },
+          "display_redditmedia": {
+            "value": true
+          },
+          "display_redditpoll": {
+            "value": true
+          },
+          "display_reddituploads": {
+            "value": true
+          },
+          "display_redgifs": {
+            "value": true
+          },
+          "display_ridewithgps": {
+            "value": true
+          },
+          "display_simplecove": {
+            "value": true
+          },
+          "display_snag": {
+            "value": true
+          },
+          "display_soundcloud": {
+            "value": true
+          },
+          "display_spotify": {
+            "value": true
+          },
+          "display_steamcommunity": {
+            "value": true
+          },
+          "display_steampowered": {
+            "value": true
+          },
+          "display_strawpoll.com": {
+            "value": true
+          },
+          "display_strawpoll": {
+            "value": true
+          },
+          "display_streamable": {
+            "value": true
+          },
+          "display_streamja": {
+            "value": true
+          },
+          "display_streamvi": {
+            "value": true
+          },
+          "display_streamwo": {
+            "value": true
+          },
+          "display_supgif": {
+            "value": true
+          },
+          "display_supload": {
+            "value": true
+          },
+          "display_tenor": {
+            "value": true
+          },
+          "display_tuckbot": {
+            "value": true
+          },
+          "display_tumblr": {
+            "value": true
+          },
+          "display_twimg": {
+            "value": true
+          },
+          "display_twitch": {
+            "value": true
+          },
+          "display_twitchclips": {
+            "value": true
+          },
+          "display_twitter": {
+            "value": true
+          },
+          "display_vidble": {
+            "value": true
+          },
+          "display_vimeo": {
+            "value": true
+          },
+          "display_vlipsy": {
+            "value": true
+          },
+          "display_vlive": {
+            "value": true
+          },
+          "display_vreddit": {
+            "value": true
+          },
+          "minimumVideoBandwidth": {
+            "value": "3000"
+          },
+          "display_wikipedia": {
+            "value": true
+          },
+          "display_xboxdvr": {
+            "value": true
+          },
+          "display_xkcd": {
+            "value": true
+          },
+          "display_youtube": {
+            "value": true
+          },
+          "display_znipe": {
+            "value": true
+          }
+        },
+        "RESoptions.showKarma": {
+          "showCommentKarma": {
+            "value": true
+          },
+          "separator": {
+            "value": "·"
+          },
+          "useCommas": {
+            "value": true
+          },
+          "showGold": {
+            "value": false
+          }
+        },
+        "RESoptions.showParent": {
+          "hoverDelay": {
+            "value": "500"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          },
+          "direction": {
+            "value": "down"
+          }
+        },
+        "RESoptions.singleClick": {
+          "openOrder": {
+            "value": "commentsfirst"
+          },
+          "hideLEC": {
+            "value": true
+          },
+          "openFrontpage": {
+            "value": false
+          },
+          "openBackground": {
+            "value": false
+          }
+        },
+        "RESoptions.spoilerTags": {
+          "transition": {
+            "value": true
+          }
+        },
+        "RESoptions.styleTweaks": {
+          "navTop": {
+            "value": true
+          },
+          "disableAnimations": {
+            "value": false
+          },
+          "visitedStyle": {
+            "value": false
+          },
+          "showExpandos": {
+            "value": true
+          },
+          "hideUnvotable": {
+            "value": true
+          },
+          "showFullLinkFlair": {
+            "value": "never"
+          },
+          "highlightEditedTime": {
+            "value": false
+          },
+          "colorBlindFriendly": {
+            "value": false
+          },
+          "scrollSubredditDropdown": {
+            "value": true
+          },
+          "highlightTopLevel": {
+            "value": false
+          },
+          "highlightTopLevelColor": {
+            "value": "#8b0000"
+          },
+          "highlightTopLevelSize": {
+            "value": "2"
+          },
+          "floatingSideBar": {
+            "value": false
+          },
+          "postTitleCapitalization": {
+            "value": "none"
+          },
+          "hideDomainLink": {
+            "value": false
+          },
+          "flairEmojiAsText": {
+            "value": "never"
+          }
+        },
+        "RESoptions.stylesheet": {
+          "loadStylesheets": {
+            "value": [
+              [
+                "https://example.com/sample.css",
+                "include",
+                "testing",
+                "sample-toggle"
+              ]
+            ]
+          },
+          "snippets": {
+            "value": [
+              [
+                "body { --sample-color: #663399; }\n",
+                "include",
+                "testing",
+                "sample-toggle"
+              ]
+            ]
+          },
+          "bodyClasses": {
+            "value": [["sample-class", "include", "testing", "sample-toggle"]]
+          },
+          "subredditClass": {
+            "value": true
+          },
+          "multiredditClass": {
+            "value": true
+          },
+          "usernameClass": {
+            "value": true
+          },
+          "loggedInUserClass": {
+            "value": false
+          }
+        },
+        "RESoptions.submitHelper": {
+          "warnAlreadySubmitted": {
+            "value": true
+          },
+          "uncheckSendRepliesToInbox": {
+            "value": false
+          },
+          "focusFormOnLoad": {
+            "value": true
+          }
+        },
+        "RESoptions.subredditInfo": {
+          "requireDirectLink": {
+            "value": true
+          },
+          "hoverDelay": {
+            "value": "800"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          }
+        },
+        "RESoptions.subredditManager": {
+          "subredditShortcut": {
+            "value": true
+          },
+          "shortcutsPerAccount": {
+            "value": true
+          },
+          "alwaysApplySuffixToMulti": {
+            "value": false
+          },
+          "dropdownEditButton": {
+            "value": true
+          },
+          "shortcutDropdownDelay": {
+            "value": "200"
+          },
+          "shortcutEditDropdownDelay": {
+            "value": "3000"
+          },
+          "allowLowercase": {
+            "value": false
+          },
+          "linkDashboard": {
+            "value": true
+          },
+          "linkAll": {
+            "value": true
+          },
+          "linkFront": {
+            "value": true
+          },
+          "linkPopular": {
+            "value": true
+          },
+          "linkProfilePosts": {
+            "value": true
+          },
+          "linkRandom": {
+            "value": true
+          },
+          "linkMyRandom": {
+            "value": true
+          },
+          "linkRandNSFW": {
+            "value": false
+          },
+          "linkUsers": {
+            "value": true
+          },
+          "linkFriends": {
+            "value": true
+          },
+          "linkMod": {
+            "value": true
+          },
+          "linkModqueue": {
+            "value": true
+          },
+          "linkSaved": {
+            "value": true
+          },
+          "buttonEdit": {
+            "value": true
+          },
+          "lastUpdate": {
+            "value": true
+          },
+          "storeSubredditVisit": {
+            "value": true
+          },
+          "storeSubredditVisitIncognito": {
+            "value": false
+          },
+          "displayMultiCounts": {
+            "value": true
+          }
+        },
+        "RESoptions.subredditStyleToggle": {
+          "browserToolbarButton": {
+            "value": true
+          },
+          "checkbox": {
+            "value": true
+          }
+        },
+        "RESoptions.subRedditTagger": {
+          "subReddits": {
+            "value": [["testing", "", "Sample tag"]]
+          }
+        },
+        "RESoptions.tableTools": {
+          "sort": {
+            "value": true
+          }
+        },
+        "RESoptions.temporaryDropdownLinks": {
+          "always": {
+            "value": false
+          }
+        },
+        "RESoptions.troubleshooter": {},
+        "RESoptions.userHighlight": {
+          "highlightSelf": {
+            "value": false
+          },
+          "selfColor": {
+            "value": "#b8860b"
+          },
+          "selfColorHover": {
+            "value": "#8a6508"
+          },
+          "highlightOP": {
+            "value": true
+          },
+          "OPColor": {
+            "value": "#0055df"
+          },
+          "OPColorHover": {
+            "value": "#4e7eab"
+          },
+          "highlightAdmin": {
+            "value": true
+          },
+          "adminColor": {
+            "value": "#ff0011"
+          },
+          "adminColorHover": {
+            "value": "#b3000c"
+          },
+          "highlightAlum": {
+            "value": true
+          },
+          "alumColor": {
+            "value": "#be1337"
+          },
+          "alumColorHover": {
+            "value": "#8f0e29"
+          },
+          "highlightFriend": {
+            "value": true
+          },
+          "friendColor": {
+            "value": "#ff4500"
+          },
+          "friendColorHover": {
+            "value": "#b33000"
+          },
+          "highlightMod": {
+            "value": true
+          },
+          "modColor": {
+            "value": "#228822"
+          },
+          "modColorHover": {
+            "value": "#134913"
+          },
+          "highlightOpMentions": {
+            "value": true
+          },
+          "opMentionsColor": {
+            "value": "#6d4731"
+          },
+          "opMentionsHover": {
+            "value": "#c4946e"
+          },
+          "highlightFirstCommenter": {
+            "value": false
+          },
+          "dontHighlightFirstComment": {
+            "value": true
+          },
+          "firstCommentColor": {
+            "value": "#46b6cc"
+          },
+          "firstCommentColorHover": {
+            "value": "#72d2e5"
+          },
+          "fontColor": {
+            "value": "#ffffff"
+          },
+          "autoColorUsernames": {
+            "value": false
+          },
+          "autoColorUsing": {
+            "value": "hash-userid-notbright"
+          }
+        },
+        "RESoptions.userInfo": {
+          "hoverInfo": {
+            "value": true
+          },
+          "useQuickMessage": {
+            "value": true
+          },
+          "hoverDelay": {
+            "value": "800"
+          },
+          "fadeDelay": {
+            "value": "200"
+          },
+          "fadeSpeed": {
+            "value": "0.7"
+          },
+          "gildComments": {
+            "value": true
+          },
+          "highlightButton": {
+            "value": true
+          },
+          "highlightColor": {
+            "value": "#5544cc"
+          },
+          "highlightColorHover": {
+            "value": "#6677aa"
+          }
+        },
+        "RESoptions.userTagger": {
+          "showTaggingIcon": {
+            "value": true
+          },
+          "storeSourceLink": {
+            "value": true
+          },
+          "useCommentsLinkAsSource": {
+            "value": true
+          },
+          "trackVoteWeight": {
+            "value": true
+          },
+          "vwNumber": {
+            "value": true
+          },
+          "truncateTag": {
+            "value": true
+          },
+          "presetTags": {
+            "value": [["Sample tag", "none"]]
+          }
+        },
+        "RESoptions.userbarHider": {
+          "userbarState": {
+            "value": "visible"
+          },
+          "toggleButtonState": {
+            "value": "visible"
+          }
+        },
+        "RESoptions.usernameHider": {
+          "displayText": {
+            "value": "~anonymous~"
+          },
+          "perAccountDisplayText": {
+            "value": [["sample-user", "Sample display name"]]
+          },
+          "hideAllUsernames": {
+            "value": true
+          },
+          "hideAccountSwitcherUsernames": {
+            "value": true
+          },
+          "showUsernameOnHover": {
+            "value": false
+          }
+        },
+        "RESoptions.voteEnhancements": {
+          "highlightScores": {
+            "value": true
+          },
+          "colorLinkScore": {
+            "value": "none"
+          },
+          "userDefinedLinkColoration": {
+            "value": [
+              [0, "#5f99cf"],
+              [10, "#f2b035"],
+              [50, "#ff4500"],
+              [100, "#d92b2b"],
+              ["100", "#663399"]
+            ]
+          },
+          "colorCommentScore": {
+            "value": "none"
+          },
+          "userDefinedCommentColoration": {
+            "value": [
+              [0, "#5f99cf"],
+              [10, "#f2b035"],
+              [50, "#ff4500"],
+              [100, "#d92b2b"],
+              ["100", "#663399"]
+            ]
+          },
+          "interpolateScoreColor": {
+            "value": true
+          },
+          "highlightControversial": {
+            "value": true
+          },
+          "highlightControversialColor": {
+            "value": "#cc0000"
+          }
+        }
+      }
+    }
+  ]
+}

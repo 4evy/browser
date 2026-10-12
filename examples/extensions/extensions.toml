@@ -1,0 +1,17 @@
+# Run against a disposable Chromium profile with the browser closed
+# tweezle config validate examples/extensions/extensions.toml
+# tweezle storage apply examples/extensions/extensions.toml --profile-dir /tmp/extension-corpus-profile
+
+[browser]
+name = "Chromium extension corpus"
+executable_name = "extension-corpus"
+
+[extension_settings]
+files = [
+  "darkreader/darkreader.json",
+  "stylus/stylus.json",
+  "sponsorblock/sponsorblock.json",
+  "obsidian-clipper/obsidian-clipper.json",
+  "res/res.json",
+  "ghostery/ghostery.json",
+]
