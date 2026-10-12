@@ -38,13 +38,10 @@ jobs:
       # Run on the host so post-upgrade builds use the installed Nix and its
       # standard store instead of Containerbase's relocated installation.
       - name: Run Renovate
-        run: |
-          # gomodUpdateImportPaths needs mod when binarySource is global.
-          nix shell --inputs-from . nixpkgs#renovate nixpkgs#go_1_27 \
-            nixpkgs#mod nixpkgs#nodejs_24 --command renovate
+        run: bash .github/renovate/renovate.sh
         env:
           LOG_LEVEL: debug
           RENOVATE_CONFIG_FILE:
-            ${{ github.workspace }}/.github/renovate-config.js
+            ${{ github.workspace }}/.github/renovate/renovate.js
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}

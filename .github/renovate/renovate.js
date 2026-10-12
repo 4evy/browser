@@ -1,7 +1,7 @@
 module.exports = {
   binarySource: "global",
   allowedCommands: [
-    "^nix --extra-experimental-features 'nix-command flakes' run --inputs-from \\. nixpkgs#nix-update -- --flake --version=skip --build browser$",
+    "^nix --extra-experimental-features 'nix-command flakes' run --inputs-from \\. nixpkgs#nix-update -- --flake --version=skip --build tweezle$",
   ],
   platform: "github",
   onboarding: false,
