@@ -1,0 +1,1730 @@
+{
+  "discarded_samples": [
+    {
+      "name": "Vimium",
+      "reason": "Mostly flat settings; lower configuration complexity than the retained cases"
+    }
+  ],
+  "extensions": [
+    {
+      "github_links": [],
+      "id": "kbmfpngjjgdllneeigpgjifpgocmfgmb",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "dash.mediaplayer.min.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 12,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "66dff6f83ec1e22418f3fa17a2b2b9b21b7b3ffc290fd17a6a6595678c35ed9b"
+          },
+          {
+            "file": "foreground.entry.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 4,
+              "localstorage": 19,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "e3564bd562c843767d3c7f5d42012489af66223d2308b6f61019aa4bb4f668f8"
+          },
+          {
+            "file": "options.entry.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 4,
+              "localstorage": 20,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "68c4689e1bf604632b718dedfe60be372fbef2665d0989784c18c6501bf5537c"
+          },
+          {
+            "file": "background.entry.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 18,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "206881ec0a648915a34348b77c44e73f45e170249623e18657ca35a20d5bfd61"
+          }
+        ],
+        "host_permissions": ["https://*.reddit.com/*"],
+        "js_bytes": 7871198,
+        "js_file_count": 5,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 0,
+          "dynamic_rules": 0,
+          "indexeddb": 0,
+          "local": 14,
+          "localstorage": 51,
+          "managed": 0,
+          "migration": 20,
+          "native_messaging": 0,
+          "session": 0,
+          "sync": 0
+        },
+        "options_page": {
+          "open_in_tab": true,
+          "page": "options.html"
+        },
+        "package_sha256": "fb8100764b797e95c8fe1dd712f9ce0363cac5cb4daeaefa45fd5ab1e641e550",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Dkbmfpngjjgdllneeigpgjifpgocmfgmb%26uc",
+        "permissions": [
+          "tabs",
+          "history",
+          "storage",
+          "unlimitedStorage",
+          "webRequest",
+          "scripting"
+        ],
+        "repository_candidates": [
+          "https://github.com/bgrins/TinyColor",
+          "https://github.com/honestbleeps/Reddit-Enhancement-Suite"
+        ],
+        "status": "inspected",
+        "storage_schema": null,
+        "version": "5.24.11"
+      },
+      "listing_sha256": "a84038f62d64f4bed0016d7f207768f20a5e2dc9f473926f285676746bece264",
+      "listing_url": "https://chromewebstore.google.com/detail/kbmfpngjjgdllneeigpgjifpgocmfgmb?hl=en",
+      "name": "Reddit Enhancement Suite",
+      "rank": 125,
+      "selection": {
+        "commit": "4defffc12235b86b50e458d9f3565c96376609ec",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Not run; the Go fixture checks native storage persistence",
+        "reasons": [
+          "Per-module schemas with nested value wrappers and dependent options",
+          "Separate module enablement blob plus prefixed options keys",
+          "Complex tables, keybindings, filters, and runtime data"
+        ],
+        "repository": "https://github.com/honestbleeps/Reddit-Enhancement-Suite",
+        "sample": "res/res.json",
+        "source_urls": [
+          "https://github.com/honestbleeps/Reddit-Enhancement-Suite/blob/4defffc12235b86b50e458d9f3565c96376609ec/lib/core/options/storage.js",
+          "https://github.com/honestbleeps/Reddit-Enhancement-Suite/blob/4defffc12235b86b50e458d9f3565c96376609ec/lib/core/modules/storage.js",
+          "https://github.com/honestbleeps/Reddit-Enhancement-Suite/blob/4defffc12235b86b50e458d9f3565c96376609ec/lib/modules/nightMode.js"
+        ]
+      },
+      "users": 1000000
+    },
+    {
+      "github_links": [
+        "https://github.com/jackwener/opencli",
+        "https://github.com/jplattel/obsidian-clipper",
+        "https://github.com/obsidianmd/obsidian-clipper"
+      ],
+      "id": "cnjifjpddelmedmihgijeibhnjfabmlf",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "popup.js",
+            "markers": {
+              "compression": 18,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "f5eae4abba089499094545ae7583ce55a3a8d638a1b27003d3e17ffcade49323"
+          },
+          {
+            "file": "settings.js",
+            "markers": {
+              "compression": 18,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "97dc73bb06e73f87a93c11db116cecf6b24ac2cc53dfa4ff67443013ffd52885"
+          },
+          {
+            "file": "highlights.js",
+            "markers": {
+              "compression": 2,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "7b7d58a69c026c799e4e789a426ae244aaa0ca1efcc4eeaa7d4f3093c4b29ef1"
+          },
+          {
+            "file": "reader-page.js",
+            "markers": {
+              "compression": 2,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 2,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "ecb788ad421a2bb11c4a15a21eb64cf623aab47b81488ab0e0fd915109d05d3a"
+          },
+          {
+            "file": "content.js",
+            "markers": {
+              "compression": 2,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "61e4f66a36a5f944572a973f4c00cd4e39a38cea73685b93e73a278eae0e0e3e"
+          },
+          {
+            "file": "background.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 3,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 4,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "59661c14ea494e94ad9fb16a3baeae1876b747d67f9bf5dd9d0b56be3751cfac"
+          },
+          {
+            "file": "reader-script.js",
+            "markers": {
+              "compression": 2,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 2,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 2,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "91014fd9171e1dfe7acb25f95508a34ed1c9b193204e56244bc098aaa19540b7"
+          },
+          {
+            "file": "browser-polyfill.min.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 1,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "dba765a6dcff16f4c65461c3a369c78668c337f60b6bd2e200126943c4ba0a07"
+          }
+        ],
+        "host_permissions": ["<all_urls>", "http://*/*", "https://*/*"],
+        "js_bytes": 17821407,
+        "js_file_count": 12,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 44,
+          "dynamic_rules": 3,
+          "indexeddb": 0,
+          "local": 0,
+          "localstorage": 4,
+          "managed": 0,
+          "migration": 5,
+          "native_messaging": 17,
+          "session": 0,
+          "sync": 0
+        },
+        "options_page": {
+          "open_in_tab": true,
+          "page": "settings.html"
+        },
+        "package_sha256": "1f7d88d3a471dcb02b835ff2b097dcb1aa48a705a552e7e4c2ef576a6c753467",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Dcnjifjpddelmedmihgijeibhnjfabmlf%26uc",
+        "permissions": [
+          "activeTab",
+          "clipboardWrite",
+          "commands",
+          "contextMenus",
+          "sidePanel",
+          "storage",
+          "scripting",
+          "declarativeNetRequest"
+        ],
+        "repository_candidates": [
+          "https://github.com/highlightjs/highlight.js",
+          "https://github.com/jackwener/opencli",
+          "https://github.com/jplattel/obsidian-clipper",
+          "https://github.com/obsidianmd/obsidian-clipper"
+        ],
+        "status": "inspected",
+        "storage_schema": null,
+        "version": "1.7.1"
+      },
+      "listing_sha256": "9d956bf07c37cda202143edba279684f334c767835d090ea07997bf15125fa7f",
+      "listing_url": "https://chromewebstore.google.com/detail/cnjifjpddelmedmihgijeibhnjfabmlf?hl=en",
+      "name": "Obsidian Web Clipper",
+      "rank": 98,
+      "selection": {
+        "commit": "6d56d618b00bd970aa738d6a7a61edee27783e81",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Not run; the Go fixture checks native storage persistence",
+        "reasons": [
+          "UTF-16 compressed template chunk arrays",
+          "Six template modes, typed properties, triggers, and model/provider relationships",
+          "Distinct local and sync storage plus migrations"
+        ],
+        "repository": "https://github.com/obsidianmd/obsidian-clipper",
+        "sample": "obsidian-clipper/obsidian-clipper.json",
+        "source_urls": [
+          "https://github.com/obsidianmd/obsidian-clipper/blob/6d56d618b00bd970aa738d6a7a61edee27783e81/src/utils/storage-utils.ts",
+          "https://github.com/obsidianmd/obsidian-clipper/blob/6d56d618b00bd970aa738d6a7a61edee27783e81/src/managers/template-manager.ts",
+          "https://github.com/obsidianmd/obsidian-clipper/blob/6d56d618b00bd970aa738d6a7a61edee27783e81/src/types/types.ts"
+        ]
+      },
+      "users": 1000000
+    },
+    {
+      "github_links": [
+        "https://github.com/ajayyy/SponsorBlock",
+        "https://github.com/younesaassila/ttv-lol-pro"
+      ],
+      "id": "mnjggcdmjocbbbhaepdhchncahnbgone",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "js/background.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "289b3dd1f2b970020bb5edee1f0ebd7d533f2570fbccdb3fad61befdede383b6"
+          },
+          {
+            "file": "js/options.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "34fff964a8d96aa2bfef783d926b914bae8dcae0adba48d27954390cda831426"
+          },
+          {
+            "file": "js/content.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "980dbf5b00168918dd2042556f33edc4fff07f08fb8222673311aa1a2e2cf070"
+          },
+          {
+            "file": "js/permissions.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "de5b777366a98d7208eeeada4d0685c013647b112b177b1d48bcc76c6640aa2b"
+          },
+          {
+            "file": "js/popup.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "fdf1241d942143c3ce35e1924704840aa966ae41df631f91f512a67b09bbc31e"
+          },
+          {
+            "file": "js/help.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 19
+            },
+            "sha256": "f64f3c173f47ee6c315163388e7a2911b24809aa7e9212f995d7793752c9aa87"
+          }
+        ],
+        "host_permissions": [
+          "https://*.youtube.com/*",
+          "https://sponsor.ajay.app/*"
+        ],
+        "js_bytes": 1112324,
+        "js_file_count": 7,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 0,
+          "dynamic_rules": 0,
+          "indexeddb": 0,
+          "local": 36,
+          "localstorage": 0,
+          "managed": 0,
+          "migration": 0,
+          "native_messaging": 0,
+          "session": 0,
+          "sync": 114
+        },
+        "options_page": {
+          "open_in_tab": true,
+          "page": "options/options.html"
+        },
+        "package_sha256": "5587fe2b6a9946101ca0dde7c6efe76a755c5ee5b6d6e63dfc48c7f736cdb4ff",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Dmnjggcdmjocbbbhaepdhchncahnbgone%26uc",
+        "permissions": ["storage", "scripting", "unlimitedStorage"],
+        "repository_candidates": [
+          "https://github.com/ajayyy/SponsorBlock",
+          "https://github.com/ajayyy/SponsorBlockServer",
+          "https://github.com/ajayyy/SponsorBlockSite",
+          "https://github.com/fregante/content-scripts-register-polyfill",
+          "https://github.com/mchangrh/yt-neuter",
+          "https://github.com/younesaassila/ttv-lol-pro"
+        ],
+        "status": "inspected",
+        "storage_schema": null,
+        "version": "6.1.6"
+      },
+      "listing_sha256": "cfda372b14ca819704c440588932b3675826a7c5ccc1e6944a4393bf2adf8a01",
+      "listing_url": "https://chromewebstore.google.com/detail/mnjggcdmjocbbbhaepdhchncahnbgone?hl=en",
+      "name": "SponsorBlock for YouTube - Skip Sponsorships",
+      "rank": 78,
+      "selection": {
+        "commit": "914e2c88d4f80be9bcf3b3299f155c703ee99061",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Not run; the Go fixture checks native storage persistence",
+        "reasons": [
+          "Recursive and/or predicates with typed comparison operators",
+          "Per-channel profiles, optional overrides, and enum category behavior",
+          "Local/sync migrations and nullable application state"
+        ],
+        "repository": "https://github.com/ajayyy/SponsorBlock",
+        "sample": "sponsorblock/sponsorblock.json",
+        "source_urls": [
+          "https://github.com/ajayyy/SponsorBlock/blob/914e2c88d4f80be9bcf3b3299f155c703ee99061/src/config.ts",
+          "https://github.com/ajayyy/SponsorBlock/blob/914e2c88d4f80be9bcf3b3299f155c703ee99061/src/utils/skipRule.type.ts"
+        ]
+      },
+      "users": 2000000
+    },
+    {
+      "github_links": ["https://github.com/darkreader/darkreader"],
+      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "background/index.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 11,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 6
+            },
+            "sha256": "cf579ebffcb93b912c19c4b31309d17de82827861c17207361a06007ef873dad"
+          },
+          {
+            "file": "inject/index.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "1ea34808072b2ec9bee7db1c3384f1c46eb2bae39bb9ab7f95750caeda2507ff"
+          },
+          {
+            "file": "ui/popup/index.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "2a4a0385d9a5fa4cc6a4ab90537bb52653b6d3b77f76730a22e27bc102f8990d"
+          }
+        ],
+        "host_permissions": ["*://*/*"],
+        "js_bytes": 1370982,
+        "js_file_count": 9,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 0,
+          "dynamic_rules": 0,
+          "indexeddb": 0,
+          "local": 14,
+          "localstorage": 0,
+          "managed": 0,
+          "migration": 0,
+          "native_messaging": 0,
+          "session": 0,
+          "sync": 6
+        },
+        "options_page": {
+          "page": "ui/popup/index.html"
+        },
+        "package_sha256": "ee38f20d1d50789f4b482c9a1a5dadab599b8682fd2a7dfb7de21fae8561b918",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Deimadpbcbfnmbkopoojfekhnkhdbieeh%26uc",
+        "permissions": ["alarms", "fontSettings", "scripting", "storage"],
+        "repository_candidates": ["https://github.com/darkreader/darkreader"],
+        "status": "inspected",
+        "storage_schema": null,
+        "version": "4.9.133"
+      },
+      "listing_sha256": "532b3cc119695d5a949fae209aecfc2471e25b5fdf04488a6924d64b956fe746",
+      "listing_url": "https://chromewebstore.google.com/detail/eimadpbcbfnmbkopoojfekhnkhdbieeh?hl=en",
+      "name": "Dark Reader",
+      "rank": 26,
+      "selection": {
+        "commit": "b4fb44b3aaa2c28353cf9d649cd8f10c1fa95f58",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Not run; the Go fixture checks native storage persistence",
+        "reasons": [
+          "Nested themes, per-site overrides, presets, and automation modes",
+          "Base-36 sync chunk protocol and quota handling",
+          "Schema migration can replace incorrectly versioned site lists"
+        ],
+        "repository": "https://github.com/darkreader/darkreader",
+        "sample": "darkreader/darkreader.json",
+        "source_urls": [
+          "https://github.com/darkreader/darkreader/blob/b4fb44b3aaa2c28353cf9d649cd8f10c1fa95f58/src/defaults.ts",
+          "https://github.com/darkreader/darkreader/blob/b4fb44b3aaa2c28353cf9d649cd8f10c1fa95f58/src/background/user-storage.ts",
+          "https://github.com/darkreader/darkreader/blob/b4fb44b3aaa2c28353cf9d649cd8f10c1fa95f58/src/background/utils/extension-api.ts"
+        ]
+      },
+      "users": 7000000
+    },
+    {
+      "github_links": [
+        "https://github.com/AprilSylph/XKit-Rewritten",
+        "https://github.com/openstyles/stylus",
+        "https://github.com/refined-github/refined-github",
+        "https://github.com/vinta/pangu.js"
+      ],
+      "id": "clngdbkpkpeebahjckkjfobafhncgmne",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "js/common.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 2
+            },
+            "sha256": "10c25e88fb5be5fa790e5dbb28757b516245871c432ce602734f914146942f47"
+          },
+          {
+            "file": "js/less.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 2,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "d863dca18e2bf58e4ab47692e11f4300fb9af56020b91bd88e404534184bc846"
+          },
+          {
+            "file": "js/stylelint.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 2,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "22a780aacd8ccd9cf20ee614e68f7981c42337157e13e6ba23e57591a9eee5c2"
+          },
+          {
+            "file": "js/stylus-lang.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 2,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "773209daf633c3fd50c17dccf7478b058b9861d17ed0c1d822074bba1fc7bca8"
+          },
+          {
+            "file": "sw.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 12,
+              "indexeddb": 2,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 2,
+              "sync": 2
+            },
+            "sha256": "8a3c3b12e14dc51e064f93aac61ce43dd7c09181e14e283c5e212ae8cc7d8d1b"
+          }
+        ],
+        "host_permissions": ["<all_urls>"],
+        "js_bytes": 2530272,
+        "js_file_count": 30,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 0,
+          "dynamic_rules": 12,
+          "indexeddb": 2,
+          "local": 2,
+          "localstorage": 4,
+          "managed": 0,
+          "migration": 2,
+          "native_messaging": 0,
+          "session": 2,
+          "sync": 4
+        },
+        "options_page": null,
+        "package_sha256": "f36b68096a79bff0ab7f7e5eb79d0848ec3643ae99849ac2c79f6b84355344f9",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Dclngdbkpkpeebahjckkjfobafhncgmne%26uc",
+        "permissions": [
+          "alarms",
+          "contextMenus",
+          "storage",
+          "tabs",
+          "unlimitedStorage",
+          "webNavigation",
+          "webRequest",
+          "webRequestBlocking",
+          "declarativeNetRequestWithHostAccess",
+          "identity",
+          "idle",
+          "offscreen",
+          "scripting",
+          "sidePanel"
+        ],
+        "repository_candidates": [
+          "https://github.com/AprilSylph/XKit-Rewritten",
+          "https://github.com/CSSLint/csslint",
+          "https://github.com/csstree/csstree",
+          "https://github.com/kawanet/event-lite",
+          "https://github.com/openstyles/stylus",
+          "https://github.com/refined-github/refined-github",
+          "https://github.com/stylish-userstyles/stylish",
+          "https://github.com/vinta/pangu.js"
+        ],
+        "status": "inspected",
+        "storage_schema": null,
+        "version": "2.4.14"
+      },
+      "listing_sha256": "d05a8ec0fc3560f25056d0cf4858d485ad2060d5fe83b98e911ea19690e3185d",
+      "listing_url": "https://chromewebstore.google.com/detail/clngdbkpkpeebahjckkjfobafhncgmne?hl=en",
+      "name": "Stylus",
+      "rank": 96,
+      "selection": {
+        "commit": "22de88d447c5b01baf4b4bfb646ff9ec7e5d0c9a",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Passed twice on Linux x86_64 with Helium 0.16.4.1 (Chromium 152.0.7977.75), Stylus 2.4.14, complete unpacked store package, disposable profile, and project profile apply; imported disabled sectioned and UserCSS styles, compiled UserCSS, set order, and read styles back through the extension API",
+        "reasons": [
+          "108 preferences including computed names and literal dotted keys",
+          "Nested editor and beautifier options under one sync value",
+          "Styles and drafts stored outside the preference blob"
+        ],
+        "repository": "https://github.com/openstyles/stylus",
+        "sample": "stylus/stylus.json",
+        "source_urls": [
+          "https://github.com/openstyles/stylus/blob/22de88d447c5b01baf4b4bfb646ff9ec7e5d0c9a/src/js/prefs.js",
+          "https://github.com/openstyles/stylus/blob/22de88d447c5b01baf4b4bfb646ff9ec7e5d0c9a/src/background/prefs-api.js"
+        ]
+      },
+      "users": 1000000
+    },
+    {
+      "github_links": [],
+      "id": "mlomiejdfkolichcflejclcbmpeaniij",
+      "inspection": {
+        "configuration_review": "Source-pinned configurable declarations reviewed; see reviews.json for coverage and exclusions",
+        "evidence": [
+          {
+            "file": "background/browsing-data.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 0,
+              "localstorage": 1,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "1b7259f39a072383de327bb9d3b1745c775a861d7a6e013fa114dea418e46ee6"
+          },
+          {
+            "file": "background/devtools.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 1
+            },
+            "sha256": "dbf8e0715001f39386a19b4bfb973ca79bc7e71ddf1f22dabd320e856eaf9b96"
+          },
+          {
+            "file": "background/distractions.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 3,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "01188aa3bcd2fcdf9f61f8cce1c1a963502f5a9d43cfa6754ccd3546165c4ff6"
+          },
+          {
+            "file": "background/dnr.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 2,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "cdb4b0fa0393ee4810b4306bc473f049087507fe5e7b2fe517278c3f17ae9921"
+          },
+          {
+            "file": "background/exceptions.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 1,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "cdc584269c5b209fb62ba91b5cf5e64e06f5b05fe24a2f8bbb0295588b3981cf"
+          },
+          {
+            "file": "background/helpers.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "8d9425000fdd54593fe4bb76510ee70c7dc8dcd8a00e4e706cb5ab817871c153"
+          },
+          {
+            "file": "background/paused.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 2,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "0a3e5bc389c0a9780cf7102efc33e5c5117336fac7738c41015c7966950f6bfe"
+          },
+          {
+            "file": "background/redirect-protection.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 5,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "42403f60679c044cbffeff4306a857b48974ff88d0283c85a95d7ea81521aeb6"
+          },
+          {
+            "file": "background/sync.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 3
+            },
+            "sha256": "5607f3e7a3f091f69770907dcffab77a02476066cd918c827eabc0e73b39892d"
+          },
+          {
+            "file": "background/serp.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 2,
+              "sync": 0
+            },
+            "sha256": "b0e02f59726b109d67b31dae1dc36b2b4f3b5b7d6a257f277ce79b693c0c5a36"
+          },
+          {
+            "file": "background/zapped.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 1,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "74591f56e86d4857615d6a996c1e84370f60015f9e29f97b496e8c05e9a575af"
+          },
+          {
+            "file": "background/youtube.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "c255edb4d241080578c57727053fb4c38cf0751dc34f1cbb64d29b2a1d148509"
+          },
+          {
+            "file": "content_scripts/autoconsent.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 5,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "50ca12b93f8184abe848db8b07cfcc38aa8319217eb6c3e0cf20b37157f94877"
+          },
+          {
+            "file": "store/config.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "c8158d9c9c7a63a930bd36519702a6630a0f8133e562ada0f89c749893ec39a1"
+          },
+          {
+            "file": "store/custom-filters.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "3dc36e25a05fcb895f0d08b7e2daf17dd0f74be4cfacf55fbbf68a21a8f101f2"
+          },
+          {
+            "file": "store/daily-stats.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "c26b7126a1aac9234760990ed26990b0ea424716bc5524d1aeafdc9d8cf4cbcc"
+          },
+          {
+            "file": "store/disabled-filters.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "dbee89fb2689695cbf8dc275f5f2b899deabfc8d5d487b1c869ad78f6091cde9"
+          },
+          {
+            "file": "store/element-picker-selectors.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 3,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "be03c025e33601f618a13fa2b3b1c1af1b398b66dfa1b6f6da3cf24dcef3d07c"
+          },
+          {
+            "file": "store/errors.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "3c4d52c8928e164d4358de31c206b157de3d914f328b8c68e46d907e3849082f"
+          },
+          {
+            "file": "store/filtering-debug.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 4,
+              "sync": 0
+            },
+            "sha256": "24ecccbb268d15afafaf5e54923fff5966195756335b4b083848605ccf6d89b8"
+          },
+          {
+            "file": "store/notification.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "1b063c923df36e6c2e803a7b642b03084e6730d8be88e93109b6c37bbb03c55e"
+          },
+          {
+            "file": "store/options.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 4,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 2,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "dc95fc0a18490eb202096fe7f581ee393f0f723d34a11a79e37edb76ef2e39c0"
+          },
+          {
+            "file": "store/managed-config.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 1,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "f23997afd0bb6ca567895fd0e98acac3455b85ac9e13d42568a55e8ef7a12b6c"
+          },
+          {
+            "file": "store/resources.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "dffbab54e4ac23f48973f3b15e121401aea34e6aeb6b21e841b75c50c1be5970"
+          },
+          {
+            "file": "utils/engines.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "632d8063c015f2eed864408df462a0c4c5da004a11b516609e6ba60c463c02c2"
+          },
+          {
+            "file": "utils/map.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 1,
+              "sync": 0
+            },
+            "sha256": "263d7033cc98ed526c5916507f8b32139a694a18f5ed4e898eac76cc560693e1"
+          },
+          {
+            "file": "utils/indexeddb.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 5,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "f932bbc65f01794bf0fd0a0e360b5e854394b9da053b5cae2bbc66b652419e2a"
+          },
+          {
+            "file": "utils/storage.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 3,
+              "localstorage": 4,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 3,
+              "sync": 0
+            },
+            "sha256": "db5283a4cc23f919523360dfd7ec05c5f7863a04aa5f762d31fa261bb7d65567"
+          },
+          {
+            "file": "utils/telemetry.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "5613afac7ff2226b4fc81ac23760c577365dceb9adfe9b122257b540c4f3e9bc"
+          },
+          {
+            "file": "background/adblocker/cosmetics.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 2,
+              "sync": 0
+            },
+            "sha256": "e36115bfe657b584165accbe60d39ac5e0a065ca691b00a170431d1fdf3cb650"
+          },
+          {
+            "file": "background/custom-filters/dnr.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 2,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "7b9423c724d900e9e043842845d46aaf3e569c1f65753ed984f0a82cf4632616"
+          },
+          {
+            "file": "background/never-consent/gpc.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 2,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "b69f210e5bffd91e6289468c55277e395f47840b10423c802632db39bc407f62"
+          },
+          {
+            "file": "background/reporting/communication.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "15047e55265c9a4662bd2bbace0103137aa5d14431bf2296b6a6ee6e851a61cb"
+          },
+          {
+            "file": "background/reporting/index.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 2,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "8999a2bcc2729176969f5daeb11102f36641d2fd162a6a34079b0d0c8e8e541a"
+          },
+          {
+            "file": "background/reporting/storage-indexeddb.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 3,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "d4a63b81677045ba6bfa75632109fe1290a39363ad6db0689ba87fc31432f017"
+          },
+          {
+            "file": "background/reporting/url-reporter.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "6bf1cdfa2d93bd45d2cbad9269c0ac979681c44fbdac9d4d87caded16c7e269e"
+          },
+          {
+            "file": "background/reporting/storage-chrome-local.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 1,
+              "local": 6,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "c507e391057cfcab1886188e935a2b8a56ffcaf18610800623b7e938c1cdb6a5"
+          },
+          {
+            "file": "pages/notifications/youtube-wall.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 1,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "1fb4d4722800389c1281d6fde3c7e3e41c2fc15e2d08b5e49dfa87ad5c409b1d"
+          },
+          {
+            "file": "npm/@ghostery/scriptlets/ubo.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 4,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "15477121963dd5a1a5ad30a2b6490114da9d7259b4e6ea55773a1267c239a538"
+          },
+          {
+            "file": "npm/hybrids/src/store.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 5,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "91508aac59df9e136ca6fdb194e7281779cd90762e347f5a90523a63dfad336c"
+          },
+          {
+            "file": "npm/idb/build/index.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 2,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "fbe961a32207dbfc28bae617b6b8fc97a4afb7e9fd281283fc1ebaf986f10f34"
+          },
+          {
+            "file": "npm/pako/dist/pako.esm.js",
+            "markers": {
+              "compression": 21,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "a3aa87df9281989a9f2a0306a3d4db7797c0479e3aba30d4f87a63d1945263cd"
+          },
+          {
+            "file": "npm/@duckduckgo/autoconsent/dist/autoconsent.esm.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 5,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "4990096db414f109a39f73d09c76953a9e89424a67b247bba8403b0300e7a293"
+          },
+          {
+            "file": "npm/@whotracksme/reporting/reporting/src/digest.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "efbc891abebf468d140115b3c7a04fa8744439faf6d71d673a74fb04d274d3ca"
+          },
+          {
+            "file": "npm/@whotracksme/reporting/reporting/src/http.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 5,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "09bd3883f5209ea7a4d88dcfd1e7e9596c9f16787bf031e4b1db9d2668924425"
+          },
+          {
+            "file": "npm/@whotracksme/reporting/reporting/src/job-scheduler.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 10,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "0adc100283d2ce4c3628b68789c055764c48f77c6125d90b5dac191800baa382"
+          },
+          {
+            "file": "npm/@whotracksme/reporting/reporting/src/session-storage.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 5,
+              "sync": 0
+            },
+            "sha256": "ba6e2f5a7f5993f16fa703270d6b7c3ead5380ed14fa6c2810b29659e718fb73"
+          },
+          {
+            "file": "npm/@whotracksme/reporting/communication/src/zlib.js",
+            "markers": {
+              "compression": 7,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 0,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "319845a942c695d0389d3c67c951407e2c399b9e8219a64d1af38481596d859c"
+          },
+          {
+            "file": "npm/tldts/dist/es6/src/data/trie.js",
+            "markers": {
+              "compression": 0,
+              "dynamic_rules": 0,
+              "indexeddb": 0,
+              "local": 0,
+              "localstorage": 0,
+              "managed": 0,
+              "migration": 1,
+              "native_messaging": 0,
+              "session": 0,
+              "sync": 0
+            },
+            "sha256": "887e9d3cbacda7528c86d55c94a5599400f33e36fd9fbe6f35405095e1c0a2ba"
+          }
+        ],
+        "host_permissions": [
+          "http://*/*",
+          "https://*/*",
+          "ws://*/*",
+          "wss://*/*"
+        ],
+        "js_bytes": 10032825,
+        "js_file_count": 1208,
+        "manifest_version": 3,
+        "markers": {
+          "compression": 28,
+          "dynamic_rules": 23,
+          "indexeddb": 17,
+          "local": 39,
+          "localstorage": 24,
+          "managed": 1,
+          "migration": 14,
+          "native_messaging": 0,
+          "session": 17,
+          "sync": 4
+        },
+        "options_page": {
+          "open_in_tab": true,
+          "page": "pages/settings/index.html"
+        },
+        "package_sha256": "e1e4586847b1a3d3e17f998887d14de49a845d1f45971a328454497a7d43aa0c",
+        "package_url": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=150.0.0.0&acceptformat=crx3&x=id%3Dmlomiejdfkolichcflejclcbmpeaniij%26uc",
+        "permissions": [
+          "alarms",
+          "contextMenus",
+          "cookies",
+          "declarativeNetRequest",
+          "declarativeNetRequestFeedback",
+          "webNavigation",
+          "storage",
+          "scripting",
+          "userScripts",
+          "tabs",
+          "activeTab",
+          "webRequest",
+          "offscreen"
+        ],
+        "repository_candidates": [
+          "https://github.com/AdguardTeam/AdguardBrowserExtension",
+          "https://github.com/AdguardTeam/ExtendedCss",
+          "https://github.com/AdguardTeam/FiltersCompiler",
+          "https://github.com/AdguardTeam/Scriptlets",
+          "https://github.com/AdguardTeam/tsurlfilter",
+          "https://github.com/LeaVerou/parsel",
+          "https://github.com/adaltas/node-csv.git",
+          "https://github.com/airbnb/lottie-web.git",
+          "https://github.com/bowser-js/bowser",
+          "https://github.com/bowser-js/bowser.git",
+          "https://github.com/d3/d3-format",
+          "https://github.com/d3/d3-time-format",
+          "https://github.com/date-fns/date-fns",
+          "https://github.com/duckduckgo/autoconsent.git",
+          "https://github.com/emn178/js-md5",
+          "https://github.com/fb55/boolbase",
+          "https://github.com/feross/is-buffer",
+          "https://github.com/feross/queue-microtask",
+          "https://github.com/ghostery/adblocker",
+          "https://github.com/ghostery/broken-page-reports.git",
+          "https://github.com/ghostery/trackerdb",
+          "https://github.com/ghostery/urlfilter2dnr.git",
+          "https://github.com/github/relative-time-element.git",
+          "https://github.com/google/re2",
+          "https://github.com/gorhill/uBlock",
+          "https://github.com/gorhill/ublock",
+          "https://github.com/hybridsjs/hybrids.git",
+          "https://github.com/jonschlinkert/is-plain-object",
+          "https://github.com/jonschlinkert/isobject",
+          "https://github.com/jonschlinkert/shallow-clone",
+          "https://github.com/nodeca/pako",
+          "https://github.com/plotly/plotly.js.git",
+          "https://github.com/seia-soto/minixxh.git",
+          "https://github.com/slevithan/xregexp",
+          "https://github.com/voidqk/polybooljs",
+          "https://github.com/w3c/webextensions",
+          "https://github.com/whotracksme/anonymous-credentials",
+          "https://github.com/whotracksme/webextension-packages.git",
+          "https://github.com/whotracksme/whotracks.me",
+          "https://github.com/zloirock/core-js"
+        ],
+        "skipped_files": [],
+        "status": "inspected",
+        "storage_schema": "managed_storage.json",
+        "version": "10.6.7"
+      },
+      "listing_sha256": "ce7c53f385bc6a1d6529b62c2c9cadf617ed16e1c4e36a565ec0aa675a63038a",
+      "listing_url": "https://chromewebstore.google.com/detail/mlomiejdfkolichcflejclcbmpeaniij?hl=en",
+      "name": "Ghostery AdBlocker for Privacy",
+      "rank": 77,
+      "selection": {
+        "commit": "1a7c166390f08d3a630a820a8e35a6b9852d23b8",
+        "configuration_audit": {
+          "exclusions": "Action buttons, runtime caches and histories, generated databases and rules, server-owned identity and publishing state, other platforms, and premium-only features; per-case limitations are in reviews.json",
+          "review": "reviews.json",
+          "scope": "Storage defaults and configurable nested schemas; source-declared optional fields, table columns, builder cases, text-format commands, style schemas, and managed policies where applicable",
+          "status": "Source-declared configurable fields covered"
+        },
+        "live_browser_validation": "Not run; the Go fixture checks native storage persistence",
+        "reasons": [
+          "Managed policy precedence and local cached policy state",
+          "Custom filters and per-host tracker exceptions",
+          "IndexedDB reporting storage alongside chrome.storage configuration"
+        ],
+        "repository": "https://github.com/ghostery/ghostery-extension",
+        "sample": "ghostery/ghostery.json",
+        "source_urls": [
+          "https://github.com/ghostery/ghostery-extension/blob/1a7c166390f08d3a630a820a8e35a6b9852d23b8/src/store/managed-config.js",
+          "https://github.com/ghostery/ghostery-extension/blob/1a7c166390f08d3a630a820a8e35a6b9852d23b8/src/managed_storage.json",
+          "https://github.com/ghostery/ghostery-extension/blob/1a7c166390f08d3a630a820a8e35a6b9852d23b8/src/background/reporting/storage-indexeddb.js"
+        ]
+      },
+      "users": 2000000
+    }
+  ],
+  "research_pool": {
+    "cache_file": ".sources/extension-research/pool.json",
+    "candidate_count": 695,
+    "collected_at": "2026-10-09T19:52:16.860634+00:00",
+    "limitations": [
+      "Category discovery cannot prove a global top 150",
+      "Store user counts are rounded displayed counts, not exact installs",
+      "Popularity does not establish configuration complexity"
+    ],
+    "method": "150 highest displayed user counts among category-listing IDs, the July 2026 top-600 seed, and supplemental popular IDs; ties sorted by ID",
+    "packages_inspected": 150,
+    "pool_size": 150,
+    "snapshot_sha256": "852d9d7808efd65fff9593cfcf9f9cc79383e66fb9eadd5fc016d9aea4547042",
+    "valid_listing_count": 628
+  },
+  "retained_count": 6,
+  "selection_rule": "Retain source-confirmed complex schemas, compressed/chunked values, migrations, policy precedence, recursive rules, or multiple persistence mechanisms; API marker counts alone are insufficient"
+}

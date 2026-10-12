@@ -4,9 +4,18 @@
   "packageManager": "bun@1.4.3",
   "scripts": {
     "format": "bun --bun biome format --write .",
-    "format:check": "bun --bun biome format ."
+    "format:check": "bun --bun biome format .",
+    "extensions:generate": "bun examples/extensions/corpus/generate.mts && bun --bun biome format --write examples/extensions/*/*.json examples/extensions/stylus/stylus.js",
+    "extensions:collect": "go run ./examples/extensions/corpus collect",
+    "extensions:inspect": "go run ./examples/extensions/corpus inspect",
+    "extensions:shortlist": "go run ./examples/extensions/corpus shortlist && bun --bun biome format --write examples/extensions/corpus/corpus.json",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15"
+    "@babel/parser": "8.0.7",
+    "@biomejs/biome": "2.5.15",
+    "@types/bun": "1.4.3",
+    "lz-string": "1.5.0",
+    "typescript": "7.0.2"
   }
 }
