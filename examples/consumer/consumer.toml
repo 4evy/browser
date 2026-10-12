@@ -1,0 +1,9 @@
+[browser]
+name = "Consumer Browser"
+executable_name = "consumer-browser"
+
+[browser.custom]
+flags = ["--no-first-run"]
+
+[report]
+message = "This command and addon belong to the consumer"
