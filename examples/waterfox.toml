@@ -1,0 +1,21 @@
+[firefox]
+variant = "waterfox"
+
+[firefox.paths.linux]
+profile_dir = "${home}/.waterfox/your-profile"
+
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/Waterfox/Profiles/your-profile"
+
+[firefox.waterfox.preferences]
+"sidebar.verticalTabs" = true
+"browser.tabs.verticalTabs.tree.enabled" = true
+"browser.tabs.verticalTabs.tree.maxDepth" = 6
+"browser.tabs.autoGroupNewTabs" = true
+"browser.tabs.autoGroupNewTabs.placement" = "after"
+"waterfox.search.disableAIFeatures" = true
+
+[firefox.waterfox.appearance]
+tab_padding = "photon"
+tab_separator = "dynamic"
+tab_corner_style = "australis"

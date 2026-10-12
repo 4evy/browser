@@ -1,0 +1,22 @@
+[firefox]
+variant = "librewolf"
+
+[firefox.paths.linux]
+profile_dir = "${home}/.librewolf/your-profile"
+
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/LibreWolf/Profiles/your-profile"
+
+[firefox.librewolf]
+# This installation-wide file is read by every LibreWolf profile
+# XDG and Flatpak installations use different override paths
+# See https://librewolf.net/docs/settings/
+override_file = "${home}/.librewolf/librewolf.overrides.cfg"
+
+[firefox.librewolf.defaults]
+"privacy.resistFingerprinting.letterboxing" = true
+"librewolf.webgl.prompt" = true
+"librewolf.webgl.prompt.hide" = false
+
+[firefox.librewolf.preferences]
+"librewolf.aboutMenu.checkVersion" = false

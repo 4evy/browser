@@ -1,0 +1,1582 @@
+{
+  "repository": "https://github.com/BrowserWorks/waterfox",
+  "revision": "2d41ff1cb71bd286cd2665580d5f83be824e7f61",
+  "preferences": {
+    "app.support.baseURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "app.update.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxUpdates.mjs"
+    },
+    "app.update.notifyDuringDownload": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "browser.aboutConfig.showWarning": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.bookmarks.openInTabClosesMenu": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.bookmarks.toolbarposition": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.closeShortcut.disabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.compactmode.show": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.disable_pickers_in_hidden_extension_pages": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.download.always_ask_before_handling_new_types": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.download.manager.addToRecentDocs": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.download.open_pdf_attachments_inline": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.articleOpening": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.discovery.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.display": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.filter": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.loadImages": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.feeds.order": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.history.collectWireframes": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.link.open_newwindow.restriction": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.menu.showViewImageInfo": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.chat.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.chat.menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.chat.page": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.chat.shortcuts": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.chat.sidebar": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.enable": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.ml.linkPreview.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtab.url": {
+      "type": "string",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.discoverystream.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.feeds.section.highlights": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.logowordmark.alwaysVisible": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.includeBookmarks": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.includeDownloads": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.includeVisited": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.rows": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.showSearch": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.showWeather": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.system.showWeather": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.newtabpage.activity-stream.widgets.weather.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.nova.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/theme/WaterfoxBrowserStyle.sys.mjs"
+    },
+    "browser.preferences.aiControls": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.preferences.experimental.hidden": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.preferences.moreFromMozilla": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "browser.privateTab.showNewTabButton": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/privatetab/PrivateTab.sys.mjs"
+    },
+    "browser.privatebrowsing.forceMediaMemoryCache": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.restart_menu.purgecache": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.restart_menu.requireconfirm": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.restart_menu.showpanelmenubtn": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.safebrowsing.blockedURIs.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.block_dangerous": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.block_dangerous_host": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.block_potentially_unwanted": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.block_uncommon": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.downloads.remote.url": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.globalCache.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.malware.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.phishing.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.advisoryURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.gethashURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.reportMalwareMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.reportPhishMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.reportURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google.updateURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.advisoryURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.dataSharing.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.dataSharingURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.gethashURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.reportMalwareMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.reportPhishMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.reportURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google4.updateURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.advisoryName": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.advisoryURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.gethashURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.lists": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.reportMalwareMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.reportPhishMistakeURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.reportURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.provider.google5.updateURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.safebrowsing.reportPhishURL": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.search.param.waterfox_ai_bing": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.param.waterfox_ai_google": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.param.waterfox_ai_qwant": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.param.waterfox_attribution_ddg": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.param.waterfox_attribution_ecosia": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.param.waterfox_attribution_qwant": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.search.separatePrivateDefault.ui.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.settings-redesign.promo.dismissed": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.startup.page": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.startup.upgradeDialog.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.statusbar.appendStatusText": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.statusbar.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.tabs.autoGroupNewTabs": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.bypassShortcut": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.cancelShortcut": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.debugLog": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.delayEnabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.delayMs": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.placement": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.autoGroupNewTabs.resumeGraceMs": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.closeButtons": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.copyallurls": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.copyurl": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.copyurl.activetab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.tabs.copyurl.shortcut": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabfeatures/TabFeatures.sys.mjs"
+    },
+    "browser.tabs.duplicateTab": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.groups.smart.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.italicizeUnread": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.pinnedIconOnly": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.tabs.selectedTabPrivate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/privatetab/PrivateTab.sys.mjs"
+    },
+    "browser.tabs.toolbarposition": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.tabs.verticalTabs.tree.autoAttach": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsService.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.autoCollapse.onSelect": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.autoExpand.onAttach": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsService.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.autoGroup.pinnedOpener": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.bookmarks.autoGroup": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/05-treetabs.js"
+    },
+    "browser.tabs.verticalTabs.tree.bookmarks.restoreTree": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/05-treetabs.js"
+    },
+    "browser.tabs.verticalTabs.tree.closeParentBehavior": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsService.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.doubleClickBehavior": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.dropLinksOnTab": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.expandNativeGroupOnTreeExpand": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.indentPx": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.maxDepth": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsService.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.migrated": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsMigration.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.propagateMutedState": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.sticky.activeTab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.verticalTabs.tree.successorControl": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsService.sys.mjs"
+    },
+    "browser.tabs.warnOnClose": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.theme.waterfox.chromeSheet": {
+      "type": "integer",
+      "source": "waterfox/browser/components/theme/WaterfoxTheme.sys.mjs"
+    },
+    "browser.uidensity": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.uitour.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "browser.uitour.url": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "browser.urlbar.clickSelectsAll": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.urlbar.doubleClickSelectsAll": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.urlbar.suggest.weather": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.urlbar.trending.featureGate": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "browser.urlbar.trimURLs": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "browser.xul.error_pages.expert_bad_cert": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "cookiebanners.service.mode": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "cookiebanners.service.mode.privateBrowsing": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "cookiebanners.ui.desktop.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "devtools.debugger.ui.editor-wrapping": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "dom.battery.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "dom.event.treat_ctrl_click_as_right_click.disabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "dom.media.webcodecs.h265.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "dom.security.https_only_mode_error_page_user_suggestions": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "dom.security.unexpected_system_load_telemetry_enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "dom.webshare.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "editor.truncate_user_pastes": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "extensions.abuseReport.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "extensions.blocklist.softblock.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "extensions.experiments.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "extensions.formautofill.addresses.supported": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "extensions.formautofill.creditCards.supported": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "extensions.install_origins.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "extensions.postDownloadThirdPartyPrompt": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "extensions.systemAddon.update.url": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "extensions.webextensions.restrictedDomains": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "findbar.highlightAll": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "general.smoothScroll.msdPhysics.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "geo.provider.network.url": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "identity.fxaccounts.toolbar.pxiToolbarEnabled.monitorEnabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "identity.fxaccounts.toolbar.pxiToolbarEnabled.relayEnabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "identity.fxaccounts.toolbar.pxiToolbarEnabled.vpnEnabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "image.jxl.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "layout.css.scroll-driven-animations.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "layout.dynamic-reflow-roots.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "layout.forms.reveal-password-button.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "layout.word_select.eat_space_to_next_word": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "mathml.legacy_mathvariant_attribute.disabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "mathml.mathspace_names.disabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "media.allowed-to-play.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "media.eme.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "media.navigator.mediadatadecoder_vpx_enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "media.peerconnection.ice.default_address_only": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "media.peerconnection.ice.proxy_only_if_behind_proxy": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.auth.subresource-http-auth-allow": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "network.captive-portal-service.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.connectivity-service.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.cookie.sameSite.schemeful": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.dns.disablePrefetch": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.dns.disablePrefetchFromHTTPS": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.http.http3.retry_different_ip_family": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "network.http.referer.XOriginTrimmingPolicy": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.http.referer.defaultPolicy.trackers": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.http.referer.defaultPolicy.trackers.pbmode": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "network.http.retry_with_another_half_open": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "network.trr.max-fails": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/04-dns.js"
+    },
+    "network.trr.mode": {
+      "type": "integer",
+      "source": "waterfox/browser/components/settings/waterfoxDns.mjs"
+    },
+    "network.trr.ohttp.config_uri": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/04-dns.js"
+    },
+    "network.trr.ohttp.relay_uri": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/04-dns.js"
+    },
+    "network.trr.ohttp.uri": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/04-dns.js"
+    },
+    "network.trr.useGET": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxDns.mjs"
+    },
+    "network.trr.use_ohttp": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxDns.mjs"
+    },
+    "pdfjs.enableScripting": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "privacy.globalprivacycontrol.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "privacy.resistFingerprinting.block_mozAddonManager": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "privacy.trackingprotection.lower_network_priority": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "privacy.webrtc.globalMuteToggles": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.OCSP.enabled": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.certerrors.mitm.priming.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.mixed_content.block_display_content": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.ssl.treat_unsafe_negotiation_as_broken": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.ssl3.ecdhe_ecdsa_aes_256_sha": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "security.tls.enable_0rtt_data": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "sidebar.autoHide": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "sidebar.revamp": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "sidebar.revamp.defaultLauncherVisible": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "signon.firefoxRelay.feature": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/01-services.js"
+    },
+    "svg.Moz2D.strokeBounds.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "svg.context-properties.content.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "svg.new-getBBox.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "userChrome.autohide.back_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.bookmarkbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.fill_urlbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.forward_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.infobar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.navbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.page_action": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.tab.blur": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.tab.opacity": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.tabbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.autohide.toolbar_overlap": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.bookmarkbar.multi_row": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.centered.bookmarkbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.centered.tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.centered.tab.label": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.centered.urlbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.combined.nav_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.combined.nav_button.home_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.counter.bookmark_menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.counter.tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.decoration.animate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.decoration.disable_panel_animate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.decoration.disable_sidebar_animate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.findbar.floating_on_top": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.bookmarkbar_icon": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.bookmarkbar_label": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.navbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.private_indicator": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.tab_icon": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.tab_icon.always": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.tabbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.titlebar_container": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.urlbar_iconbox": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.hidden.urlbar_iconbox.label_only": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.1-25px_stroke": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.account_image_to_right": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.account_label_to_right": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.context_menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.disabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.global_menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.global_menu.mac": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.global_menubar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.library": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.menu.full": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.panel": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.bookmark_menu": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.bookmark_menu.compact": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.bookmarkbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.drag_space": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.drag_space.maximized": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.first_tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.first_tab.always": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.global_menubar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.infobar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.tabbar_height": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.tabbar_width": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.toolbar_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.toolbar_button.compact": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.padding.urlView_result": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_button": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_checklabel": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_dialog": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_field": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_infobox": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_menuitem": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_menupopup": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_panel": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_panelitem": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_toolbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.rounding.square_urlView_item": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.blue_accent": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.all": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.box_shadow": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_hover": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_hover.always": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_hover.with_selected": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_pinned": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_pinned.always": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.close_button_at_pinned.background": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.color_like_toolbar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.connect_to_window": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.container": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.container.always_long": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.container.on_top": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.contextline_blue_accent": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.crashed": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.letters_cleary": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.multi_selected": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.pip": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.prevent_audio_widening": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.selected_bold": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.sound_with_favicons": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.sound_with_favicons.on_center": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.static_separator.selected_accent": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.unloaded": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.unloaded.grayscale": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tabbar.as_titlebar": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tabbar.fill_width": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.built_in_contrast": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.fully_color": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.fully_dark": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.monospace": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.private": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.proton_chrome": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.proton_color": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.system_default": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.transparent.frame": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.theme.transparent.panel": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.urlView.focus_item_border": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.urlbar.always_show_page_actions": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.urlbar.iconbox_with_separator": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.newTab.animate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.newTab.background_image": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.newTab.full_icon": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.newTab.hidden_logo": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.page.dark_mode.pdf": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.page.monospace": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.animate": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.click_to_play": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.icon": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.noaudio": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.size": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.ui": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userContent.player.ui.twoline": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "view_source.wrap_long_lines": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "waterfox.blocker.allowSearchPartnerAds": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.coexist": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.dismissedExtensionInstallWarnings": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.enabledLists": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.extensionDetectionDismissed": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.filterListUrls": {
+      "type": "string",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.remoteResourcesEnabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.showBadge": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/02-privacy.js"
+    },
+    "waterfox.blocker.ui.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/WaterfoxSettingsPanes.mjs"
+    },
+    "waterfox.search.disableAIFeatures": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "waterfox.search.suggestions.useProxy": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "widget.gtk.global-menu.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/03-features.js"
+    },
+    "widget.macos.titlebar-blend-mode.behind-window": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "widget.windows.mica": {
+      "type": "boolean",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "widget.windows.mica.popups": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "widget.windows.mica.toplevel-backdrop": {
+      "type": "integer",
+      "source": "waterfox/browser/app/profile/00-general.js"
+    },
+    "browser.settings-redesign.enabled": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/WaterfoxSettingsPanes.mjs"
+    },
+    "network.trr.uri": {
+      "type": "string",
+      "source": "waterfox/browser/components/settings/waterfoxDns.mjs"
+    },
+    "sidebar.verticalTabs": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxTabs.mjs"
+    },
+    "sidebar.visibility": {
+      "type": "string",
+      "source": "waterfox/browser/components/settings/waterfoxTabs.mjs"
+    },
+    "browser.theme.waterfox.browserStyle": {
+      "type": "string",
+      "source": "waterfox/browser/components/theme/WaterfoxBrowserStyle.sys.mjs"
+    },
+    "browser.theme.waterfox.color": {
+      "type": "string",
+      "source": "waterfox/browser/components/theme/WaterfoxThemeColors.sys.mjs"
+    },
+    "browser.theme.waterfox.mode": {
+      "type": "string",
+      "source": "waterfox/browser/components/theme/WaterfoxThemeColors.sys.mjs"
+    },
+    "extensions.activeThemeID": {
+      "type": "string",
+      "source": "waterfox/browser/components/theme/WaterfoxThemeColors.sys.mjs"
+    },
+    "browser.tabs.loadInBackground": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.dragDrop.expandGroup.delayMS": {
+      "type": "integer",
+      "source": "waterfox/browser/components/tabbrowser/TreeTabsUI.sys.mjs"
+    },
+    "browser.tabs.loadBookmarksInBackground": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/privatetab/PrivateTab.sys.mjs"
+    },
+    "userChrome.tab.lepton_like_padding": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.photon_like_padding": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.dynamic_separator": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.static_separator": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bar_separator": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.newtab_button_like_tab": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.newtab_button_smaller": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.newtab_button_proton": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.photon_like_contextline": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.supernova_like_contextline": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.australis": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.chrome": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.chrome_legacy": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.edge": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.tab.bottom_rounded_corner.wave": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.panel_photon": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    },
+    "userChrome.icon.panel_full": {
+      "type": "boolean",
+      "source": "waterfox/browser/components/settings/waterfoxAppearanceOptions.mjs"
+    }
+  }
+}

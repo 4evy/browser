@@ -1,0 +1,70 @@
+{
+  "tab_padding": {
+    "default": {},
+    "lepton": {
+      "userChrome.tab.lepton_like_padding": true
+    },
+    "photon": {
+      "userChrome.tab.photon_like_padding": true
+    }
+  },
+  "tab_separator": {
+    "none": {},
+    "dynamic": {
+      "userChrome.tab.dynamic_separator": true
+    },
+    "static": {
+      "userChrome.tab.static_separator": true
+    },
+    "bar": {
+      "userChrome.tab.bar_separator": true
+    }
+  },
+  "tab_newtab_button": {
+    "default": {},
+    "like_tab": {
+      "userChrome.tab.newtab_button_like_tab": true
+    },
+    "smaller": {
+      "userChrome.tab.newtab_button_smaller": true
+    },
+    "proton": {
+      "userChrome.tab.newtab_button_proton": true
+    }
+  },
+  "tab_contextline": {
+    "none": {},
+    "photon": {
+      "userChrome.tab.photon_like_contextline": true
+    },
+    "supernova": {
+      "userChrome.tab.supernova_like_contextline": true
+    }
+  },
+  "tab_corner_style": {
+    "default": {},
+    "australis": {
+      "userChrome.tab.bottom_rounded_corner.australis": true
+    },
+    "chrome": {
+      "userChrome.tab.bottom_rounded_corner.chrome": true
+    },
+    "chrome_legacy": {
+      "userChrome.tab.bottom_rounded_corner.chrome_legacy": true
+    },
+    "edge": {
+      "userChrome.tab.bottom_rounded_corner.edge": true
+    },
+    "wave": {
+      "userChrome.tab.bottom_rounded_corner.wave": true
+    }
+  },
+  "panel_icons": {
+    "photon": {
+      "userChrome.icon.panel_photon": true
+    },
+    "full": {
+      "userChrome.icon.panel_full": true
+    }
+  }
+}

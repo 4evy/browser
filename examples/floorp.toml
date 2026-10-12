@@ -1,0 +1,59 @@
+[firefox]
+variant = "floorp"
+
+[firefox.paths.linux]
+profile_dir = "${home}/.floorp/your-profile"
+
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/Floorp/Profiles/your-profile"
+
+# Floorp 12 stores feature configurations as JSON-valued preferences
+# Objects merge with existing values; supplied arrays replace whole arrays
+[firefox.floorp.preferences]
+"floorp.workspaces.enabled" = true
+"floorp.panelSidebar.enabled" = true
+"floorp.keyboardshortcut.enabled" = true
+"floorp.mousegesture.enabled" = true
+"floorp.tabstacks.enabled" = true
+
+[firefox.floorp.design.tabbar]
+tabbarStyle = "multirow"
+multiRowTabBar = { maxRowEnabled = true, maxRow = 3 }
+
+[firefox.floorp.design.uiCustomization.chromeExtras]
+autohideNavbar = true
+centeredUrlbar = true
+
+[firefox.floorp.workspaces]
+showWorkspaceNameOnToolbar = true
+closePopupAfterClick = true
+
+[firefox.floorp.sidebar]
+overlay = true
+openOnHover = true
+
+[firefox.floorp.keyboard.shortcuts."floorp-toggle-command-palette"]
+key = "F2"
+action = "floorp-toggle-command-palette"
+modifiers = { alt = false, ctrl = false, meta = false, shift = false }
+
+[firefox.floorp.gestures]
+showTrail = true
+trailColor = "#37ff00"
+
+[firefox.floorp.split_view]
+layout = "horizontal"
+maxPanes = 4
+
+[firefox.floorp.pwa]
+showToolbar = true
+
+[firefox.floorp.command_palette]
+width = 600
+showHistory = false
+
+[firefox.floorp.memory]
+enabled = true
+idleThresholdSec = 60
+minIntervalSec = 300
+minResidentMB = 400

@@ -1,0 +1,1308 @@
+{
+  "repository": "https://codeberg.org/librewolf/settings",
+  "revision": "590dd1c2e3c248f4b3023093520e9fcd642dd899",
+  "preferences": {
+    "app.feedback.baseURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "app.normandy.api_url": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "app.normandy.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "app.releaseNotesURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "app.releaseNotesURL.aboutDialog": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "app.shield.optoutstudies.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "app.support.baseURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "app.update.auto": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "app.update.langpack.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "app.update.service.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "app.update.url.details": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "app.update.url.manual": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "breakpad.reportURL": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.aboutConfig.showWarning": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.ai.control.default": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.cache.disk.enable": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.contentblocking.category": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.contentblocking.report.hide_vpn_banner": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.contentblocking.report.lockwise.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.contentblocking.report.show_mobile_app": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.crashReports.onDemand": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.crashReports.requestedNeverShowAgain": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.discovery.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.dom.window.dump.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.download.alwaysOpenPanel": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.download.autohideButton": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.download.manager.addToRecentDocs": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.download.start_downloads_in_tmp_dir": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.download.useDownloadDir": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.formfill.enable": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.geolocation.warning.infoURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.helperApps.deleteTempFileOnExit": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.link.open_newwindow": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "browser.link.open_newwindow.restriction": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "browser.macAppMenu.setAsDefaultShown": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.ml.chat.menu": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.ml.enable": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.ml.linkPreview.supportedLocales": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.asrouter.providers.cfr": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.asrouter.providers.message-groups": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.asrouter.providers.onboarding": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.default.sites": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.discoverystream.sections.contextualAds.locale-config": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.discoverystream.sections.contextualAds.region-config": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.discoverystream.shortcuts.personalization.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.feeds.telemetry": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.feeds.weatherfeed": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.includeDownloads": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.section.highlights.includeVisited": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.showWebNotifications": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.telemetry": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.unifiedAds.adsFeed.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.unifiedAds.endpoint": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.unifiedAds.ohttp.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.unifiedAds.spocs.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.unifiedAds.tiles.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.newtabpage.activity-stream.widgets.clocks.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.crossword.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.feedback.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.focusTimer.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.hideAllToast.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.lists.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.pictureOfTheDay.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.privacy.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.sportsWidget.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.stocks.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.weather.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.newtabpage.activity-stream.widgets.weatherForecast.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.nova.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.places.speculativeConnect.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.preferences.aiControls": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.preferences.experimental.hidden": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.privatebrowsing.autostart": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.privatebrowsing.forceMediaMemoryCache": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.promo.focus.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.referrals.code": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.referrals.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.referrals.pingSubmitted": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.region.network.url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.region.update.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.blockedURIs.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.downloads.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.downloads.remote.block_potentially_unwanted": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.downloads.remote.block_uncommon": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.downloads.remote.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.downloads.remote.url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.malware.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.phishing.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.provider.google.gethashURL": {
+      "type": "string",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.provider.google.updateURL": {
+      "type": "string",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.provider.google4.dataSharingURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.safebrowsing.provider.google4.gethashURL": {
+      "type": "string",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.safebrowsing.provider.google4.updateURL": {
+      "type": "string",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "browser.search.searchEnginesURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.search.separatePrivateDefault": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.search.separatePrivateDefault.ui.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.search.serpEventTelemetryCategorization.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.search.suggest.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.search.update": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.sessionstore.newTabOnRestore.showSetting": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.sessionstore.privacy_level": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "browser.shareqrcode.embed_logo": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.shell.displayKitImageBehindSetDefaultBrowserButton": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.shell.shortcutFavicons": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.startup.homepage_override.mstone": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.startup.windowsLaunchOnLogin.defaultEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.startup.windowsLaunchOnLogin.disableLaunchOnLoginPrompt": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.tabs.crashReporting.sendReport": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.tabs.groups.smart.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.tabs.searchclipboardfor.middleclick": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.toolbars.bookmarks.visibility": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "browser.topsites.contile.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.topsites.useRemoteSetting": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.uitour.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.uitour.url": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.urlbar.addons.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.importantDates.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.market.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.mdn.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.quicksuggest.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.speculativeConnect.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.suggest.mdn": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.suggest.searches": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.suggest.weather": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.trending.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.trustPanel.breachAlerts": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.trustPanel.breachAlerts.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.weather.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.yelp.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.urlbar.yelpRealtime.featureGate": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "browser.vpn_promo.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "browser.xul.error_pages.expert_bad_cert": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "captivedetect.canonicalURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "clipboard.autocopy": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "cookiebanners.service.mode": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "cookiebanners.service.mode.privateBrowsing": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "datareporting.healthreport.uploadEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "datareporting.policy.dataSubmissionEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "datareporting.policy.dataSubmissionPolicyAcceptedVersion": {
+      "type": "integer",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "datareporting.policy.dataSubmissionPolicyBypassNotification": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "datareporting.policy.dataSubmissionPolicyNotifiedTime": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "datareporting.usage.uploadEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "default-browser-agent.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "devtools.aboutdebugging.showHiddenAddons": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "devtools.console.stdout.chrome": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "devtools.debugger.remote-enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "devtools.selfxss.count": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "doh-rollout.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.disable_window_move_resize": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.private-attribution.submission.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.security.https_only_mode.upgrade_local": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.security.https_only_mode_error_page_user_suggestions": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.webgpu.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.webserial.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "dom.webserial.gated": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.enabledScopes": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "extensions.formautofill.addresses.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.formautofill.creditCards.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.getAddons.langpacks.url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "extensions.getAddons.showPane": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.gleanPingAddons.daily.interval": {
+      "type": "integer",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.gleanPingAddons.updated.delay": {
+      "type": "integer",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.gleanPingAddons.updated.idleTimeout": {
+      "type": "integer",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.gleanPingAddons.updated.testing": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.htmlaboutaddons.recommendations.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.postDownloadThirdPartyPrompt": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.ui.mlmodel.hidden": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "extensions.update.autoUpdateDefault": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "extensions.update.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "extensions.webcompat-reporter.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.webcompat-reporter.newIssueEndpoint": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "extensions.webextensions.base-content-security-policy": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "extensions.webextensions.base-content-security-policy.v3": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "extensions.webextensions.restrictedDomains": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "gecko.handlerService.defaultHandlersVersion": {
+      "type": "integer",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "geo.provider.ms-windows-location": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "geo.provider.network.url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "geo.provider.use_corelocation": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "geo.provider.use_geoclue": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "identity.fxaccounts.enabled": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "identity.fxaccounts.toolbar.pxiToolbarEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "intl.accept_languages": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "intl.locale.requested": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "intl.multilingual.downloadEnabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "intl.multilingual.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.aboutMenu.checkVersion": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.cfg.version": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "librewolf.console.logging_disabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.debugger.force_detach": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.devHelpers": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.eme.gmp-clearkey.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.eme.warning.infoURL": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.externalWallpapers.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.getBrowserInfo.setToFirefoxDefaults": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.jit.enabled-by-default": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "librewolf.services.settings.allowedCollections": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.services.settings.allowedCollectionsFromDump": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.uBO.assetsBootstrapLocation": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "librewolf.webgl.prompt": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "librewolf.webgl.prompt.hide": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "media.autoplay.default": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "media.eme.require-app-approval": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "media.gmp-gmpopenh264.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "media.gmp-manager.url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "media.gmp-provider.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "media.memory_cache_max_size": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "media.peerconnection.ice.default_address_only": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "media.peerconnection.ice.proxy_only_if_behind_proxy": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "media.webrtc.hw.h264.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "middlemouse.paste": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "network.IDN_show_punycode": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.auth.subresource-http-auth-allow": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "network.captive-portal-service.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.connectivity-service.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.cookie.cookieBehavior.optInPartitioning": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.cookie.cookieBehavior.optInPartitioning.pbmode": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.dns.disableIPv6": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "network.dns.disablePrefetch": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.dns.disablePrefetchFromHTTPS": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.dns.preferIPv6": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.early-hints.preconnect.max_connections": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "network.file.disable_unc_paths": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.gio.supported-protocols": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "network.http.http3.enable_0rtt": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.http.prompt-temp-redirect": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.http.referer.XOriginPolicy": {
+      "type": "integer",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "network.http.referer.XOriginTrimmingPolicy": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "network.http.speculative-parallel-limit": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "network.lna.allow_top_level_navigation": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.lna.local-network-to-localhost.skip-checks": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.lna.websocket.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.prefetch-next": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.proxy.socks_remote_dns": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "network.trr.default_provider_uri": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "network.trr.mode": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "network.trr.uri": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "network.trr.useGET": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "nimbus.rollouts.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "pdfjs.enableScripting": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "pdfjs.enableWebGPU": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "permissions.default.media-key-system-access": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "permissions.manager.defaultsUrl": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "privacy.antitracking.isolateContentScriptResources": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.clearOnShutdown_v2.historyFormDataAndDownloads": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.globalprivacycontrol.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.globalprivacycontrol.functionality.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.globalprivacycontrol.pbmode.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.history.custom": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.query_stripping.allow_list": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "privacy.query_stripping.strip_list": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "privacy.resistFingerprinting": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.resistFingerprinting.block_mozAddonManager": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.resistFingerprinting.letterboxing": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.sanitize.sanitizeOnShutdown": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.sanitize.timeSpan": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "privacy.spoof_english": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "privacy.trackingprotection.allow_list.baseline.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.trackingprotection.allow_list.convenience.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.trackingprotection.allow_list.hasMigratedCategoryPrefs": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "privacy.userContext.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.userContext.ui.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "privacy.window.maxInnerHeight": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "privacy.window.maxInnerWidth": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "security.OCSP.enabled": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "security.OCSP.require": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.cert_pinning.enforcement_level": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "security.certerrors.mitm.auto_enable_enterprise_roots": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.csp.reporting.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.enterprise_roots.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.insecure_field_warning.ignore_local_ip_address": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.pki.crlite_mode": {
+      "type": "integer",
+      "source": "librewolf.cfg"
+    },
+    "security.qwacs.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.remote_settings.crlite_filters.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.ssl.require_safe_negotiation": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.ssl.treat_unsafe_negotiation_as_broken": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.ssl3.ecdhe_ecdsa_aes_256_sha": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.tls.enable_0rtt_data": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.tls.enable_mlkem1024": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "security.tls.version.enable-deprecated": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "sidebar.main.tools": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "signon.autofillForms": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "signon.formlessCapture.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "signon.rememberSignons": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    },
+    "startup.homepage_override_nimbus_disable_wnp": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "startup.homepage_welcome_url": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "startup.homepage_welcome_url.additional": {
+      "type": "string",
+      "source": "librewolf.cfg"
+    },
+    "termsofuse.bypassNotification": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.coverage.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.coverage.endpoint.base": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.coverage.opt-out": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.legacyUserProfileCustomizations.stylesheets": {
+      "type": "boolean",
+      "source": "patches/pref-pane/librewolf.js"
+    },
+    "toolkit.telemetry.archive.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.bhrPing.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.cachedClientID": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.firstShutdownPing.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.newProfilePing.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.previousBuildID": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.server": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.server_owner": {
+      "type": "string",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.shutdownPingSender.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.unified": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "toolkit.telemetry.updatePing.enabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg",
+      "locked": true
+    },
+    "webgl.disabled": {
+      "type": "boolean",
+      "source": "librewolf.cfg"
+    }
+  }
+}

@@ -1,0 +1,1500 @@
+{
+  "repository": "https://github.com/Floorp-Projects/Floorp",
+  "revision": "013bb6c9ed19250592898ec8fbc8d7d24aa847be",
+  "preferences": {
+    "app.feedback.baseURL": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "app.shield.optoutstudies.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.link.open_newwindow": {
+      "type": "integer",
+      "source": "browser-features/pages-settings/src/app/design/tabWindowBehavior.ts"
+    },
+    "browser.newtabpage.activity-stream.nova.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.nova.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.preferences.moreFromMozilla": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.profiles.forceEnableRefresh": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.search.separatePrivateDefault": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.search.separatePrivateDefault.ui.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.startup.page": {
+      "type": "integer",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.tabs.closeTabByDblclick": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "browser.tabs.splitView.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.tabs.tabMinWidth": {
+      "type": "integer",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "browser.tabs.warnOnClose": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.tabs.warnOnCloseOtherTabs": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.taskbar.previews.enable": {
+      "type": "boolean",
+      "source": "browser-features/pages-settings/src/app/design/tabWindowBehavior.ts"
+    },
+    "browser.taskbarTabs.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.toolbars.bookmarks.visibility": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "browser.urlbar.update2.engineAliasRefresh": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "datareporting.healthreport.uploadEnabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "datareporting.policy.dataSubmissionEnabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "devtools.toolbox.host": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "dom.private-attribution.submission.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "extensions.getAddons.showPane": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "extensions.htmlaboutaddons.recommendations.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "extensions.webcompat-reporter.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.Tree-type.verticaltab.optimization": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.bookmarks.bar.focus.mode": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.nativeApp.appShim.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.browser.nativeApp.keepRunningAfterBrowserQuit": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.browser.sidebar.enable": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/panel-sidebar/data/migration.ts"
+    },
+    "floorp.browser.sidebar.is.displayed": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/panel-sidebar/data/migration.ts"
+    },
+    "floorp.browser.sidebar.right": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/panel-sidebar/data/migration.ts"
+    },
+    "floorp.browser.sidebar2.global.webpanel.width": {
+      "type": "integer",
+      "source": "browser-features/chrome/common/panel-sidebar/data/migration.ts"
+    },
+    "floorp.browser.sidebar2.hide.to.unload.panel.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/panel-sidebar/data/migration.ts"
+    },
+    "floorp.browser.ssb.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "showToolbar": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/pwa/type.ts",
+      "default": {
+        "showToolbar": true
+      }
+    },
+    "floorp.browser.ssb.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/pwa/config.ts"
+    },
+    "floorp.browser.tabbar.multirow.max.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.tabbar.multirow.max.row": {
+      "type": "integer",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.tabbar.multirow.newtab-inside.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.tabs.openTabPosition": {
+      "type": "integer",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.tabs.tabMinHeight": {
+      "type": "integer",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.browser.workspace.closePopupAfterClick": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/workspaces/data/old-config.ts"
+    },
+    "floorp.browser.workspace.exitOnLastTabClose": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/workspaces/data/old-config.ts"
+    },
+    "floorp.browser.workspace.manageOnBMS": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/workspaces/data/old-config.ts"
+    },
+    "floorp.browser.workspace.showWorkspaceName": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/workspaces/data/old-config.ts"
+    },
+    "floorp.commandPalette.categoryPriority": {
+      "type": "json",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "navigation",
+            "tabs",
+            "zoom",
+            "bookmarks",
+            "page",
+            "sidebar",
+            "scrolling",
+            "history",
+            "window",
+            "tools",
+            "downloads",
+            "workspace",
+            "floorp",
+            "media",
+            "open-tabs",
+            "switcher",
+            "history-suggestions",
+            "bookmark-suggestions",
+            "center",
+            "left",
+            "right",
+            "string"
+          ]
+        }
+      },
+      "source": "browser-features/chrome/common/command-palette/types.ts"
+    },
+    "floorp.commandPalette.commandFrequency": {
+      "type": "string",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.fontSize": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 11,
+        "maximum": 22
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.horizontalAlign": {
+      "type": "string",
+      "schema": {
+        "type": "string",
+        "enum": ["center", "left", "right"]
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.maxBookmarkSuggestions": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.maxHeight": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 300,
+        "maximum": 800
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.maxHistorySuggestions": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.maxResultsPerCategory": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.maxTabsResults": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.offsetTop": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.recentCommands": {
+      "type": "string",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.selectableCommands": {
+      "type": "json",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": ["id", "label", "category"]
+        }
+      },
+      "source": "browser-features/chrome/common/command-palette/types.ts"
+    },
+    "floorp.commandPalette.shortcuts": {
+      "type": "json",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "prefix": {
+              "type": "string"
+            },
+            "commandId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": ["prefix", "commandId"]
+        }
+      },
+      "source": "browser-features/chrome/common/command-palette/types.ts"
+    },
+    "floorp.commandPalette.showBookmarks": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.showHistory": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.showTabs": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.commandPalette.width": {
+      "type": "integer",
+      "schema": {
+        "type": "integer",
+        "minimum": 400,
+        "maximum": 1000
+      },
+      "source": "browser-features/chrome/common/command-palette/config.ts"
+    },
+    "floorp.contextMenu.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647,
+            "enum": [1]
+          },
+          "surfaces": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "order": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "hidden": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "profiles": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "independent": {
+                        "type": "boolean"
+                      },
+                      "containers": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "order": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "hidden": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/context-menu/types.ts",
+      "default": {
+        "schemaVersion": 1,
+        "surfaces": {}
+      }
+    },
+    "floorp.contextMenu.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/context-menu/types.ts"
+    },
+    "floorp.delete.browser.border": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.design.configs": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "globalConfigs": {
+            "type": "object",
+            "properties": {
+              "faviconColor": {
+                "type": "boolean"
+              },
+              "userInterface": {
+                "type": "string",
+                "enum": ["fluerial", "lepton", "photon", "protonfix", "proton"]
+              },
+              "appliedUserJs": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "tabbar": {
+            "type": "object",
+            "properties": {
+              "tabbarStyle": {
+                "type": "string",
+                "enum": ["horizontal", "vertical", "multirow"]
+              },
+              "tabbarPosition": {
+                "type": "string",
+                "enum": [
+                  "hide-horizontal-tabbar",
+                  "optimise-to-vertical-tabbar",
+                  "bottom-of-navigation-toolbar",
+                  "bottom-of-window",
+                  "default"
+                ]
+              },
+              "multiRowTabBar": {
+                "type": "object",
+                "properties": {
+                  "maxRowEnabled": {
+                    "type": "boolean"
+                  },
+                  "maxRow": {
+                    "type": "number",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "tab": {
+            "type": "object",
+            "properties": {
+              "tabScroll": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "reverse": {
+                    "type": "boolean"
+                  },
+                  "wrap": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "tabMinHeight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "tabMinWidth": {
+                "type": "number",
+                "minimum": 0
+              },
+              "tabPinTitle": {
+                "type": "boolean"
+              },
+              "tabDoubleClickToClose": {
+                "type": "boolean"
+              },
+              "tabOpenPosition": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          },
+          "uiCustomization": {
+            "type": "object",
+            "properties": {
+              "navbar": {
+                "type": "object",
+                "properties": {
+                  "position": {
+                    "type": "string",
+                    "enum": ["top", "bottom"]
+                  },
+                  "searchBarTop": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "display": {
+                "type": "object",
+                "properties": {
+                  "disableFullscreenNotification": {
+                    "type": "boolean"
+                  },
+                  "deleteBrowserBorder": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "special": {
+                "type": "object",
+                "properties": {
+                  "optimizeForTreeStyleTab": {
+                    "type": "boolean"
+                  },
+                  "hideForwardBackwardButton": {
+                    "type": "boolean"
+                  },
+                  "stgLikeWorkspaces": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "multirowTab": {
+                "type": "object",
+                "properties": {
+                  "newtabInsideEnabled": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "bookmarkBar": {
+                "type": "object",
+                "properties": {
+                  "focusExpand": {
+                    "type": "boolean"
+                  },
+                  "position": {
+                    "type": "string",
+                    "enum": ["top", "bottom"]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "qrCode": {
+                "type": "object",
+                "properties": {
+                  "disableButton": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "chromeExtras": {
+                "type": "object",
+                "properties": {
+                  "autohideTab": {
+                    "type": "boolean"
+                  },
+                  "autohideBackButton": {
+                    "type": "boolean"
+                  },
+                  "autohideForwardButton": {
+                    "type": "boolean"
+                  },
+                  "autohidePageAction": {
+                    "type": "boolean"
+                  },
+                  "autohideSidebar": {
+                    "type": "boolean"
+                  },
+                  "autohideNavbar": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabIcon": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabCloseButton": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabAudioIndicator": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabSharingIndicator": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabNoteIcon": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabAttentionIndicator": {
+                    "type": "boolean"
+                  },
+                  "hiddenTabbar": {
+                    "type": "boolean"
+                  },
+                  "hiddenNavbar": {
+                    "type": "boolean"
+                  },
+                  "hiddenSidebarHeader": {
+                    "type": "boolean"
+                  },
+                  "hiddenUrlbarIconbox": {
+                    "type": "boolean"
+                  },
+                  "hiddenBookmarkbarIcon": {
+                    "type": "boolean"
+                  },
+                  "hiddenBookmarkbarLabel": {
+                    "type": "boolean"
+                  },
+                  "hiddenDisabledMenu": {
+                    "type": "boolean"
+                  },
+                  "iconDisabled": {
+                    "type": "boolean"
+                  },
+                  "iconMenu": {
+                    "type": "boolean"
+                  },
+                  "centeredTab": {
+                    "type": "boolean"
+                  },
+                  "centeredUrlbar": {
+                    "type": "boolean"
+                  },
+                  "centeredBookmarkbar": {
+                    "type": "boolean"
+                  },
+                  "urlViewMoveIconToLeft": {
+                    "type": "boolean"
+                  },
+                  "urlViewGoButtonWhenTyping": {
+                    "type": "boolean"
+                  },
+                  "urlViewAlwaysShowPageActions": {
+                    "type": "boolean"
+                  },
+                  "sidebarOverlap": {
+                    "type": "boolean"
+                  },
+                  "tabbarAsTitlebar": {
+                    "type": "boolean"
+                  },
+                  "tabbarOneLiner": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/designs/type.ts"
+    },
+    "floorp.disable.fullscreen.notification": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.extensions.STG.like.floorp.workspaces.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.keyboardshortcut.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "schemaVersion": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647,
+            "enum": [2]
+          },
+          "shortcuts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "modifiers": {
+                  "type": "object",
+                  "properties": {
+                    "alt": {
+                      "type": "boolean"
+                    },
+                    "ctrl": {
+                      "type": "boolean"
+                    },
+                    "meta": {
+                      "type": "boolean"
+                    },
+                    "shift": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/keyboard-shortcut/type.ts"
+    },
+    "floorp.keyboardshortcut.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/keyboard-shortcut/config.ts"
+    },
+    "floorp.keyboardshortcut.safeErrorHandling": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/keyboard-shortcut/config.ts"
+    },
+    "floorp.mcp.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.memory.idleReclaim": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "idleThresholdSec": {
+            "type": "number",
+            "minimum": 15
+          },
+          "minIntervalSec": {
+            "type": "number",
+            "minimum": 30
+          },
+          "minResidentMB": {
+            "type": "number",
+            "minimum": 0
+          },
+          "pollIntervalSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "reclaimOnGhostWindows": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/pages-settings/src/app/performance/dataManager.ts"
+    },
+    "floorp.mousegesture.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "rockerGesturesEnabled": {
+            "type": "boolean"
+          },
+          "wheelGesturesEnabled": {
+            "type": "boolean"
+          },
+          "showTrail": {
+            "type": "boolean"
+          },
+          "showLabel": {
+            "type": "boolean"
+          },
+          "sensitivity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "trailColor": {
+            "type": "string"
+          },
+          "trailWidth": {
+            "type": "number",
+            "minimum": 0
+          },
+          "contextMenu": {
+            "type": "object",
+            "properties": {
+              "minDistance": {
+                "type": "number",
+                "minimum": 0
+              },
+              "preventionTimeout": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pattern": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "up",
+                      "down",
+                      "left",
+                      "right",
+                      "upRight",
+                      "upLeft",
+                      "downRight",
+                      "downLeft"
+                    ]
+                  }
+                },
+                "action": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["pattern", "action"]
+            }
+          },
+          "rockerActions": {
+            "type": "object",
+            "properties": {
+              "leftRight": {
+                "type": "string"
+              },
+              "rightLeft": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "wheelActions": {
+            "type": "object",
+            "properties": {
+              "scrollUp": {
+                "type": "string"
+              },
+              "scrollDown": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/mouse-gesture/types.ts"
+    },
+    "floorp.mousegesture.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/mouse-gesture/config.ts"
+    },
+    "floorp.navbar.bottom": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.newtab.configs": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "components": {
+            "type": "object",
+            "properties": {
+              "topSites": {
+                "type": "boolean"
+              },
+              "clock": {
+                "type": "boolean"
+              },
+              "searchBar": {
+                "type": "boolean"
+              },
+              "firefoxLayout": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "background": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["none", "random", "custom", "folderPath", "floorp"]
+              },
+              "customImage": {
+                "type": ["string", "null"]
+              },
+              "fileName": {
+                "type": ["string", "null"]
+              },
+              "folderPath": {
+                "type": ["string", "null"]
+              },
+              "selectedFloorp": {
+                "type": ["string", "null"]
+              },
+              "slideshowEnabled": {
+                "type": "boolean"
+              },
+              "slideshowInterval": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "searchBar": {
+            "type": "object",
+            "properties": {
+              "searchEngine": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "topSites": {
+            "type": "object",
+            "properties": {
+              "pinned": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["url", "title"]
+                }
+              },
+              "blocked": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/pages-newtab/src/utils/dataManager.ts"
+    },
+    "floorp.optimized.msbutton.ope": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.os.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.os.hidden": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.panelSidebar.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "overlay": {
+            "type": "boolean"
+          },
+          "openOnHover": {
+            "type": "boolean"
+          },
+          "autoUnload": {
+            "type": "boolean"
+          },
+          "position_start": {
+            "type": "boolean"
+          },
+          "displayed": {
+            "type": "boolean"
+          },
+          "webExtensionRunningEnabled": {
+            "type": "boolean"
+          },
+          "globalWidth": {
+            "type": "number"
+          },
+          "floatingWidth": {
+            "type": "number"
+          },
+          "floatingHeight": {
+            "type": "number"
+          },
+          "floatingPositionLeft": {
+            "type": "number"
+          },
+          "floatingPositionTop": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/panel-sidebar/utils/type.ts",
+      "default": {
+        "globalWidth": 400,
+        "autoUnload": false,
+        "position_start": true,
+        "displayed": true,
+        "webExtensionRunningEnabled": false,
+        "overlay": false,
+        "openOnHover": false
+      }
+    },
+    "floorp.panelSidebar.data": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["web", "static", "extension"]
+                },
+                "width": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "url": {
+                  "type": ["string", "null"]
+                },
+                "icon": {
+                  "type": ["string", "null"]
+                },
+                "userContextId": {
+                  "type": ["integer", "null"],
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "zoomLevel": {
+                  "type": ["number", "null"],
+                  "minimum": 0
+                },
+                "userAgent": {
+                  "type": ["boolean", "null"]
+                },
+                "extensionId": {
+                  "type": ["string", "null"]
+                }
+              },
+              "additionalProperties": false,
+              "required": ["id", "type", "width"]
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/panel-sidebar/utils/type.ts"
+    },
+    "floorp.panelSidebar.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/panel-sidebar/data/data.ts"
+    },
+    "floorp.releaseNotes.choiceConfirmed": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.releaseNotes.mode": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.search.top.mode": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.splitView.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "layout": {
+            "type": "string",
+            "enum": [
+              "horizontal",
+              "vertical",
+              "grid-2x2",
+              "grid-3pane-left-main",
+              "grid-3pane-right-main",
+              "grid-3pane-top-main",
+              "grid-3pane-bottom-main"
+            ]
+          },
+          "maxPanes": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 4
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/split-view/data/types.ts",
+      "default": {
+        "layout": "horizontal",
+        "maxPanes": 4
+      }
+    },
+    "floorp.splitView.dragToSplitCreate.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.splitView.paneSizes": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "flexRatios": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "gridColRatio": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "gridRowRatio": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/split-view/data/types.ts",
+      "default": {
+        "flexRatios": [0.5, 0.5],
+        "gridColRatio": 0.5,
+        "gridRowRatio": 0.5
+      }
+    },
+    "floorp.tabs.hoverReload.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.tabs.inlineUrlEdit.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.tabs.showPinnedTabsTitle": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.tabs.sleep.exclusion": {
+      "type": "string",
+      "source": "browser-features/pages-settings/src/app/design/dataManager.ts"
+    },
+    "floorp.tabscroll.enable": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.tabscroll.reverse": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.tabscroll.wrap": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.tabstacks.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.tabstrip.wheelguard": {
+      "type": "integer",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "floorp.titlebar.favicon.color": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/designs/configs.ts"
+    },
+    "floorp.workspaces.enabled": {
+      "type": "boolean",
+      "source": "browser-features/chrome/common/workspaces/data/config.ts"
+    },
+    "floorp.workspaces.v4.config": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "manageOnBms": {
+            "type": "boolean"
+          },
+          "showWorkspaceNameOnToolbar": {
+            "type": "boolean"
+          },
+          "closePopupAfterClick": {
+            "type": "boolean"
+          },
+          "exitOnLastTabClose": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/workspaces/utils/type.ts"
+    },
+    "floorp.workspaces.v4.store": {
+      "type": "json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "defaultID": {
+            "type": "string"
+          },
+          "order": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "userContextId": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "isSelected": {
+                  "type": ["boolean", "null"]
+                },
+                "isDefault": {
+                  "type": ["boolean", "null"]
+                },
+                "icon": {
+                  "type": ["string", "null"]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "source": "browser-features/chrome/common/workspaces/utils/type.ts"
+    },
+    "general.useragent.override": {
+      "type": "string",
+      "source": "browser-features/chrome/static/prefs/index.ts"
+    },
+    "intl.locale.requested": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "privacy.trackingprotection.origin_telemetry.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "privacy.userContext.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "privacy.userContext.ui.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.engine.prefs": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.browser.startup.page": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.browser.tabs.warnOnClose": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.prefs.sync.floorp.browser.note.memos": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.telemetry.maxPayloadCount": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "services.sync.telemetry.submissionInterval": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "sidebar.revamp": {
+      "type": "boolean",
+      "source": "browser-features/pages-settings/src/app/design/dataManager.ts"
+    },
+    "sidebar.verticalTabs": {
+      "type": "boolean",
+      "source": "browser-features/pages-settings/src/app/design/dataManager.ts"
+    },
+    "svg.context-properties.content.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.legacyUserProfileCustomizations.stylesheets": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.archive.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.bhrPing.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.firstShutdownPing.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.geckoview.streaming": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.newProfilePing.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.pioneer-new-studies-available": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.reportingpolicy.firstRun": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.server": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.shutdownPingSender.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.shutdownPingSender.enabledFirstSession": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.testing.overrideProductsCheck": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.unified": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "toolkit.telemetry.updatePing.enabled": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "trailhead.firstrun.branches": {
+      "type": "string",
+      "source": "static/gecko/pref/override.ini"
+    },
+    "xpinstall.signatures.required": {
+      "type": "boolean",
+      "source": "static/gecko/pref/override.ini"
+    }
+  }
+}
