@@ -1,0 +1,54 @@
+# Firefox and Gecko forks use a separate engine: [firefox], not [browser]
+# Close the browser and copy the profile directory from about:profiles
+
+[firefox]
+# Presets: firefox, beta, esr, developer, nightly, librewolf, waterfox,
+# floorp, zen. Unlisted forks work with explicit app metadata
+variant = "firefox"
+executable_name = "firefox-configured"
+flags = []
+
+[firefox.macos]
+app_dir = "/Applications/Firefox.app"
+launcher_path = "Contents/MacOS/firefox"
+
+[firefox.linux]
+# Omit app_dir to use the installed browser wrapper from PATH
+launcher_name = "firefox"
+
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/Firefox/Profiles/REPLACE.default-release"
+# Required only when applying policies or installing extensions. This file
+# is owned in full by this configuration; applying replaces its contents
+# policies_file = "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
+
+[firefox.paths.linux]
+# Recent Firefox installations use XDG paths; older profiles can live under
+# ${home}/.mozilla/firefox. Always use the actual path from about:profiles
+profile_dir = "${config_home}/mozilla/firefox/REPLACE.default-release"
+# policies_file = "/etc/firefox/policies/policies.json"
+
+[firefox.preferences]
+"browser.startup.page" = 3
+"browser.tabs.warnOnClose" = false
+"privacy.globalprivacycontrol.enabled" = true
+
+# Policies can be rendered without installing them:
+# tweezle policy render firefox.toml --output policies.json
+# Install the result in this browser's policy store and check about:policies
+# Forks can change the store path, supported policies, and preferences
+
+# [firefox.policies]
+# DisableTelemetry = true
+# DisableFirefoxStudies = true
+
+# Firefox installs and verifies each XPI at its next startup. Extension IDs
+# differ from Chromium IDs; use the Firefox ID supplied by the extension
+# [[firefox.extensions]]
+# id = "uBlock0@raymondhill.net"
+# install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+# installation_mode = "normal_installed"
+
+# Extensions must support storage.managed. Local/sync storage is not changed
+# [firefox.extension_settings."uBlock0@raymondhill.net"]
+# userSettings = [["advancedUserEnabled", "true"]]

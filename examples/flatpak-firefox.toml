@@ -1,0 +1,18 @@
+[firefox]
+variant = "firefox"
+
+[firefox.linux.flatpak]
+app_id = "org.mozilla.firefox"
+branch = "stable"
+installation = "system"
+
+[firefox.paths.linux]
+# Use the host path for the profile shown in about:profiles
+# Flatpak persists ~/.mozilla beneath this application's data directory
+profile_dir = "${home}/.var/app/org.mozilla.firefox/.mozilla/firefox/your-profile"
+
+[firefox.preferences]
+"browser.shell.checkDefaultBrowser" = false
+
+[firefox.policies]
+DontCheckDefaultBrowser = true
