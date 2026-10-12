@@ -1,5 +1,5 @@
 {
-  browserPackage,
+  tweezlePackage,
   darwinModule,
   fixtures,
   homeManager,
@@ -32,15 +32,25 @@ let
       modules = [ module ];
     };
 
-  expectedDefaultSettings = pkgs.writeText "browser-expected-settings.json" (
-    builtins.toJSON sampleSettings
+  expectedDefaultSettings = pkgs.writeText "tweezle-expected-settings.json" (
+    builtins.toJSON {
+      browser = removeAttrs sampleSettings.chromium [
+        "extensions"
+        "extension_settings"
+      ];
+      inherit (sampleSettings.chromium) extensions extension_settings;
+    }
   );
 
-  expectedNamedSettings = pkgs.writeText "browser-expected-named-settings.json" (
-    builtins.toJSON (lib.recursiveUpdate namedSettings { browser.paths = { }; })
+  expectedNamedSettings = pkgs.writeText "tweezle-expected-named-settings.json" (
+    builtins.toJSON {
+      browser = namedSettings.chromium // {
+        paths = { };
+      };
+    }
   );
 
-  expectedManagedPolicy = pkgs.writeText "browser-expected-managed-policy.json" (
+  expectedManagedPolicy = pkgs.writeText "tweezle-expected-managed-policy.json" (
     builtins.toJSON {
       BraveAIChatEnabled = false;
       BraveLocalAIEnabled = false;
@@ -64,92 +74,89 @@ let
     }
   );
 
+  verificationPackage = tweezlePackage.overrideAttrs {
+    pname = "tweezle-module-verification";
+    subPackages = [
+      "nix/checks/modules/policies"
+      "nix/checks/modules/verify-files"
+    ];
+    doCheck = false;
+    postInstall = "";
+    postFixup = "";
+    ldflags = [ ];
+  };
+
   verifyGeneratedFiles =
     name: defaultFile: namedFile: managedPolicyFile:
-    pkgs.runCommandLocal name
-      {
-        nativeBuildInputs = [ pkgs.python3 ];
-      }
-      ''
-        python3 - \
-          ${defaultFile} \
-          ${namedFile} \
-          ${expectedDefaultSettings} \
-          ${expectedNamedSettings} \
-          ${managedPolicyFile} \
-          ${expectedManagedPolicy} <<'PY'
-        import json
-        import sys
-        import tomllib
-
-        def load_toml(path):
-            with open(path, "rb") as source:
-                return tomllib.load(source)
-
-        def load_json(path):
-            with open(path, encoding="utf-8") as source:
-                return json.load(source)
-
-        def check(actual_path, expected_path):
-            actual = load_toml(actual_path)
-            expected = load_json(expected_path)
-            if actual != expected:
-                print(f"generated configuration differs: {actual_path}", file=sys.stderr)
-                print("expected:", json.dumps(expected, indent=2, sort_keys=True), file=sys.stderr)
-                print("actual:", json.dumps(actual, indent=2, sort_keys=True), file=sys.stderr)
-                raise SystemExit(1)
-
-        def check_json(actual_path, expected_path):
-            actual = load_json(actual_path)
-            expected = load_json(expected_path)
-            if actual != expected:
-                print(f"generated JSON differs: {actual_path}", file=sys.stderr)
-                print("expected:", json.dumps(expected, indent=2, sort_keys=True), file=sys.stderr)
-                print("actual:", json.dumps(actual, indent=2, sort_keys=True), file=sys.stderr)
-                raise SystemExit(1)
-
-        check(sys.argv[1], sys.argv[3])
-        check(sys.argv[2], sys.argv[4])
-        check_json(sys.argv[5], sys.argv[6])
-        PY
-
-        for configFile in ${defaultFile} ${namedFile}; do
-          profile="$TMPDIR/profile-$(basename "$configFile" .toml)"
-          ${lib.getExe browserPackage} profile apply "$configFile" \
-            --profile-dir "$profile"
-          if [ "$(basename "$configFile")" = "browser.toml" ]; then
-            test -d "$profile/Local Extension Settings/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-          fi
-        done
-
-        touch "$out"
-      '';
+    pkgs.runCommandLocal name {
+      inherit
+        defaultFile
+        namedFile
+        expectedDefaultSettings
+        expectedNamedSettings
+        managedPolicyFile
+        expectedManagedPolicy
+        ;
+      verificationExecutable = "${verificationPackage}/bin/verify-files";
+      tweezleExecutable = lib.meta.getExe tweezlePackage;
+    } (builtins.readFile ./modules/modules.sh);
 
   home = mkHome moduleConfiguration;
-  homeDefaultFile = home.config.xdg.configFile."browser/browser.toml".source;
-  homeNamedFile = home.config.xdg.configFile."browser/second.toml".source;
-  homeManagedPolicyFile = home.config.xdg.configFile."browser/brave-managed-policy.json".source;
+
+  productConfiguration.programs.tweezle = {
+    enable = true;
+    package = tweezlePackage;
+    configurations = {
+      chrome.chromium = {
+        executable_name = "chrome";
+        chrome.sync = false;
+      };
+      edge.chromium = {
+        executable_name = "edge";
+        edge.tracking_prevention = "strict";
+      };
+      firefox.firefox.policies.DisableTelemetry = true;
+    };
+  };
+  productHome = mkHome productConfiguration;
+  expectedProductPolicies = pkgs.writeText "tweezle-product-policies.json" (
+    builtins.toJSON {
+      chrome.SyncDisabled = true;
+      edge.TrackingPrevention = 3;
+      firefox.policies.DisableTelemetry = true;
+    }
+  );
+  verifyProductPolicies =
+    name: files:
+    pkgs.runCommandLocal name {
+      policyPaths = pkgs.writeText "tweezle-product-policy-paths.json" (builtins.toJSON files);
+      inherit expectedProductPolicies;
+      verificationExecutable = "${verificationPackage}/bin/policies";
+    } (builtins.readFile ./modules/policies.sh);
+  homeDefaultFile = home.config.xdg.configFile."tweezle/tweezle.toml".source;
+  homeNamedFile = home.config.xdg.configFile."tweezle/second.toml".source;
+  homeManagedPolicyFile = home.config.xdg.configFile."tweezle/brave-managed-policy.json".source;
 
   homeDisabled = mkHome {
-    programs.browser = {
-      package = browserPackage;
+    programs.tweezle = {
+      package = tweezlePackage;
       settings = namedSettings;
     };
   };
 
   homeWithoutSettings = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
       package = null;
     };
   };
 
   homeWithDefaultPackage = mkHome {
-    programs.browser.enable = true;
+    programs.tweezle.enable = true;
   };
 
   homeConfigOnly = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
       package = null;
       settings = namedSettings;
@@ -157,17 +164,17 @@ let
   };
 
   homeWithRelativeExtensionSettings = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
-      package = browserPackage;
-      settings = lib.recursiveUpdate namedSettings {
-        extension_settings.files = [ "relative-settings.json" ];
+      package = tweezlePackage;
+      settings = lib.attrsets.recursiveUpdate namedSettings {
+        chromium.extension_settings.files = [ "relative-settings.json" ];
       };
     };
   };
 
   homeWithInvalidName = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
       package = null;
       configurations."../escape" = namedSettings;
@@ -177,7 +184,7 @@ let
   invalidNameEvaluation = builtins.tryEval homeWithInvalidName.config.home.username;
 
   homeWithInvalidCheckConfig = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
       checkConfig = true;
       package = null;
@@ -188,26 +195,26 @@ let
   invalidCheckConfigEvaluation = builtins.tryEval homeWithInvalidCheckConfig.config.home.username;
 
   homeWithIncompleteSettings = mkHome {
-    programs.browser = {
+    programs.tweezle = {
       enable = true;
       package = null;
-      settings.browser.name = "Missing executable name";
+      settings.chromium.name = "Missing executable name";
     };
   };
 
-  incompleteSettingsEvaluation = builtins.tryEval homeWithIncompleteSettings.config.programs.browser.configFile;
+  incompleteSettingsEvaluation = builtins.tryEval homeWithIncompleteSettings.config.programs.tweezle.configFile;
 
   wrongClass =
     builtins.tryEval
-      (lib.evalModules {
+      (lib.modules.evalModules {
         class = "nixos";
         specialArgs = { inherit pkgs; };
         modules = [ darwinModule ];
-      }).config.programs.browser.enable;
+      }).config.programs.tweezle.enable;
 
   declarationRoot = toString ../..;
   moduleOptions = {
-    programs.browser = home.options.programs.browser;
+    programs.tweezle = home.options.programs.tweezle;
   };
   moduleOptionsDoc = pkgs.nixosOptionsDoc {
     options = moduleOptions;
@@ -220,12 +227,12 @@ let
           declaration:
           let
             relative = builtins.unsafeDiscardStringContext (
-              lib.removePrefix "${declarationRoot}/" (toString declaration)
+              lib.strings.removePrefix "${declarationRoot}/" (toString declaration)
             );
           in
           {
             name = relative;
-            url = "https://github.com/4evy/browser/blob/master/${relative}";
+            url = "https://github.com/4evy/tweezle/blob/master/${relative}";
           }
         ) option.declarations;
       };
@@ -235,46 +242,56 @@ in
   module-classes =
     assert !wrongClass.success;
     assert (import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
-      browser.brave.behavior.show_default_browser_prompt = false;
+      chromium.brave.behavior.show_default_browser_prompt = false;
     };
     assert
       !(import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
-        browser.brave.behavior.show_default_browser_prompt = true;
+        chromium.brave.behavior.show_default_browser_prompt = true;
       };
     assert
       !(import ../../addons/brave/nix/policy.nix { inherit lib; }).hasPolicyIntent {
-        browser.brave.behavior = null;
+        chromium.brave.behavior = null;
       };
-    pkgs.runCommandLocal "browser-module-classes" { } "touch $out";
+    pkgs.runCommandLocal "tweezle-module-classes" { } "touch $out";
 
   module-home-manager =
-    assert lib.elem browserPackage home.config.home.packages;
-    assert home.config.programs.browser.configFile == homeDefaultFile;
-    assert home.config.programs.browser.configFiles.second == homeNamedFile;
-    assert home.config.programs.browser.managedPolicyFile == homeManagedPolicyFile;
-    assert !lib.elem browserPackage homeDisabled.config.home.packages;
-    assert !builtins.hasAttr "browser/browser.toml" homeDisabled.config.xdg.configFile;
-    assert homeWithoutSettings.config.programs.browser.configFile == null;
-    assert homeWithoutSettings.config.programs.browser.configFiles == { };
-    assert homeWithoutSettings.config.programs.browser.managedPolicyFile == null;
-    assert !builtins.hasAttr "browser/browser.toml" homeWithoutSettings.config.xdg.configFile;
-    assert lib.isDerivation homeWithDefaultPackage.config.programs.browser.package;
-    assert lib.elem homeWithDefaultPackage.config.programs.browser.package
+    assert lib.lists.elem tweezlePackage home.config.home.packages;
+    assert home.config.programs.tweezle.configFile == homeDefaultFile;
+    assert home.config.programs.tweezle.configFiles.second == homeNamedFile;
+    assert home.config.programs.tweezle.managedPolicyFile == homeManagedPolicyFile;
+    assert !lib.lists.elem tweezlePackage homeDisabled.config.home.packages;
+    assert !builtins.hasAttr "tweezle/tweezle.toml" homeDisabled.config.xdg.configFile;
+    assert homeWithoutSettings.config.programs.tweezle.configFile == null;
+    assert homeWithoutSettings.config.programs.tweezle.configFiles == { };
+    assert homeWithoutSettings.config.programs.tweezle.managedPolicyFile == null;
+    assert !builtins.hasAttr "tweezle/tweezle.toml" homeWithoutSettings.config.xdg.configFile;
+    assert lib.attrsets.isDerivation homeWithDefaultPackage.config.programs.tweezle.package;
+    assert lib.lists.elem homeWithDefaultPackage.config.programs.tweezle.package
       homeWithDefaultPackage.config.home.packages;
-    assert !lib.elem browserPackage homeConfigOnly.config.home.packages;
-    assert builtins.hasAttr "browser/browser.toml" homeConfigOnly.config.xdg.configFile;
-    assert home.config.programs.browser.checkConfig;
-    assert !homeConfigOnly.config.programs.browser.checkConfig;
-    assert !homeWithRelativeExtensionSettings.config.programs.browser.checkConfig;
+    assert !lib.lists.elem tweezlePackage homeConfigOnly.config.home.packages;
+    assert builtins.hasAttr "tweezle/tweezle.toml" homeConfigOnly.config.xdg.configFile;
+    assert home.config.programs.tweezle.checkConfig;
+    assert !homeConfigOnly.config.programs.tweezle.checkConfig;
+    assert !homeWithRelativeExtensionSettings.config.programs.tweezle.checkConfig;
     assert !invalidCheckConfigEvaluation.success;
     assert !invalidNameEvaluation.success;
     assert !incompleteSettingsEvaluation.success;
-    verifyGeneratedFiles "browser-home-manager-module" homeDefaultFile homeNamedFile
+    verifyGeneratedFiles "tweezle-home-manager-module" homeDefaultFile homeNamedFile
       homeManagedPolicyFile;
 
   module-options = moduleOptionsDoc.optionsJSON;
+
+  module-product-policies =
+    assert productHome.config.programs.tweezle.managedPolicyFile == null;
+    assert
+      builtins.attrNames productHome.config.programs.tweezle.managedPolicyFiles == [
+        "chrome"
+        "edge"
+        "firefox"
+      ];
+    verifyProductPolicies "tweezle-home-product-policies" productHome.config.programs.tweezle.managedPolicyFiles;
 }
-// lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux (
+// lib.attrsets.optionalAttrs pkgs.stdenv.hostPlatform.isLinux (
   let
     nixos = lib.nixosSystem {
       inherit (pkgs.stdenv.hostPlatform) system;
@@ -285,24 +302,40 @@ in
       ];
     };
 
-    defaultFile = nixos.config.environment.etc."browser/browser.toml".source;
-    namedFile = nixos.config.environment.etc."browser/second.toml".source;
-    managedPolicyFile = nixos.config.environment.etc."brave/policies/managed/browser.json".source;
+    defaultFile = nixos.config.environment.etc."tweezle/tweezle.toml".source;
+    namedFile = nixos.config.environment.etc."tweezle/second.toml".source;
+    managedPolicyFile = nixos.config.environment.etc."brave/policies/managed/tweezle.json".source;
+    productNixos = lib.nixosSystem {
+      inherit (pkgs.stdenv.hostPlatform) system;
+      modules = [
+        nixosModule
+        productConfiguration
+        { system.stateVersion = "25.11"; }
+      ];
+    };
   in
   {
     module-nixos =
-      assert lib.elem browserPackage nixos.config.environment.systemPackages;
-      assert nixos.config.programs.browser.configFile == defaultFile;
-      assert nixos.config.programs.browser.configFiles.second == namedFile;
-      assert nixos.config.environment.etc."browser/brave-managed-policy.json".source == managedPolicyFile;
-      verifyGeneratedFiles "browser-nixos-module" defaultFile namedFile managedPolicyFile;
+      assert lib.lists.elem tweezlePackage nixos.config.environment.systemPackages;
+      assert nixos.config.programs.tweezle.configFile == defaultFile;
+      assert nixos.config.programs.tweezle.configFiles.second == namedFile;
+      assert nixos.config.environment.etc."tweezle/brave-managed-policy.json".source == managedPolicyFile;
+      verifyGeneratedFiles "tweezle-nixos-module" defaultFile namedFile managedPolicyFile;
 
-    nixos-vm = import ../tests/nixos-vm.nix {
-      inherit browserPackage nixosModule pkgs;
+    nixos-vm = import ../tests/nixos.nix {
+      inherit tweezlePackage nixosModule pkgs;
     };
+
+    module-nixos-product-policies =
+      assert productNixos.config.programs.tweezle.managedPolicyFile == null;
+      verifyProductPolicies "tweezle-nixos-product-policies" {
+        chrome = productNixos.config.environment.etc."opt/chrome/policies/managed/tweezle.json".source;
+        edge = productNixos.config.environment.etc."opt/edge/policies/managed/tweezle.json".source;
+        firefox = productNixos.config.environment.etc."tweezle/managed-policy-firefox.json".source;
+      };
   }
 )
-// lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
+// lib.attrsets.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
   let
     darwin = nixDarwin.lib.darwinSystem {
       inherit pkgs;
@@ -313,15 +346,15 @@ in
       ];
     };
 
-    defaultFile = darwin.config.environment.etc."browser/browser.toml".source;
-    namedFile = darwin.config.environment.etc."browser/second.toml".source;
-    managedPolicyFile = darwin.config.environment.etc."browser/brave-managed-policy.json".source;
+    defaultFile = darwin.config.environment.etc."tweezle/tweezle.toml".source;
+    namedFile = darwin.config.environment.etc."tweezle/second.toml".source;
+    managedPolicyFile = darwin.config.environment.etc."tweezle/brave-managed-policy.json".source;
   in
   {
     module-nix-darwin =
-      assert lib.elem browserPackage darwin.config.environment.systemPackages;
-      assert darwin.config.programs.browser.configFile == defaultFile;
-      assert darwin.config.programs.browser.configFiles.second == namedFile;
-      verifyGeneratedFiles "browser-nix-darwin-module" defaultFile namedFile managedPolicyFile;
+      assert lib.lists.elem tweezlePackage darwin.config.environment.systemPackages;
+      assert darwin.config.programs.tweezle.configFile == defaultFile;
+      assert darwin.config.programs.tweezle.configFiles.second == namedFile;
+      verifyGeneratedFiles "tweezle-nix-darwin-module" defaultFile namedFile managedPolicyFile;
   }
 )

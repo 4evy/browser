@@ -1,10 +1,10 @@
 {
-  browserPackage,
+  tweezlePackage,
   pkgs,
 }:
 
 let
-  sampleExtensionSettings = pkgs.writeText "browser-extension-settings.json" (
+  sampleExtensionSettings = pkgs.writeText "tweezle-extension-settings.json" (
     builtins.toJSON {
       schema_version = 1;
       local = [
@@ -17,7 +17,7 @@ let
   );
 
   sampleSettings = {
-    browser = {
+    chromium = {
       name = "Example Browser";
       executable_name = "example-browser";
       flags_file = "example-browser-flags.conf";
@@ -106,53 +106,52 @@ let
           BrowserSignin = 0;
         };
       };
-    };
-
-    extensions = {
-      chrome_store_update_url = "https://clients2.google.com/service/update2/crx";
-      network = {
-        chrome_version = "152.0.7971.0";
-        user_agent = "Example Downloader/1.0";
-        retry_max = 0;
+      extensions = {
+        chrome_store_update_url = "https://clients2.google.com/service/update2/crx";
+        network = {
+          chrome_version = "152.0.7971.0";
+          user_agent = "Example Downloader/1.0";
+          retry_max = 0;
+        };
+        chrome_store = [
+          {
+            id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            name = "Example extension";
+          }
+        ];
+        zip = [
+          {
+            id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+            name = "Pinned example";
+            update_policy = "pinned";
+            version = "1.2.3";
+            url = "https://example.test/extension-1.2.3.zip";
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            archive_root = "extension";
+            load_unpacked = true;
+          }
+        ];
+        git = [
+          {
+            id = "cccccccccccccccccccccccccccccccc";
+            name = "Pinned Codeberg example";
+            provider = "codeberg";
+            repository = "owner/extension";
+            update_policy = "pinned";
+            ref = "v1.2.3";
+            commit = "0123456789abcdef0123456789abcdef01234567";
+            subdirectory = "dist/extension";
+            load_unpacked = true;
+          }
+        ];
       };
-      chrome_store = [
-        {
-          id = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-          name = "Example extension";
-        }
-      ];
-      zip = [
-        {
-          id = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-          name = "Pinned example";
-          update_policy = "pinned";
-          version = "1.2.3";
-          url = "https://example.test/extension-1.2.3.zip";
-          sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-          archive_root = "extension";
-          load_unpacked = true;
-        }
-      ];
-      git = [
-        {
-          id = "cccccccccccccccccccccccccccccccc";
-          name = "Pinned Codeberg example";
-          provider = "codeberg";
-          repository = "owner/extension";
-          update_policy = "pinned";
-          ref = "v1.2.3";
-          commit = "0123456789abcdef0123456789abcdef01234567";
-          subdirectory = "dist/extension";
-          load_unpacked = true;
-        }
-      ];
-    };
 
-    extension_settings.files = [ sampleExtensionSettings ];
+      extension_settings.files = [ sampleExtensionSettings ];
+    };
   };
 
   namedSettings = {
-    browser = {
+    chromium = {
       name = "Second Browser";
       executable_name = "second-browser";
     };
@@ -164,17 +163,17 @@ in
     sampleSettings
     ;
 
-  moduleConfiguration.programs.browser = {
+  moduleConfiguration.programs.tweezle = {
     enable = true;
-    package = browserPackage;
+    package = tweezlePackage;
     settings = sampleSettings;
     configurations.second = namedSettings;
   };
 
   homeBase.home = {
-    username = "browser-test";
+    username = "tweezle-test";
     homeDirectory =
-      if pkgs.stdenv.hostPlatform.isDarwin then "/Users/browser-test" else "/home/browser-test";
+      if pkgs.stdenv.hostPlatform.isDarwin then "/Users/tweezle-test" else "/home/tweezle-test";
     stateVersion = "25.11";
   };
 

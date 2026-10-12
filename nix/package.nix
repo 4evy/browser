@@ -9,7 +9,7 @@
 }:
 
 buildGo127Module (finalAttrs: {
-  pname = "browser";
+  pname = "tweezle";
   version = "0-unstable-2026-08-23";
 
   src = lib.fileset.toSource {
@@ -18,14 +18,25 @@ buildGo127Module (finalAttrs: {
       (lib.fileset.fileFilter (file: file.hasExt "go") ./..)
       ../go.mod
       ../go.sum
-      (lib.fileset.fileFilter (file: file.hasExt "json") ../addons)
+      (lib.fileset.fileFilter (file: file.hasExt "json" || file.hasExt "js") ../addons)
+      (lib.fileset.fileFilter (file: file.hasExt "json" || file.hasExt "toml") ../examples)
+      ../addons/brave/testdata
+      ../addons/chromium/testdata
+      ../addons/foundation/chrome/extensions/testdata
+      ../addons/foundation/chrome/storage/testdata
+      ../addons/helium/testdata
+      ../cli/testdata
+      ../cli/examples
+      ../desktop/testdata
+      ../internal/file/testdata
+      ../launcher/testdata
       ../testdata
     ];
   };
 
-  vendorHash = "sha256-7Lsz0IUKTes+M1XHcIV7W8rrTD24ohR3rFIkSCQopoU=";
+  vendorHash = "sha256-4GxJzWdQZz+7ZROckCoD7tRNGb1OkDrAB2mYZonIuDA=";
 
-  subPackages = [ "cmd/browser" ];
+  subPackages = [ "cmd/tweezle" ];
 
   nativeBuildInputs = [
     installShellFiles
@@ -53,15 +64,15 @@ buildGo127Module (finalAttrs: {
   ];
 
   postInstall = ''
-    installShellCompletion --cmd browser \
-      --bash <("$out/bin/browser" completion bash) \
-      --zsh <("$out/bin/browser" completion zsh) \
-      --fish <("$out/bin/browser" completion fish)
+    installShellCompletion --cmd tweezle \
+      --bash <("$out/bin/tweezle" completion bash) \
+      --zsh <("$out/bin/tweezle" completion zsh) \
+      --fish <("$out/bin/tweezle" completion fish)
   '';
 
   postFixup = ''
-    wrapProgram "$out/bin/browser" \
-      --prefix PATH : ${lib.makeBinPath [ gitMinimal ]}
+    wrapProgram "$out/bin/tweezle" \
+      --prefix PATH : ${lib.strings.makeBinPath [ gitMinimal ]}
   '';
 
   passthru = {
@@ -73,11 +84,11 @@ buildGo127Module (finalAttrs: {
   };
 
   meta = {
-    description = "Generic Chromium-family browser configurator";
-    homepage = "https://github.com/4evy/browser";
+    description = "Generic Chromium and Firefox-family browser configurator";
+    homepage = "https://github.com/4evy/tweezle";
     license = lib.licenses.mit;
-    mainProgram = "browser";
+    mainProgram = "tweezle";
     maintainers = [ lib.maintainers._4evy ];
-    platforms = lib.platforms.unix;
+    platforms = lib.systems.doubles.unix;
   };
 })

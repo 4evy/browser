@@ -1,0 +1,6 @@
+--from-config
+--from-command
+--from-linux
+--class=vm-browser
+--from-file=two words
+--runtime

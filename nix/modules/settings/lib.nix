@@ -4,7 +4,7 @@
 }:
 
 let
-  inherit (lib) mkOption types;
+  inherit (lib) types;
 in
 rec {
   inherit types;
@@ -13,16 +13,23 @@ rec {
 
   freeformSubmoduleWith =
     modules:
-    types.submodule {
-      freeformType = tomlFormat.type;
-      imports = modules;
+    types.submoduleWith {
+      shorthandOnlyDefinesConfig = true;
+      modules = [ { freeformType = tomlFormat.type; } ] ++ modules;
     };
 
-  required = type: description: mkOption { inherit type description; };
+  # Retain the source location when adapting an option set into a module
+  optionsModule =
+    path: args:
+    lib.modules.setDefaultModuleLocation (toString path) {
+      options = import path args;
+    };
+
+  required = type: description: lib.options.mkOption { inherit type description; };
 
   optional =
     type: description:
-    mkOption {
+    lib.options.mkOption {
       type = types.nullOr type;
       inherit description;
       default = null;
@@ -35,7 +42,8 @@ rec {
   optionalNonEmptyString = optional types.nonEmptyStr;
   optionalString = optional types.str;
   optionalStringList = optional (types.listOf types.str);
-  optionalSubmodule = options: optional (freeformSubmodule options);
+  optionalSubmoduleWith = modules: optional (freeformSubmoduleWith modules);
+  optionalSubmodule = options: optionalSubmoduleWith [ { inherit options; } ];
   optionalUnsigned = optional types.ints.unsigned;
 
   pathString = types.coercedTo types.path toString types.str;

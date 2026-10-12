@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Fake Browser
+Exec=fake-browser %U

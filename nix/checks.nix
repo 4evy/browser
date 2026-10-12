@@ -4,14 +4,14 @@
     { config, pkgs, ... }:
     {
       checks = pkgs.callPackages ./checks {
-        browserPackage = config.packages.browser;
-        darwinModule = self.darwinModules.browser;
+        tweezlePackage = config.packages.tweezle;
+        darwinModule = self.darwinModules.tweezle;
         formatterPackage = config.formatter;
         homeManager = inputs.home-manager;
-        homeManagerModule = self.homeModules.browser;
+        homeManagerModule = self.homeModules.tweezle;
         inherit (inputs.nixpkgs) lib;
         nixDarwin = inputs.nix-darwin;
-        nixosModule = self.nixosModules.browser;
+        nixosModule = self.nixosModules.tweezle;
         src = self;
       };
     };

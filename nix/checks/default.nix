@@ -1,5 +1,5 @@
 {
-  browserPackage,
+  tweezlePackage,
   darwinModule,
   formatterPackage,
   homeManager,
@@ -13,12 +13,12 @@
 
 let
   fixtures = import ./fixtures.nix {
-    inherit browserPackage pkgs;
+    inherit tweezlePackage pkgs;
   };
 
   moduleChecks = import ./modules.nix {
     inherit
-      browserPackage
+      tweezlePackage
       darwinModule
       fixtures
       homeManager
@@ -37,5 +37,5 @@ in
 sourceChecks
 // moduleChecks
 // {
-  version = browserPackage.passthru.tests.version;
+  version = tweezlePackage.passthru.tests.version;
 }

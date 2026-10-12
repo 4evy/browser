@@ -5,24 +5,14 @@
 }:
 
 let
-  cfg = config.programs.browser;
+  cfg = config.programs.tweezle;
 in
 {
   imports = [ ./options.nix ] ++ (import ../providers { inherit lib; }).systemModules;
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = lib.optional (cfg.package != null) cfg.package;
+  config = lib.modules.mkIf cfg.enable {
+    environment.systemPackages = lib.lists.optional (cfg.package != null) cfg.package;
 
-    environment.etc = lib.mkMerge [
-      (lib.mapAttrs' (
-        name: source:
-        lib.nameValuePair "browser/${name}.toml" {
-          inherit source;
-        }
-      ) cfg.configFiles)
-      (lib.mkIf (cfg.managedPolicyFile != null) {
-        "browser/managed-policy.json".source = cfg.managedPolicyFile;
-      })
-    ];
+    environment.etc = lib.attrsets.mapAttrs (_: source: { inherit source; }) cfg.fileSources;
   };
 }

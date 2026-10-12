@@ -1,7 +1,7 @@
 { lib, schema }:
 
 let
-  metadata = lib.importJSON ../metadata.json;
+  metadata = lib.trivial.importJSON ../metadata.json;
   choice = schema.optionalChoice metadata.choices;
 
   inherit (schema)

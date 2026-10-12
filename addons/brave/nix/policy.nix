@@ -1,30 +1,41 @@
 { lib }:
 
 let
-  metadata = lib.importJSON ../metadata.json;
+  metadata = lib.trivial.importJSON ../metadata.json;
   policyFeatures = builtins.attrNames (
-    lib.filterAttrs (_: feature: (feature.policies or [ ]) != [ ]) metadata.features
+    lib.attrsets.filterAttrs (_: feature: (feature.policies or [ ]) != [ ]) metadata.features
   );
+  presetFeatures =
+    name:
+    metadata.presets.${name}.features or [ ]
+    ++ lib.lists.concatMap presetFeatures (metadata.presets.${name}.extends or [ ]);
 in
 rec {
   hasPolicyIntent =
     settings:
     let
-      configuredBrave = settings.browser.brave or null;
-      brave = if configuredBrave == null then { } else configuredBrave;
-      configuredFeatures = brave.features or null;
-      features = if configuredFeatures == null then { } else configuredFeatures;
+      brave = lib.trivial.defaultTo { } (settings.chromium.brave or null);
+      features = lib.trivial.defaultTo { } (brave.features or null);
       configuredPolicies = brave.managed_policies or null;
-      configuredBehavior = brave.behavior or null;
-      behavior = if configuredBehavior == null then { } else configuredBehavior;
+      behavior = lib.trivial.defaultTo { } (brave.behavior or null);
+      standalone = (brave.edition or null) == "origin";
+      needsPolicy =
+        name:
+        lib.lists.elem name policyFeatures
+        && !(standalone && lib.lists.elem name metadata.editions.origin.features);
     in
-    lib.any (name: (brave.${name} or null) == true) (builtins.attrNames metadata.presets)
+    lib.lists.any (
+      name: (brave.${name} or null) == true && lib.lists.any needsPolicy (presetFeatures name)
+    ) (builtins.attrNames metadata.presets)
+    ||
+      ((brave.disable_annoyances or null) == true || (brave.origin or null) == true)
+      && (behavior.show_default_browser_prompt or null) != true
     || (configuredPolicies != null && configuredPolicies != { })
     || (behavior.show_default_browser_prompt or null) == false
-    || lib.any (name: (features.${name} or null) != null) policyFeatures;
+    || lib.lists.any (name: (features.${name} or null) != null && needsPolicy name) policyFeatures;
   isConfigured =
     cfg:
-    lib.any hasPolicyIntent (
-      lib.optional (cfg.settings != null) cfg.settings ++ builtins.attrValues cfg.configurations
+    lib.lists.any hasPolicyIntent (
+      lib.lists.optional (cfg.settings != null) cfg.settings ++ builtins.attrValues cfg.configurations
     );
 }

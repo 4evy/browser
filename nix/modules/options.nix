@@ -7,85 +7,85 @@
 }:
 
 let
-  inherit (lib)
-    attrValues
-    escapeShellArgs
-    filterAttrs
-    literalExpression
-    literalMD
-    mapAttrs
-    mapAttrsToList
-    mkDerivedConfig
-    mkEnableOption
-    mkOption
-    optionalAttrs
-    types
-    ;
+  inherit (lib) types;
 
-  cfg = config.programs.browser;
+  cfg = config.programs.tweezle;
   tomlFormat = pkgs.formats.toml { };
-  browserLib = import ../lib.nix { inherit lib; };
+  tweezleLib = import ../lib.nix { inherit lib; };
   providers = import ../providers { inherit lib; };
   settingsType = import ./settings.nix {
     inherit lib tomlFormat;
   };
-  packageSet.browser = pkgs.browser or (pkgs.callPackage ../package.nix { });
+  packageSet.tweezle = pkgs.tweezle or (pkgs.callPackage ../package.nix { });
 
   effectiveConfigurations =
-    optionalAttrs (cfg.settings != null) {
-      browser = cfg.settings;
+    lib.attrsets.optionalAttrs (cfg.settings != null) {
+      tweezle = cfg.settings;
     }
     // cfg.configurations;
 
-  uncheckedGeneratedFiles = mapAttrs (
+  uncheckedGeneratedFiles = lib.attrsets.mapAttrs (
     name: settings:
-    browserLib.generateConfig {
+    tweezleLib.generateConfig {
       inherit pkgs settings;
       name = "${name}.toml";
     }
   ) effectiveConfigurations;
 
-  configurationCanBeChecked =
-    settings:
-    let
-      extensionSettings = settings.extension_settings or null;
-      files = if extensionSettings == null then [ ] else extensionSettings.files or [ ];
-    in
-    lib.all types.pathInStore.check files;
-
-  generatedFiles = mapAttrs (
+  generatedFiles = lib.attrsets.mapAttrs (
     name: source:
     if cfg.checkConfig then
       pkgs.runCommandLocal "${name}.toml" { } ''
-        ${lib.getExe cfg.package} config validate ${source}
-        cp ${source} "$out"
+        ${lib.strings.escapeShellArg (lib.meta.getExe cfg.package)} config validate ${lib.strings.escapeShellArg source}
+        cp ${lib.strings.escapeShellArg source} "$out"
       ''
     else
       source
   ) uncheckedGeneratedFiles;
 
-  policyConfigurations = filterAttrs (
+  policyConfigurations = lib.attrsets.filterAttrs (
     _: settings: providers.hasPolicyIntent settings
   ) effectiveConfigurations;
 
-  managedPolicyFile =
-    if policyConfigurations == { } then
-      null
+  policyGroups = lib.lists.groupBy (
+    name:
+    let
+      settings = policyConfigurations.${name};
+      chromium = lib.trivial.defaultTo { } (settings.chromium or null);
+    in
+    if (settings.firefox or null) != null then
+      "firefox"
+    else if (chromium.chrome or null) != null then
+      "chrome"
+    else if (chromium.edge or null) != null then
+      "edge"
     else
-      pkgs.runCommandLocal "browser-managed-policy.json" { } ''
-        ${lib.getExe packageSet.browser} policy render \
-          ${escapeShellArgs (mapAttrsToList (name: _: generatedFiles.${name}) policyConfigurations)} \
-          --output "$out"
-      '';
+      "chromium"
+  ) (builtins.attrNames policyConfigurations);
+
+  managedPolicyFiles = lib.attrsets.mapAttrs (
+    engine: names:
+    pkgs.runCommandLocal "tweezle-${engine}-managed-policy.json" { } ''
+      ${lib.strings.escapeShellArg (lib.meta.getExe packageSet.tweezle)} policy render \
+        ${lib.strings.escapeShellArgs (map (name: generatedFiles.${name}) names)} \
+        --output "$out"
+    ''
+  ) policyGroups;
+
+  managedPolicyFile =
+    if builtins.length (lib.attrsets.attrValues managedPolicyFiles) == 1 then
+      builtins.head (lib.attrsets.attrValues managedPolicyFiles)
+    else
+      null;
 
   validConfigurationName =
-    name: name != "browser" && builtins.match "[A-Za-z0-9][A-Za-z0-9._-]*" name != null;
+    name: name != "tweezle" && builtins.match "[A-Za-z0-9][A-Za-z0-9._-]*" name != null;
 in
 {
-  options.programs.browser = {
-    enable = mkEnableOption "the browser configurator";
+  options.programs.tweezle = {
+    enable = lib.options.mkEnableOption "Tweezle, the browser configurator";
 
-    package = lib.mkPackageOption packageSet "browser" {
+    package = lib.options.mkPackageOption packageSet "tweezle" {
       nullable = true;
       pkgsText = "pkgs";
       extraDescription = ''
@@ -94,39 +94,61 @@ in
       '';
     };
 
-    checkConfig = mkOption {
+    activate = lib.options.mkOption {
       type = types.bool;
-      default =
-        cfg.package != null && lib.all configurationCanBeChecked (attrValues effectiveConfigurations);
-      defaultText = literalMD ''
-        `true` when {option}`programs.browser.package` isn't `null` and every
-        extension-settings file is in the Nix store
-      '';
+      default = cfg.package != null;
+      defaultText = lib.options.literalExpression "config.programs.tweezle.package != null";
       description = ''
-        Whether to validate each generated TOML file with the configured
-        `browser` package. This catches invalid cross-field settings while
-        building the configuration.
+        Apply the default and every named configuration during activation,
+        creating launchers and updating configured browser profiles. Close
+        the affected browsers before switching so they cannot overwrite
+        profile changes.
 
-        Validation defaults off when an extension-settings file is outside the
-        Nix store because that file isn't available in the build sandbox.
+        Home Manager applies configurations after linking the generation and
+        respects dry runs. NixOS applies them through user activation, on
+        switches for running user sessions and when other users next log in.
+        nix-darwin applies them as `system.primaryUser` during the switch.
+
+        Set this to `false` to manage files and apply them manually. A non-null
+        {option}`programs.tweezle.package` is required for activation.
       '';
     };
 
-    settings = mkOption {
+    checkConfig = lib.options.mkOption {
+      type = types.bool;
+      default =
+        cfg.package != null
+        && lib.lists.all providers.configurationCanBeChecked (
+          lib.attrsets.attrValues effectiveConfigurations
+        );
+      defaultText = lib.options.literalMD ''
+        `true` when {option}`programs.tweezle.package` isn't `null` and every
+        extension-settings document, runtime script, and JSON input is in
+        the Nix store
+      '';
+      description = ''
+        Whether to validate each generated TOML file with the configured
+        `tweezle` package. This catches invalid cross-field settings while
+        building the configuration.
+
+        Validation defaults off when an extension-settings document, runtime
+        script, or JSON input is outside the Nix store because that file isn't
+        available in the build sandbox.
+      '';
+    };
+
+    settings = lib.options.mkOption {
       type = types.nullOr settingsType;
       default = null;
-      example = literalExpression ''
+      example = lib.options.literalExpression ''
         {
-          browser = {
+          chromium = {
             name = "Chromium";
-            executable_name = "chromium";
-            flags_file = "chromium-flags.conf";
+            executable_name = "chromium-configured";
 
             linux = {
-              desktop_id = "chromium";
+              app_dir = "''${pkgs.chromium}/bin";
               launcher_name = "chromium";
-              desktop_name = "chromium.desktop";
-              desktop_exec = "chromium";
             };
 
             paths.linux = {
@@ -139,65 +161,104 @@ in
         }
       '';
       description = ''
-        Default configuration written to `browser/browser.toml`. When this is
+        Default configuration written to `tweezle/tweezle.toml`. When this is
         `null`, the module does not create a default configuration file.
+        The configuration is applied during activation when
+        {option}`programs.tweezle.activate` is enabled.
 
-        Known settings are typed and documented. Additional TOML-compatible
-        keys are accepted for forward compatibility.
+        Browser-family settings are grouped under `chromium` and `firefox`.
+        Choose one browser family for this default configuration. Use
+        {option}`programs.tweezle.configurations` for additional setups.
+        Chromium includes its extension catalog, extension storage, and
+        uBlock settings; the generated file uses the existing TOML tables.
+        Known settings are typed and documented. Additional TOML keys are
+        accepted within each browser family.
       '';
     };
 
-    configurations = mkOption {
+    configurations = lib.options.mkOption {
       type = types.attrsWith {
         elemType = settingsType;
         placeholder = "configuration";
       };
       default = { };
-      example = literalExpression ''
+      example = lib.options.literalExpression ''
         {
-          chromium.browser = {
+          personal.chromium = {
             name = "Chromium";
             executable_name = "chromium";
+            linux = {
+              app_dir = "''${pkgs.chromium}/bin";
+              launcher_name = "chromium";
+            };
           };
 
-          brave.browser = {
-            name = "Brave";
-            executable_name = "brave";
+          work.firefox = {
+            variant = "firefox";
+            paths.linux.profile_dir = "''${config_home}/mozilla/firefox/REPLACE.default-release";
+            preferences."browser.startup.page" = 3;
           };
         }
       '';
       description = ''
-        Additional named browser configurations. A configuration named `NAME`
-        is written to `browser/NAME.toml` and is available as
-        {option}`programs.browser.configFiles.NAME`. The name `browser` is
-        reserved for the default {option}`programs.browser.settings` file.
+        Optional named browser configurations, separate from the default
+        {option}`programs.tweezle.settings`. Each uses the same `chromium`
+        or `firefox` settings structure. A configuration named `NAME`
+        is written to `tweezle/NAME.toml` and is available as
+        {option}`programs.tweezle.configFiles.NAME`. The name `tweezle` is
+        reserved for the default {option}`programs.tweezle.settings` file.
+        Every named configuration is applied during activation when
+        {option}`programs.tweezle.activate` is enabled.
       '';
     };
 
-    configFile = mkOption {
+    configFile = lib.options.mkOption {
       type = types.nullOr types.pathInStore;
       readOnly = true;
       description = ''
-        Generated default `browser.toml`, or `null` when `settings` is not
+        Generated default `tweezle.toml`, or `null` when `settings` is not
         managed.
       '';
     };
 
-    configFiles = mkOption {
+    configFiles = lib.options.mkOption {
       type = types.attrsOf types.pathInStore;
       readOnly = true;
       description = ''
         Generated configuration files keyed by basename. The default
-        configuration, when present, is keyed as `browser`.
+        configuration, when present, is keyed as `tweezle`.
       '';
     };
 
-    managedPolicyFile = mkOption {
+    managedPolicyFile = lib.options.mkOption {
       type = types.nullOr types.pathInStore;
       readOnly = true;
       description = ''
-        Generated managed-policy JSON from registered addon providers,
-        or `null` when no managed policy is configured.
+        Generated managed-policy JSON when exactly one policy store has
+        policy intent, or `null` otherwise. Use managedPolicyFiles when
+        managing multiple browser products or engines.
+      '';
+    };
+
+    managedPolicyFiles = lib.options.mkOption {
+      type = types.attrsOf types.pathInStore;
+      readOnly = true;
+      description = ''
+        Generated managed-policy JSON keyed by policy store: `chrome`, `edge`,
+        `chromium` for other Chromium providers, and `firefox`. Different
+        products are rendered separately even when they share JSON syntax.
+        Conflicts within a store are rejected.
+      '';
+    };
+
+    fileSources = lib.options.mkOption {
+      type = types.attrsOf types.pathInStore;
+      default = { };
+      internal = true;
+      description = ''
+        Generated files keyed by their path relative to the configuration
+        directory. Platform modules install these under the XDG configuration
+        directory or `/etc`; providers may add compatibility paths.
       '';
     };
   };
@@ -205,27 +266,49 @@ in
   config = {
     assertions = [
       {
+        assertion = cfg.activate -> cfg.package != null;
+        message = ''
+          `programs.tweezle.activate` requires a non-null
+          `programs.tweezle.package`.
+        '';
+      }
+      {
         assertion = cfg.checkConfig -> cfg.package != null;
         message = ''
-          `programs.browser.checkConfig` requires a non-null
-          `programs.browser.package`.
+          `programs.tweezle.checkConfig` requires a non-null
+          `programs.tweezle.package`.
         '';
       }
     ]
-    ++ mapAttrsToList (name: _: {
+    ++ lib.attrsets.mapAttrsToList (name: _: {
       assertion = validConfigurationName name;
       message = ''
-        `programs.browser.configurations` has invalid name
+        `programs.tweezle.configurations` has invalid name
         ${builtins.toJSON name}. Names must contain only letters, numbers,
         dots, underscores, and hyphens, must begin with a letter or number,
-        and may not be "browser".
+        and may not be "tweezle".
       '';
     }) cfg.configurations;
 
-    programs.browser = {
-      configFile = mkDerivedConfig options.programs.browser.configFiles (files: files.browser or null);
+    programs.tweezle = {
+      configFile = lib.modules.mkDerivedConfig options.programs.tweezle.configFiles (
+        files: files.tweezle or null
+      );
       configFiles = generatedFiles;
-      inherit managedPolicyFile;
+      inherit managedPolicyFile managedPolicyFiles;
+      fileSources = lib.modules.mkIf cfg.enable (
+        lib.modules.mkMerge [
+          (lib.attrsets.mapAttrs' (
+            name: source: lib.attrsets.nameValuePair "tweezle/${name}.toml" source
+          ) cfg.configFiles)
+          (lib.attrsets.mapAttrs' (
+            engine: source: lib.attrsets.nameValuePair "tweezle/managed-policy-${engine}.json" source
+          ) cfg.managedPolicyFiles)
+          (lib.modules.mkIf (cfg.managedPolicyFile != null) {
+            "tweezle/managed-policy.json" = cfg.managedPolicyFile;
+          })
+        ]
+      );
     };
   };
 }

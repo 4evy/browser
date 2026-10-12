@@ -1,7 +1,7 @@
 { lib, schema }:
 
 let
-  metadata = lib.importJSON ../metadata.json;
+  metadata = lib.trivial.importJSON ../metadata.json;
   choice = schema.optionalChoice metadata.choices;
 
   inherit (schema)
@@ -21,6 +21,22 @@ let
   };
 in
 {
+  edition =
+    optional
+      (types.enum [
+        "auto"
+        "standard"
+        "origin"
+        "origin_upgrade"
+      ])
+      ''
+        Installed Brave edition. Auto detects standalone Origin paths and activated
+        upgrades from the configured profile's Local State. Use origin for standalone
+        Origin or origin_upgrade for an upgraded installation when generating policies
+        away from the target machine. Preset opt-outs already supplied by Origin are
+        omitted. The origin boolean below remains an emulation preset for regular Brave.
+      '';
+
   origin = optionalBool ''
     Reproduce Brave Origin's disabled-service policies and branded UI defaults
     on regular Brave without changing purchase, SKU, or branding state.
@@ -30,6 +46,21 @@ in
   disable_web3 = optionalBool ''
     Disable Brave Wallet, Rewards/BAT, and decentralized DNS.
     Explicit `features` values override this preset.
+  '';
+
+  disable_ai = optionalBool ''
+    Disable Leo and local AI without changing crypto or other services.
+    Explicit ai_chat and local_ai feature choices override this preset.
+  '';
+
+  disable_telemetry = optionalBool ''
+    Disable Web Discovery, P3A, usage and crash reporting, and crash-report prompts.
+    Explicit feature choices override this preset.
+  '';
+
+  disable_promotions = optionalBool ''
+    Disable notification ads, sponsored content, and Brave Search promotions.
+    Explicit feature choices override this preset.
   '';
 
   disable_annoyances = optionalBool ''
@@ -116,6 +147,7 @@ in
         web_discovery = optionalBool "Enable Brave Web Discovery contributions.";
         p3a = optionalBool "Enable Brave Privacy-Preserving Product Analytics.";
         stats = optionalBool "Enable Brave anonymous usage/statistics pings.";
+        crash_reporting = optionalBool "Enable metrics and crash reporting independently of usage pings.";
         email_aliases = optionalBool "Enable Brave Email Aliases and autofill suggestions.";
         search_promotions = optionalBool "Enable Brave Search conversion prompts.";
         new_tab_widgets = optionalBool ''
@@ -158,6 +190,6 @@ in
 
   managed_policies = optional (types.attrsOf types.toml) ''
     Arbitrary Chromium enterprise policies applied after generated Brave
-    feature policies. Render these with `browser policy render`.
+    feature policies. Render these with `tweezle policy render`.
   '';
 }
