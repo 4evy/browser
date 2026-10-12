@@ -1,0 +1,232 @@
+{
+  "audited_against": "Official Chrome Enterprise policy_templates_en-US.json, SHA-256 9fd8dadfe3182e73791aca630884465945b1ef26bf803956c539dc60364ffaf1 on 2026-10-09",
+  "entries": {
+    "signin": {
+      "policy": "BrowserSignin",
+      "description": "Control browser sign-in; forced sign-in needs Chrome 145 or newer on Linux.",
+      "source": "https://chromeenterprise.google/policies/#BrowserSignin",
+      "supported_on": ["chrome.*:70-", "android:70-", "ios:90-"],
+      "type": "choice",
+      "choices": {
+        "disabled": 0,
+        "enabled": 1,
+        "forced": 2
+      }
+    },
+    "sync": {
+      "policy": "SyncDisabled",
+      "description": "Allow users to enable Google Sync. False disables synchronization.",
+      "source": "https://chromeenterprise.google/policies/#SyncDisabled",
+      "supported_on": ["chrome.*:8-", "chrome_os:11-", "ios:96-"],
+      "type": "bool",
+      "inverse": true
+    },
+    "metrics_reporting": {
+      "policy": "MetricsReportingEnabled",
+      "description": "Control reporting of usage and crash data to Google.",
+      "source": "https://chromeenterprise.google/policies/#MetricsReportingEnabled",
+      "supported_on": ["chrome.*:8-", "ios:88-", "android:110-"],
+      "type": "bool"
+    },
+    "password_manager": {
+      "policy": "PasswordManagerEnabled",
+      "description": "Allow saving new passwords; existing saved passwords remain accessible.",
+      "source": "https://chromeenterprise.google/policies/#PasswordManagerEnabled",
+      "supported_on": [
+        "chrome.*:8-",
+        "chrome_os:11-",
+        "android:30-",
+        "ios:88-"
+      ],
+      "type": "bool"
+    },
+    "search_suggestions": {
+      "policy": "SearchSuggestEnabled",
+      "description": "Allow remote search suggestions in the address bar.",
+      "source": "https://chromeenterprise.google/policies/#SearchSuggestEnabled",
+      "supported_on": [
+        "chrome.*:8-",
+        "chrome_os:11-",
+        "android:30-",
+        "ios:88-"
+      ],
+      "type": "bool"
+    },
+    "shopping_list": {
+      "policy": "ShoppingListEnabled",
+      "description": "Allow Chrome shopping lists and price tracking.",
+      "source": "https://chromeenterprise.google/policies/#ShoppingListEnabled",
+      "supported_on": [
+        "chrome.*:107-",
+        "chrome_os:107-",
+        "android:107-",
+        "ios:112-"
+      ],
+      "type": "bool"
+    },
+    "default_browser_check": {
+      "policy": "DefaultBrowserSettingEnabled",
+      "description": "Control startup default-browser checks; true may register Chrome as default.",
+      "source": "https://chromeenterprise.google/policies/#DefaultBrowserSettingEnabled",
+      "supported_on": ["chrome.win7:11-", "chrome.mac:11-", "chrome.linux:11-"],
+      "type": "bool"
+    },
+    "memory_saver": {
+      "policy": "HighEfficiencyModeEnabled",
+      "description": "Discard inactive background tabs to reclaim memory.",
+      "source": "https://chromeenterprise.google/policies/#HighEfficiencyModeEnabled",
+      "supported_on": ["chrome.*:108-", "chrome_os:108-"],
+      "type": "bool"
+    },
+    "battery_saver": {
+      "policy": "BatterySaverModeAvailability",
+      "description": "Control battery saver when battery power is low.",
+      "source": "https://chromeenterprise.google/policies/#BatterySaverModeAvailability",
+      "supported_on": ["chrome.*:108-", "chrome_os:108-"],
+      "type": "choice",
+      "choices": {
+        "disabled": 0,
+        "below_threshold": 1
+      }
+    },
+    "incognito": {
+      "policy": "IncognitoModeAvailability",
+      "description": "Allow, prohibit, or require Incognito browsing.",
+      "source": "https://chromeenterprise.google/policies/#IncognitoModeAvailability",
+      "supported_on": [
+        "chrome.*:14-",
+        "chrome_os:14-",
+        "android:30-",
+        "ios:90-"
+      ],
+      "type": "choice",
+      "choices": {
+        "enabled": 0,
+        "disabled": 1,
+        "forced": 2
+      }
+    },
+    "safe_browsing": {
+      "policy": "SafeBrowsingProtectionLevel",
+      "description": "Choose Chrome Safe Browsing protection.",
+      "source": "https://chromeenterprise.google/policies/#SafeBrowsingProtectionLevel",
+      "supported_on": [
+        "chrome.*:83-",
+        "chrome_os:83-",
+        "android:87-",
+        "ios:88-"
+      ],
+      "type": "choice",
+      "choices": {
+        "disabled": 0,
+        "standard": 1,
+        "enhanced": 2
+      }
+    },
+    "https_only": {
+      "policy": "HttpsOnlyMode",
+      "description": "Control HTTPS-Only Mode; force_enabled is strict and force_balanced_enabled is balanced.",
+      "source": "https://chromeenterprise.google/policies/#HttpsOnlyMode",
+      "supported_on": [
+        "chrome.*:94-",
+        "chrome_os:94-",
+        "android:94-",
+        "fuchsia:112-"
+      ],
+      "type": "string",
+      "allowed_strings": [
+        "allowed",
+        "disallowed",
+        "force_enabled",
+        "force_balanced_enabled"
+      ]
+    },
+    "ai.help_me_write": {
+      "policy": "HelpMeWriteSettings",
+      "description": "Control the AI writing assistant and use of its content to improve models.",
+      "source": "https://chromeenterprise.google/policies/#HelpMeWriteSettings",
+      "supported_on": ["chrome.*:121-", "chrome_os:121-"],
+      "type": "choice",
+      "choices": {
+        "allowed": 0,
+        "allowed_without_logging": 1,
+        "disabled": 2
+      }
+    },
+    "ai.history_search": {
+      "policy": "HistorySearchSettings",
+      "description": "Control AI history search and use of its content to improve models.",
+      "source": "https://chromeenterprise.google/policies/#HistorySearchSettings",
+      "supported_on": ["chrome.*:128-", "chrome_os:128-"],
+      "type": "choice",
+      "choices": {
+        "allowed": 0,
+        "allowed_without_logging": 1,
+        "disabled": 2
+      }
+    },
+    "ai.create_themes": {
+      "policy": "CreateThemesSettings",
+      "description": "Control AI theme creation and use of its content to improve models.",
+      "source": "https://chromeenterprise.google/policies/#CreateThemesSettings",
+      "supported_on": ["chrome.*:121-", "chrome_os:121-"],
+      "type": "choice",
+      "choices": {
+        "allowed": 0,
+        "allowed_without_logging": 1,
+        "disabled": 2
+      }
+    },
+    "ai.gemini": {
+      "policy": "GeminiSettings",
+      "description": "Control Gemini integration; documented for macOS, not Linux.",
+      "source": "https://chromeenterprise.google/policies/#GeminiSettings",
+      "supported_on": [
+        "chrome.win:137-",
+        "chrome.mac:137-",
+        "ios:139-",
+        "chrome_os:144-",
+        "android:149-"
+      ],
+      "type": "choice",
+      "choices": {
+        "allowed": 0,
+        "disabled": 1
+      }
+    },
+    "ai.mode": {
+      "policy": "AIModeSettings",
+      "type": "choice",
+      "description": "Control AI Mode in the address bar and new tab search box; requires Google as the default search engine.",
+      "source": "https://chromeenterprise.google/policies/#AIModeSettings",
+      "supported_on": [
+        "android:138-",
+        "ios:138-",
+        "chrome.*:138-",
+        "chrome_os:138-"
+      ],
+      "choices": {
+        "allowed": 0,
+        "disabled": 1
+      }
+    },
+    "ai.local_model": {
+      "policy": "GenAILocalFoundationalModelSettings",
+      "type": "choice",
+      "description": "Control local foundational AI model downloads; disabled also deletes an existing downloaded model.",
+      "source": "https://chromeenterprise.google/policies/#GenAILocalFoundationalModelSettings",
+      "supported_on": ["android:142-", "chrome.*:124-", "chrome_os:149-"],
+      "choices": {
+        "allowed": 0,
+        "disabled": 1
+      }
+    },
+    "ai.built_in_apis": {
+      "policy": "BuiltInAIAPIsEnabled",
+      "type": "bool",
+      "description": "Allow websites to use Chrome built-in AI APIs.",
+      "source": "https://chromeenterprise.google/policies/#BuiltInAIAPIsEnabled",
+      "supported_on": ["chrome.*:137-", "chrome_os:137-"]
+    }
+  }
+}

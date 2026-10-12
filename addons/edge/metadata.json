@@ -1,0 +1,188 @@
+{
+  "audited_against": "Official Microsoft Learn Edge policy reference on 2026-10-09",
+  "entries": {
+    "signin": {
+      "policy": "BrowserSignin",
+      "description": "Control Microsoft Edge browser sign-in.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/browsersignin",
+      "supported_on": [
+        "Windows: \u2265 77 macOS: \u2265 77 Android: \u2265 70 iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "choice",
+      "choices": {
+        "disabled": 0,
+        "enabled": 1,
+        "forced": 2
+      }
+    },
+    "sync": {
+      "policy": "SyncDisabled",
+      "description": "Allow users to enable Microsoft Sync. False disables synchronization.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/syncdisabled",
+      "supported_on": [
+        "Windows: \u2265 77 macOS: \u2265 77 Android: \u2265 142 iOS: \u2265 142"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool",
+      "inverse": true
+    },
+    "password_manager": {
+      "policy": "PasswordManagerEnabled",
+      "description": "Allow saving new passwords; existing saved passwords remain usable.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/passwordmanagerenabled",
+      "supported_on": [
+        "Windows: \u2265 77 macOS: \u2265 77 Android: \u2265 30 iOS: \u2265 84"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "search_suggestions": {
+      "policy": "SearchSuggestEnabled",
+      "description": "Allow remote address-bar search suggestions; local suggestions remain available.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/searchsuggestenabled",
+      "supported_on": [
+        "Windows: \u2265 77 macOS: \u2265 77 Android: \u2265 140 iOS: \u2265 84"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "default_browser_check": {
+      "policy": "DefaultBrowserSettingEnabled",
+      "description": "Control startup default-browser checks; true may register Edge as default.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/defaultbrowsersettingenabled",
+      "supported_on": [
+        "Windows 7: \u2265 77 macOS: \u2265 77 Android: \u2265 124 iOS: \u2265 124"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "sidebar": {
+      "policy": "HubsSidebarEnabled",
+      "description": "Show the sidebar. This does not control the Copilot toolbar icon in Edge 141 and newer.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/hubssidebarenabled",
+      "supported_on": [
+        "Windows: \u2265 99 macOS: \u2265 99 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "shopping": {
+      "policy": "EdgeShoppingAssistantEnabled",
+      "description": "Allow shopping assistance such as coupons, price comparisons, and checkout offers.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/edgeshoppingassistantenabled",
+      "supported_on": [
+        "Windows: \u2265 87 macOS: \u2265 87 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "rewards": {
+      "policy": "ShowMicrosoftRewards",
+      "description": "Allow Microsoft Rewards experiences and notifications, subject to account eligibility.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/showmicrosoftrewards",
+      "supported_on": [
+        "Windows: \u2265 88 macOS: \u2265 88 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "new_tab_content": {
+      "policy": "NewTabPageContentEnabled",
+      "description": "Show Microsoft content on the new tab page; enterprise page layouts may differ.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/newtabpagecontentenabled",
+      "supported_on": [
+        "Windows: \u2265 91 macOS: \u2265 91 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "vertical_tabs_allowed": {
+      "policy": "VerticalTabsAllowed",
+      "description": "Allow switching to vertical tabs. True does not activate vertical tabs.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/verticaltabsallowed",
+      "supported_on": [
+        "Windows: \u2265 88 macOS: \u2265 88 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "sleeping_tabs": {
+      "policy": "SleepingTabsEnabled",
+      "description": "Put idle background tabs to sleep; Edge may still freeze tabs under memory pressure when false.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/sleepingtabsenabled",
+      "supported_on": [
+        "Windows: \u2265 88 macOS: \u2265 88 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "sleeping_tabs_timeout": {
+      "policy": "SleepingTabsTimeout",
+      "description": "Background inactivity timeout in seconds; requires sleeping tabs to be enabled.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/sleepingtabstimeout",
+      "supported_on": [
+        "Windows: \u2265 88 macOS: \u2265 88 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "int",
+      "allowed_ints": [30, 300, 900, 1800, 3600, 7200, 10800, 21600, 43200]
+    },
+    "tracking_prevention": {
+      "policy": "TrackingPrevention",
+      "description": "Choose tracking prevention; strict can break parts of websites.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/trackingprevention",
+      "supported_on": [
+        "Windows: \u2265 78 macOS: \u2265 78 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "choice",
+      "choices": {
+        "off": 0,
+        "basic": 1,
+        "balanced": 2,
+        "strict": 3
+      }
+    },
+    "personalization_reporting": {
+      "policy": "PersonalizationReportingEnabled",
+      "description": "Allow browsing data to personalize Microsoft services; true allows the user to choose.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/personalizationreportingenabled",
+      "supported_on": [
+        "Windows: \u2265 80 macOS: \u2265 80 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "feedback": {
+      "policy": "UserFeedbackAllowed",
+      "description": "Allow users to submit feedback and surveys to Microsoft.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/userfeedbackallowed",
+      "supported_on": [
+        "Windows: \u2265 77 macOS: \u2265 77 Android: \u2265 154 iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "copilot.toolbar_icon": {
+      "policy": "Microsoft365CopilotChatIconEnabled",
+      "description": "Show the Microsoft 365 Copilot Chat toolbar icon for Entra ID business profiles.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/microsoft365copilotchaticonenabled",
+      "supported_on": [
+        "Windows: \u2265 139 macOS: \u2265 139 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    },
+    "copilot.page_context": {
+      "policy": "CopilotPageContext",
+      "description": "Allow Copilot page access for Entra ID profiles without enterprise data protection; does not control personal accounts.",
+      "source": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/copilotpagecontext",
+      "supported_on": [
+        "Windows: \u2265 124 macOS: \u2265 124 Android: Not supported iOS: Not supported"
+      ],
+      "account_scope": "See the policy reference for profile/account restrictions; Linux support is not listed in Microsoft version tables.",
+      "type": "bool"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+# Vivaldi 8.2 starter: vertical tabs, tab stacks, and floating panels
+#
+# Copy this file to tweezle.toml and adapt the application and profile paths
+# Open Vivaldi once; find its Profile Path at vivaldi://version
+# These settings are example choices; omitted values leave preferences alone
+# Shared cookie, preference, extension, and storage recipes are in tweezle.toml
+# in this directory; copy only the recipes you need into your chosen file
+#
+# Close Vivaldi, then run:
+#   tweezle config validate tweezle.toml
+#   tweezle apply tweezle.toml
+# Launch through vivaldi-configured to use the configured flags and extensions
+
+[browser]
+name = "Vivaldi"
+executable_name = "vivaldi-configured"
+flags = ["--no-first-run", "--no-default-browser-check"]
+
+[browser.linux]
+# Official Linux packages install the application bundle under /opt/vivaldi
+# For Nix, use "${pkgs.vivaldi}/opt/vivaldi" in your Nix configuration
+app_dir = "/opt/vivaldi"
+launcher_name = "vivaldi"
+# Optional desktop integration; adapt filenames to your installed bundle
+# desktop_name = "vivaldi.desktop"
+# desktop_exec = "vivaldi-stable"
+# desktop_id = "vivaldi-stable"
+# icon_source = "product_logo_256.png"
+# icon_name = "vivaldi.png"
+
+[browser.paths.linux]
+# For a non-default profile, also add its --profile-directory to browser.flags
+profile_dir = "${config_home}/vivaldi/Default"
+external_extension_dirs = ["${config_home}/vivaldi/External Extensions"]
+
+[browser.macos]
+app_dir = "/Applications/Vivaldi.app"
+launcher_path = "Contents/MacOS/Vivaldi"
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Vivaldi/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Vivaldi/External Extensions",
+]
+
+[browser.vivaldi.tabs]
+position = "left" # top | left | right | bottom
+stacking = "two_level" # off | compact | two_level | accordion
+new_tab_position = "after_active" # after_related | after_active | last | stack_related
+activate_on_close = "recent" # recent | left | right
+cycle_by_recent_order = true
+# open_new_in_background = false
+# defer_loading_after_restore = true
+# show_close_button = true
+# show_thumbnails = false
+# show_tooltips = true
+# visible = true
+
+[browser.vivaldi.panels]
+floating = true
+# position = "left" # left | right
+# auto_close = true
+# show_toggle = false
+
+[browser.vivaldi.privacy]
+block_pings = true
+# block_abusive_ads = true
+
+# Optional appearance controls; uncomment the table header with your choices
+# [browser.vivaldi.appearance]
+# native_window = false
+# status_bar = "overlay" # on | off | overlay
+# force_dark_theme = false
+
+# [browser.vivaldi.address_bar]
+# position = "top" # top | bottom
+# visible = true
+# show_full_url = true
+# show_progress = true
+# search_suggestions = false
+# direct_match = false
+
+# [browser.vivaldi.behavior]
+# check_default_browser = false
+# mouse_gestures = true
+# rocker_gestures = true
+# scroll_to_switch_tabs = false
+# confirm_window_close = false
+
+# [browser.vivaldi]
+# completed_onboarding = true
+
+# Vivaldi 8.2 restored Manifest V2 support, including uBlock Origin
+# For older builds or custom builds, set browser.supports_manifest_v2 explicitly
+# uBlock settings and installation recipes are in ublock/ublock.toml

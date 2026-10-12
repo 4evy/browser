@@ -1,0 +1,159 @@
+{
+  "audited_against": "Vivaldi 8.2.4133.84",
+  "profile": {
+    "completed_onboarding": "vivaldi.startup.has_seen_welcome_page",
+    "tabs.position": "vivaldi.tabs.bar.position",
+    "tabs.stacking": "vivaldi.tabs.stacking.mode",
+    "tabs.new_tab_position": "vivaldi.tabs.new_placement",
+    "tabs.activate_on_close": "vivaldi.tabs.activation.on_close",
+    "tabs.cycle_by_recent_order": "vivaldi.tabs.cycle_by_recent_order",
+    "tabs.open_new_in_background": "vivaldi.tabs.open_new_in_background",
+    "tabs.defer_loading_after_restore": "vivaldi.tabs.defer_loading_after_restore",
+    "tabs.show_close_button": "vivaldi.tabs.show_close_button",
+    "tabs.show_thumbnails": "vivaldi.tabs.thumbnails",
+    "tabs.show_tooltips": "vivaldi.tabs.tooltip",
+    "tabs.visible": "vivaldi.tabs.visible",
+    "appearance.native_window": "vivaldi.windows.use_native_decoration",
+    "appearance.status_bar": "vivaldi.status_bar.display",
+    "appearance.force_dark_theme": "vivaldi.appearance.force_dark_mode_theme",
+    "panels.position": "vivaldi.panels.position",
+    "panels.floating": "vivaldi.panels.as_overlay.enabled",
+    "panels.auto_close": "vivaldi.panels.as_overlay.auto_close",
+    "panels.show_toggle": "vivaldi.panels.show_toggle",
+    "address_bar.position": "vivaldi.address_bar.position",
+    "address_bar.visible": "vivaldi.address_bar.visible",
+    "address_bar.show_full_url": "vivaldi.address_bar.show_full_url",
+    "address_bar.show_progress": "vivaldi.address_bar.show_progress",
+    "address_bar.search_suggestions": "vivaldi.address_bar.search.suggest_enabled",
+    "address_bar.direct_match": "vivaldi.address_bar.search.direct_match_enabled",
+    "privacy.block_pings": "vivaldi.privacy.block_pings.enabled",
+    "privacy.block_abusive_ads": "vivaldi.privacy.adverse_ad_block.enabled",
+    "behavior.check_default_browser": "vivaldi.startup.check_is_default",
+    "behavior.mouse_gestures": "vivaldi.mouse_gestures.enabled",
+    "behavior.rocker_gestures": "vivaldi.mouse_gestures.rocker_gestures.enabled",
+    "behavior.scroll_to_switch_tabs": "vivaldi.mouse_wheel.tab_switch",
+    "behavior.confirm_window_close": "vivaldi.windows.show_window_close_confirmation_dialog"
+  },
+  "local_state": {},
+  "choices": {
+    "tabs.position": {
+      "options": [
+        {
+          "name": "top",
+          "value": 0
+        },
+        {
+          "name": "left",
+          "value": 1
+        },
+        {
+          "name": "right",
+          "value": 2
+        },
+        {
+          "name": "bottom",
+          "value": 3
+        }
+      ]
+    },
+    "tabs.stacking": {
+      "options": [
+        {
+          "name": "off",
+          "value": 0
+        },
+        {
+          "name": "compact",
+          "value": 1
+        },
+        {
+          "name": "two_level",
+          "value": 2
+        },
+        {
+          "name": "accordion",
+          "value": 3
+        }
+      ]
+    },
+    "tabs.new_tab_position": {
+      "options": [
+        {
+          "name": "after_related",
+          "value": 0
+        },
+        {
+          "name": "after_active",
+          "value": 1
+        },
+        {
+          "name": "last",
+          "value": 2
+        },
+        {
+          "name": "stack_related",
+          "value": 3
+        }
+      ]
+    },
+    "tabs.activate_on_close": {
+      "options": [
+        {
+          "name": "recent",
+          "value": 0
+        },
+        {
+          "name": "left",
+          "value": 1
+        },
+        {
+          "name": "right",
+          "value": 2
+        }
+      ]
+    },
+    "appearance.status_bar": {
+      "options": [
+        {
+          "name": "on",
+          "value": 0
+        },
+        {
+          "name": "off",
+          "value": 1
+        },
+        {
+          "name": "overlay",
+          "value": 2
+        }
+      ]
+    },
+    "panels.position": {
+      "options": [
+        {
+          "name": "left",
+          "value": 0
+        },
+        {
+          "name": "right",
+          "value": 1
+        }
+      ]
+    },
+    "address_bar.position": {
+      "options": [
+        {
+          "name": "top",
+          "value": 0
+        },
+        {
+          "name": "bottom",
+          "value": 1
+        }
+      ]
+    }
+  },
+  "values": {},
+  "presets": {},
+  "features": {}
+}

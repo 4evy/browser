@@ -1,0 +1,87 @@
+# Microsoft Edge starter with enforced policies and shared profile preferences
+# Copy to tweezle.toml and adapt application/profile paths to your installation
+# Open Edge once; edge://version shows the profile path
+# Close Edge before applying profile preferences
+#
+#   tweezle config validate tweezle.toml
+#   tweezle apply tweezle.toml
+#   tweezle policy render tweezle.toml -o edge-policy.json
+#
+# Policy options take effect only after installing the rendered system policy
+# Linux: /etc/opt/edge/policies/managed/tweezle.json
+# macOS: deploy the policy values under com.microsoft.Edge with a configuration
+# profile or managed preferences; Edge does not read the JSON file directly
+# Verify support and account restrictions at edge://policy: Microsoft documents
+# Windows/macOS versions but omits Linux from its policy version tables
+# The NixOS module installs its Edge policy file automatically
+
+[browser]
+name = "Microsoft Edge"
+executable_name = "edge-configured"
+flags = ["--no-first-run", "--no-default-browser-check"]
+
+[browser.linux]
+app_dir = "/opt/microsoft/msedge"
+launcher_name = "microsoft-edge"
+desktop_name = "/usr/share/applications/microsoft-edge.desktop"
+desktop_exec = "/usr/bin/microsoft-edge-stable"
+desktop_id = "microsoft-edge"
+icon_source = "product_logo_256.png"
+# For Nix, replace these fields in your Nix configuration:
+# app_dir = "${pkgs.microsoft-edge}/share/microsoft/msedge"
+# launcher_name = "../../../bin/microsoft-edge-stable"
+# desktop_name = "${pkgs.microsoft-edge}/share/applications/microsoft-edge.desktop"
+# desktop_exec = "${pkgs.microsoft-edge}/bin/microsoft-edge-stable"
+# icon_source = "${pkgs.microsoft-edge}/share/icons/hicolor/256x256/apps/microsoft-edge.png"
+
+[browser.paths.linux]
+profile_dir = "${config_home}/microsoft-edge/Default"
+external_extension_dirs = ["${config_home}/microsoft-edge/External Extensions"]
+
+[browser.macos]
+app_dir = "/Applications/Microsoft Edge.app"
+launcher_path = "Contents/MacOS/Microsoft Edge"
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Microsoft Edge/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Microsoft Edge/External Extensions",
+]
+
+[browser.edge]
+# Example choices; omit any policy you do not want to enforce
+signin = "disabled" # disabled | enabled | forced
+sync = false
+sidebar = false
+shopping = false
+rewards = false
+new_tab_content = false
+tracking_prevention = "balanced" # off | basic | balanced | strict
+personalization_reporting = false
+sleeping_tabs = true
+# Allowed seconds: 30, 300, 900, 1800, 3600, 7200, 10800, 21600, 43200
+sleeping_tabs_timeout = 900
+vertical_tabs_allowed = true # Allows the layout; does not activate it
+# password_manager = false
+# search_suggestions = false
+# default_browser_check = false
+# feedback = false
+
+# These Copilot policies apply to Entra ID business profiles, not personal ones
+# Hiding the sidebar alone does not hide the toolbar icon in Edge 141 and newer
+# [browser.edge.copilot]
+# toolbar_icon = false
+# page_context = false
+
+# Other official policies can be supplied by name; platform restrictions apply
+# Conflicting values in named options and managed_policies are rejected
+# [browser.edge.managed_policies]
+# TranslateEnabled = false
+
+# Shared preference changes are editable and apply directly to the profile
+[browser.preferences.cookies]
+third_party = "block"
+
+# Edge currently retains Manifest V2 during its deprecation period
+# Both uBlock Origin and Lite recipes are available; check future Edge releases
+# The ublock/ublock.toml example contains the shared installation recipes

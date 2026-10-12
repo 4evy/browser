@@ -1,0 +1,76 @@
+# ungoogled Chromium starter
+#
+# Copy this file to tweezle.toml and adapt the application and profile paths
+# Open Chromium once; find its Profile Path at chrome://version
+# Shared preference, cookie, extension, and storage recipes are in tweezle.toml
+# in this directory; copy only the recipes you need into your chosen file
+#
+# Close Chromium, then run:
+#   tweezle config validate tweezle.toml
+#   tweezle apply tweezle.toml
+# Launch through ungoogled-chromium-configured to use the switches below
+
+[browser]
+name = "ungoogled Chromium"
+executable_name = "ungoogled-chromium-configured"
+flags = ["--no-first-run", "--no-default-browser-check"]
+# Feature flags use the shared flags list; combine all enabled features in one
+# --enable-features argument and all disabled features in one --disable-features
+# flags = ["--enable-features=ReducedSystemInfo,RemoveClientHints,SpoofWebGLInfo"]
+
+[browser.linux]
+# Match the installed package; distributions may use chromium or chrome
+# For Nix, use "${pkgs.ungoogled-chromium}/bin" in your Nix configuration
+app_dir = "/usr/bin"
+launcher_name = "chromium"
+
+[browser.paths.linux]
+# For a non-default profile, also add its --profile-directory to browser.flags
+profile_dir = "${config_home}/chromium/Default"
+external_extension_dirs = ["${config_home}/chromium/External Extensions"]
+
+[browser.macos]
+app_dir = "/Applications/Chromium.app"
+launcher_path = "Contents/MacOS/Chromium"
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Chromium/Default"
+external_extension_dirs = [
+  "${home}/Library/Application Support/Chromium/External Extensions",
+]
+
+[browser.ungoogled]
+# These are example choices; omitted values leave launch switches alone
+# True adds a switch; false omits it and does not override saved chrome://flags
+disable_search_engine_collection = true
+keep_old_history = true
+popups_to_tabs = true
+show_avatar_button = "incognito-and-guest" # always | never | incognito-and-guest
+tab_hover_cards = "tooltip" # none | tooltip
+# close_confirmation = "last" # last | multiple
+# scroll_tabs = "always" # always | never | incognito-and-guest
+# custom_new_tab_url = "about:blank"
+# hide_bookmark_bar_on_new_tab = true
+# keep_window_with_last_tab = true
+# enable_incognito_themes = true
+# hide_extensions_menu = true
+# hide_fullscreen_exit_ui = true
+# hide_tab_close_buttons = true
+# remove_grab_handle = true
+# hide_crashed_bubble = true
+# force_punycode_hostnames = true
+# canvas_image_data_noise = true
+# canvas_measuretext_noise = true
+# client_rects_noise = true
+# disable_beforeunload = true
+# disable_grease_tls = true
+# http_accept_header = "text/html,application/xhtml+xml,*/*;q=0.8"
+# max_connections_per_host = 6 # 6 | 15
+# disabling_javascript_optimization_disables_jit = true
+# extension_mime_handling = "always-prompt-for-install"
+# omnibox_autocomplete_filtering = "search-bookmarks-chrome"
+# MIME choices: download-as-regular-file | always-prompt-for-install
+# Autocomplete: search | search-bookmarks | search-chrome | search-bookmarks-chrome
+
+# The audited ungoogled build supports Manifest V2 and unpacked uBlock Origin
+# Follow the [ublock.origin] recipe in ublock/ublock.toml to configure it
