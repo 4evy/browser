@@ -1,258 +1,246 @@
-<h1 align="center">browser</h1>
+<div align="center">
+  <h1>Tweezle</h1>
+  <p>
+    <strong>Declarative browser configuration, down to your extensions</strong>
+  </p>
+  <p>Keep your browser setup in your dotfiles. Apply it with TOML or Nix.</p>
+  <p>
+    <img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS-5856d6" alt="Linux and macOS">
+    <a href="#nix"><img src="https://img.shields.io/badge/Nix-modules-5277c3" alt="Nix modules"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a6da95" alt="MIT license"></a>
+  </p>
+  <p>
+    <a href="#install">Install</a> ·
+    <a href="#quick-start">Quick start</a> ·
+    <a href="#nix">Nix</a> ·
+    <a href="examples/">Examples</a>
+  </p>
+</div>
 
-<p align="center">
-  <strong>Make Chromium-family browsers declarative.</strong><br>
-  Flags, preferences, extensions, and extension settings in one config.
-</p>
+Describe the setup you want, then run `tweezle apply`. Tweezle configures
+installed Chromium and Firefox-family browsers on Linux and macOS, including
+forks such as Brave, Helium, and Zen.
 
-<p align="center">
-  <img
-    src="https://img.shields.io/badge/macOS-000000?style=flat-square&amp;logo=apple&amp;logoColor=white"
-    alt="macOS"
-  >
-  <img
-    src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&amp;logo=linux&amp;logoColor=black"
-    alt="Linux"
-  >
-  <img
-    src="https://img.shields.io/badge/Go-1.27.1%2B-00ADD8?style=flat-square&amp;logo=go&amp;logoColor=white"
-    alt="Go 1.27.1 or newer"
-  >
-  <img
-    src="https://img.shields.io/badge/Nix-flakes-5277C3?style=flat-square&amp;logo=nixos&amp;logoColor=white"
-    alt="Nix flakes"
-  >
-</p>
-
-Keep your browser setup in TOML or Nix: vertical tabs, cookie rules, extensions,
-and the settings inside those extensions. Works with Chromium-family browsers on
-macOS and Linux, with dedicated settings for Helium and Brave.
-
-For example, the settings portion of a Helium config can look like this:
-
-```toml
-[browser.helium.appearance]
-layout = "vertical"
-
-[browser.helium.behavior]
-cycle_tabs_by_most_recent_use = true
-
-[browser.preferences.cookies]
-third_party = "block"
-
-[extensions]
-chrome_store_update_url = "https://clients2.google.com/service/update2/crx"
-
-[[extensions.chrome_store]]
-id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"
-name = "Dark Reader"
-
-[extension_settings]
-files = ["extension-settings.json"]
-```
-
-`browser apply` installs the extensions, writes your chosen settings, and
-creates a launcher with your flags. Omitted preferences stay as they are.
+- **Bring extension settings along.** Manage Chromium `local` and `sync`
+  storage, import uBlock Origin backups, and set Firefox managed extension
+  values where the extension supports them.
+- **Choose your extension sources.** Install Chromium extensions from the Chrome
+  Web Store, update manifests, CRX, ZIP, or Git. Pin supported sources to exact
+  content or follow updates.
+- **Configure the browser you actually use.** Set preferences, cookies, and
+  launch flags, plus fork-specific features such as Helium's vertical tabs,
+  Brave Shields, and Zen workspaces and mods.
+- **Fit it into your dotfiles.** Use the standalone TOML CLI or the Home
+  Manager, NixOS, and nix-darwin modules. Native and Flatpak installations have
+  [example configurations](examples/).
 
 ## Install
 
-With Nix:
+From a checkout, use Go 1.27.1 or newer, or Nix with flakes enabled:
 
 ```sh
-nix profile add github:4evy/browser
+go install ./cmd/tweezle
 ```
 
-Or build with Go 1.27.1 or newer:
+Add Go's binary directory (`$(go env GOPATH)/bin` by default) to your `PATH`.
+For Nix, use `nix profile add .` to install or `nix run . -- --help` to try it.
+The flake provides packages for x86_64 and aarch64 Linux, and aarch64 macOS.
 
-```sh
-git clone https://github.com/4evy/browser.git
-cd browser
-go install ./cmd/browser
-```
+## Quick start
 
-Add Go's install directory (`$(go env GOPATH)/bin`, or your `GOBIN`) to `PATH`.
+Open your browser once, then find its profile path at `chrome://version`
+(Chromium) or `about:profiles` (Firefox). Save **one** of these examples as
+`tweezle.toml` and adapt its application and profile paths.
 
-## Get started
-
-Install your browser and open it once to create a profile. Then:
-
-1. Copy a starter to `browser.toml`: [Helium](examples/helium.toml),
-   [Brave](examples/brave.toml), or [Chromium](examples/browser.toml).
-2. Set its application and profile paths. Find **Profile Path** at
-   `chrome://version` (`brave://version` in Brave); use the folder ending in
-   `Default` or `Profile 1`. Each starter has macOS and Linux sections; only
-   your current platform is used.
-3. Quit the browser completely, then validate and apply:
-
-   ```sh
-   browser config validate browser.toml
-   browser apply browser.toml
-   ```
-
-Open the launcher at the printed path, normally `~/.local/bin/helium-configured`
-for the Helium starter. Use that launcher to include your flags and unpacked
-extensions. After changing your config, quit, apply, and reopen through the
-launcher.
-
-The starters are complete configs. The snippets here show settings to add or
-change in them; edit an existing table instead of declaring it twice.
-
-## Configure your browser
-
-Helium's [starter](examples/helium.toml) shows layouts, tab behavior, toolbar
-buttons, privacy signals, services, and custom shortcuts.
-
-For Brave, you can disable bundled services and enable vertical tabs:
+<details open>
+<summary><strong>Chromium: keep cookies only for the session</strong></summary>
 
 ```toml
-[browser.brave]
-disable_annoyances = true
+[browser]
+name = "Chromium"
+executable_name = "chromium-configured"
+flags = ["--no-first-run"]
 
-[browser.brave.tabs]
-vertical = true
+[browser.linux]
+app_dir = "/path/to/chromium"
+launcher_name = "chrome"
+
+[browser.paths.linux]
+profile_dir = "${config_home}/chromium/Default"
+
+[browser.macos]
+app_dir = "/Applications/Chromium.app"
+launcher_path = "Contents/MacOS/Chromium"
+
+[browser.paths.macos]
+profile_dir = "${home}/Library/Application Support/Chromium/Default"
+
+[browser.preferences.cookies]
+default = "session_only"
+third_party = "block"
 ```
 
-The [Brave starter](examples/brave.toml) also shows feature overrides, Shields,
-and managed policies. Fully disabling Wallet and Rewards requires installing the
-JSON produced by `browser policy render` in Brave's managed policy store.
+On Linux, `app_dir` and `launcher_name` must point to your installed browser
+executable. For another Chromium profile, also add its
+`--profile-directory=Profile 1` flag to `browser.flags`.
 
-The [shared recipes](examples/browser.toml) cover cookie exceptions, arbitrary
-Preferences and Local State values, and extension sources:
+</details>
 
-- **Chrome Web Store** and **update URLs** for store or self-hosted extensions
-- **CRX** for a version pinned by SHA-256
-- **ZIP** for a pinned archive or the latest GitHub release
-- **Git** for a pinned commit or a followed branch, including private SSH
-  remotes
+<details>
+<summary><strong>Firefox: restore your previous session</strong></summary>
 
-ZIP and Git sources must contain a ready-to-load `manifest.json`; no build step
-runs. Git sources require Git on `PATH`. Store and CRX installs use the
-starter's `external_extension_dirs`; these must match your browser's discovery
-locations. The browser may ask you to enable an externally installed extension.
+```toml
+[firefox]
+variant = "firefox"
 
-## Configure extensions too
+[firefox.paths.linux]
+profile_dir = "${config_home}/mozilla/firefox/REPLACE.default-release"
 
-Save this as `extension-settings.json` beside `browser.toml` and add the
-`[extension_settings]` table shown above. This is a real Dark Reader example: it
-enables the extension, uses local settings, and sets dark mode with 90%
-brightness and 110% contrast.
+[firefox.paths.macos]
+profile_dir = "${home}/Library/Application Support/Firefox/Profiles/REPLACE.default-release"
 
-```json
-{
-  "schema_version": 1,
-  "local": [
-    {
-      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
-      "values": {
-        "enabled": true,
-        "syncSettings": false
-      }
-    }
-  ],
-  "operations": [
-    {
-      "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
-      "area": "local",
-      "key": "theme",
-      "operation": "merge",
-      "value": {
-        "mode": 1,
-        "brightness": 90,
-        "contrast": 110
-      }
-    }
-  ]
-}
+[firefox.preferences]
+"browser.startup.page" = 3
+"browser.tabs.warnOnClose" = false
 ```
 
-`local` sets the listed storage keys. `merge` changes those theme fields while
-keeping the rest of the theme. `"syncSettings": false` makes Dark Reader read
-these local values, following its
-[storage logic](https://github.com/darkreader/darkreader/blob/main/src/background/user-storage.ts)
-and
-[theme format](https://github.com/darkreader/darkreader/blob/main/src/defaults.ts).
-The same JSON is available as a
-[copyable example](examples/extension-settings.json).
+Firefox must be on `PATH` on Linux; the default macOS application path is
+`/Applications/Firefox.app`. Preferences are written to a managed block in
+`user.js`.
 
-Other extensions need their own IDs and storage keys. You can also append unique
-array values, remove keys, and edit nested or compressed JSON; see the
-[storage schema](schema/extension-settings.schema.json) for the full format.
-`sync` writes update the local cache of `chrome.storage.sync`; existing cloud
-state can overwrite them when the browser starts.
+</details>
 
-## Nix modules
+Close the browser before applying so it cannot overwrite profile changes:
 
-Add the flake input:
-
-```nix
-inputs.browser.url = "github:4evy/browser";
+```sh
+tweezle config validate tweezle.toml
+tweezle apply tweezle.toml
 ```
 
-For Home Manager on Linux:
+`apply` selects the current platform and prints the generated launcher path. Use
+that launcher for configured flags and unpacked Chromium extensions. Without a
+file argument, Tweezle checks `TWEEZLE_CONFIG`, `./tweezle.toml`, then user and
+system configuration directories.
+
+## Nix
+
+`programs.tweezle.settings` configures the default browser setup. Choose
+`settings.chromium` or `settings.firefox`; both generate `tweezle/tweezle.toml`.
+Chromium's `extensions`, `extension_settings`, and `ublock` options belong
+inside `settings.chromium` too.
+
+Add `inputs.tweezle.url = "github:4evy/tweezle";` to your flake. For Home
+Manager, pass `extraSpecialArgs = { inherit inputs; };` to
+`homeManagerConfiguration`. Choose one of these Linux modules and adapt the
+profile path using `chrome://version` or `about:profiles`.
+
+<details open>
+<summary><strong>Chromium settings</strong></summary>
 
 ```nix
 { inputs, pkgs, ... }:
 {
-  imports = [ inputs.browser.homeModules.default ];
+  imports = [ inputs.tweezle.homeModules.default ];
   home.packages = [ pkgs.chromium ];
 
-  programs.browser = {
+  programs.tweezle = {
     enable = true;
-    settings.browser = {
+    settings.chromium = {
       name = "Chromium";
       executable_name = "chromium-configured";
-      flags = [ "--no-first-run" "--no-default-browser-check" ];
       linux = {
         app_dir = "${pkgs.chromium}/bin";
         launcher_name = "chromium";
       };
       paths.linux.profile_dir = "\${config_home}/chromium/Default";
-      preferences.cookies.third_party = "block";
+      preferences.cookies = {
+        default = "session_only";
+        third_party = "block";
+      };
     };
   };
 }
 ```
 
-Pass `inputs` through Home Manager's `extraSpecialArgs`. Settings use the same
-keys as TOML, including `browser.helium`, `browser.brave`, `extensions`, and
-`extension_settings`. They support normal Nix module merging and overrides.
-
-| Setup        | Import                                 |
-| ------------ | -------------------------------------- |
-| Home Manager | `inputs.browser.homeModules.default`   |
-| NixOS        | `inputs.browser.nixosModules.default`  |
-| nix-darwin   | `inputs.browser.darwinModules.default` |
-
-The modules install the CLI and generate `browser.toml` in your user config
-directory (Home Manager) or `/etc/browser` (system modules). For macOS, replace
-`linux` and `paths.linux` with the `macos` paths from your browser's starter.
-After activation, quit the browser and run `browser apply`, then open the
-configured launcher. Use `programs.browser.configurations.<name>` for additional
-configs and apply their generated `<name>.toml` explicitly.
+</details>
 
 <details>
-<summary><strong>More commands and path options</strong></summary>
+<summary><strong>Firefox settings</strong></summary>
 
-Without a config argument, commands check `BROWSER_CONFIG`, `./browser.toml`,
-then user and system config directories. `${home}`, `${config_home}`, and
-`${data_home}` in TOML expand to your user directories.
+```nix
+{ inputs, pkgs, ... }:
+{
+  imports = [ inputs.tweezle.homeModules.default ];
+  home.packages = [ pkgs.firefox ];
 
-`profile_dir` selects the profile to edit. To launch a non-default profile too,
-add its flag to `browser.flags`, for example `"--profile-directory=Profile 1"`.
-
-```sh
-browser profile apply browser.toml
-browser storage apply browser.toml
-browser policy render browser.toml --output browser-policy.json
-browser apply browser.toml --app-dir /path/to/browser \
-  --profile-dir /path/to/profile
-browser completion zsh
+  programs.tweezle = {
+    enable = true;
+    settings.firefox = {
+      variant = "firefox";
+      paths.linux.profile_dir = "\${config_home}/mozilla/firefox/REPLACE.default-release";
+      preferences."browser.startup.page" = 3;
+    };
+  };
+}
 ```
-
-`profile apply` writes browser and extension settings; `storage apply` writes
-only extension storage. `policy render` produces JSON to install in a managed
-policy store. Use `browser <command> --help` for options.
 
 </details>
 
-[MIT license](LICENSE)
+Close the affected browsers before switching your Home Manager configuration.
+The module installs Tweezle, writes `$XDG_CONFIG_HOME/tweezle/tweezle.toml`
+(`~/.config/tweezle/tweezle.toml` by default), and runs `tweezle apply` after
+linking the generation. This creates the configured launchers and updates the
+configured profiles. Home Manager dry runs print the apply commands without
+running them.
+
+NixOS and nix-darwin expose the same `programs.tweezle` options through
+`inputs.tweezle.nixosModules.default` and
+`inputs.tweezle.darwinModules.default`, writing configuration under
+`/etc/tweezle/`. NixOS applies the configurations through user activation:
+running user sessions receive updates on a switch, and other users receive them
+when they next log in. nix-darwin applies them during the switch as
+`system.primaryUser`; set that option to your username. Both run Tweezle as the
+target user so files in their home directories retain the correct ownership.
+
+Set `programs.tweezle.activate = false;` to keep automatic application off and
+run `tweezle apply` yourself. Setting `programs.tweezle.package = null;` also
+disables activation by default and manages configuration files without
+installing Tweezle.
+
+### Named configurations (optional)
+
+To keep another setup alongside `settings`, add a named configuration to your
+Home Manager modules. In this example, `work` is the file name and `firefox` is
+the browser family:
+
+```nix
+{ pkgs, ... }:
+{
+  home.packages = [ pkgs.firefox ];
+  programs.tweezle.configurations.work.firefox = {
+    variant = "firefox";
+    paths.linux.profile_dir = "\${config_home}/mozilla/firefox/REPLACE.default-release";
+    preferences."browser.startup.page" = 3;
+  };
+}
+```
+
+This adds `tweezle/work.toml`; your default `tweezle.toml` still comes from
+`settings`. Activation applies both the default and every named configuration,
+so close all affected browsers before switching. When automatic activation is
+disabled, apply this file with
+`tweezle apply "${XDG_CONFIG_HOME:-$HOME/.config}/tweezle/work.toml"`.
+
+## Examples
+
+Browse [examples/](examples/) for starter configurations and reusable recipes.
+
+| What you want to configure | Examples |
+| --- | --- |
+| Chromium and its forks | [Shared recipes](examples/tweezle.toml), [Helium](examples/helium.toml), [Brave](examples/brave.toml), [Chrome](examples/chrome.toml), [Edge](examples/edge.toml), [Vivaldi](examples/vivaldi.toml), [ungoogled-chromium](examples/ungoogled.toml) |
+| Firefox and its forks | [Firefox](examples/firefox.toml), [LibreWolf](examples/librewolf.toml), [Waterfox](examples/waterfox.toml), [Floorp](examples/floorp.toml), [Zen](examples/zen.toml) |
+| Flatpak browsers | [Chromium](examples/flatpak-chromium.toml), [Firefox](examples/flatpak-firefox.toml) |
+| Extension settings | [Dark Reader, Stylus, SponsorBlock, and more](examples/extensions/extensions.toml), [storage JSON](examples/storage/storage.json), [uBlock Origin and Lite](examples/ublock/ublock.toml) |
+| Embedding Tweezle in Go | [Consumer example](examples/consumer/) |
+
+Licensed under [MIT](LICENSE).
