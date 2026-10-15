@@ -7,7 +7,7 @@ require (
 	github.com/adrg/xdg v0.5.3
 	github.com/buildkite/shellwords v1.0.1
 	github.com/carlmjohnson/requests v0.26.2
-	github.com/chromedp/cdproto v0.157.9
+	github.com/chromedp/cdproto v0.158.0
 	github.com/chromedp/chromedp v0.21.0
 	github.com/daku10/go-lz-string v0.0.7
 	github.com/google/go-cmp v0.7.0
